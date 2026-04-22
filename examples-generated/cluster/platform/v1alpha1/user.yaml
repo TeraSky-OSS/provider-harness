@@ -1,0 +1,25 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    email: john.doe@harness.io
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleBindings:
+    - managedRole: true
+      resourceGroupIdentifier: _all_project_level_resources
+      resourceGroupName: All Project Level Resources
+      roleIdentifier: _project_viewer
+      roleName: Project Viewer
+    userGroups:
+    - _project_all_users

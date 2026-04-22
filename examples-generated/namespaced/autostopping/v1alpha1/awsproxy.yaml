@@ -1,0 +1,24 @@
+apiVersion: autostopping.harness.m.crossplane.io/v1alpha1
+kind: AwsProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/awsproxy
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    allocateStaticIp: true
+    apiKeySecretRef:
+      key: example-key
+      name: example-secret
+    cloudConnectorId: cloud_connector_id
+    deleteCloudResourcesOnDestroy: true
+    machineType: t2.medium
+    name: name
+    region: region
+    securityGroups:
+    - sg1
+    - sg2
+    vpc: vpc

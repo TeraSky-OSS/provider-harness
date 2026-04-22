@@ -1,0 +1,19 @@
+apiVersion: gitops.harness.crossplane.io/v1alpha1
+kind: GnuPG
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/gnupg
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    request:
+    - publickey:
+      - keyData: '-----BEGIN PGP PUBLIC KEY BLOCK-----XXXXXX-----END PGP PUBLIC KEY
+          BLOCK-----'
+      upsert: true

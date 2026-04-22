@@ -1,0 +1,12 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: DashboardFolders
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/dashboardfolders
+  labels:
+    testing.upbound.io/example-name: folder
+  name: folder
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: name

@@ -1,0 +1,26 @@
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: AddUserToGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/addusertogroup
+  labels:
+    testing.upbound.io/example-name: example_add_user_to_groups
+  name: example-add-user-to-groups
+spec:
+  forProvider:
+    groupId: ${harness_user_group.admin.id}
+    userId: ${data.harness_user.test.id}
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: UserGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/addusertogroup
+  labels:
+    testing.upbound.io/example-name: admin
+  name: admin
+spec:
+  forProvider:
+    name: admin

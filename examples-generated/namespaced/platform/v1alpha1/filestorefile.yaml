@@ -1,0 +1,27 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: FileStoreFile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/filestorefile
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: description
+    fileContentPath: file_content_path
+    fileUsage: MANIFEST_FILE|CONFIG|SCRIPT
+    identifier: identifier
+    mimeType: mime_type
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    parentIdentifier: parent_identifier
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - foo:bar
+    - baz:qux

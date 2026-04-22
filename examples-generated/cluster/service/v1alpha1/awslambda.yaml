@@ -1,0 +1,27 @@
+apiVersion: service.harness.crossplane.io/v1alpha1
+kind: AwsLambda
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/awslambda
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    description: Service for deploying AWS Lambda functions.
+    name: my-lambda-service
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/awslambda
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example

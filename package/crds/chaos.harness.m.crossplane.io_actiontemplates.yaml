@@ -1,0 +1,1984 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: actiontemplates.chaos.harness.m.crossplane.io
+spec:
+  group: chaos.harness.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: ActionTemplate
+    listKind: ActionTemplateList
+    plural: actiontemplates
+    singular: actiontemplate
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ActionTemplate is the Schema for the ActionTemplates API. Resource
+          for managing Harness Chaos Action Templates. Action templates define reusable
+          actions that can be used in chaos experiments.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ActionTemplateSpec defines the desired state of ActionTemplate
+            properties:
+              forProvider:
+                properties:
+                  containerAction:
+                    description: |-
+                      (Block List, Max: 1) Container action configuration. Required when type is 'container'. (see below for nested schema)
+                      Container action configuration. Required when type is 'container'.
+                    items:
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Annotations to apply to the container pod.
+                            Annotations to apply to the container pod.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        args:
+                          description: |-
+                            (String) Arguments to pass to the container command.
+                            Arguments to pass to the container command.
+                          type: string
+                        command:
+                          description: |-
+                            (List of String) Command to run in the container.
+                            Command to run in the container.
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the container. (see below for nested schema)
+                            Environment variables for the container.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                        hostIpc:
+                          description: |-
+                            (Boolean) Use host IPC namespace.
+                            Use host IPC namespace.
+                          type: boolean
+                        hostNetwork:
+                          description: |-
+                            (Boolean) Use host network namespace.
+                            Use host network namespace.
+                          type: boolean
+                        hostPid:
+                          description: |-
+                            (Boolean) Use host PID namespace.
+                            Use host PID namespace.
+                          type: boolean
+                        image:
+                          description: |-
+                            (String) Container image to use (e.g., 'busybox:latest').
+                            Container image to use (e.g., 'busybox:latest').
+                          type: string
+                        imagePullPolicy:
+                          description: |-
+                            (String) Image pull policy (Always, IfNotPresent, Never). Supports runtime inputs like <+input>.allowedValues(...).
+                            Image pull policy (Always, IfNotPresent, Never). Supports runtime inputs like <+input>.allowedValues(...).
+                          type: string
+                        imagePullSecrets:
+                          description: |-
+                            (List of String) List of image pull secrets for private registries.
+                            List of image pull secrets for private registries.
+                          items:
+                            type: string
+                          type: array
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Labels to apply to the container pod.
+                            Labels to apply to the container pod.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        namespace:
+                          description: |-
+                            (String) Kubernetes namespace for the container.
+                            Kubernetes namespace for the container.
+                          type: string
+                        nodeSelector:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Node selector for pod scheduling.
+                            Node selector for pod scheduling.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resources:
+                          description: |-
+                            (Block List, Max: 1) Resource requirements for the container. (see below for nested schema)
+                            Resource requirements for the container.
+                          items:
+                            properties:
+                              limits:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Resource limits.
+                                  Resource limits.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              requests:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Resource requests.
+                                  Resource requests.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          type: array
+                        serviceAccountName:
+                          description: |-
+                            (String) Kubernetes service account name.
+                            Kubernetes service account name.
+                          type: string
+                        tolerations:
+                          description: |-
+                            (Block List) Tolerations for pod scheduling on tainted nodes. (see below for nested schema)
+                            Tolerations for pod scheduling on tainted nodes.
+                          items:
+                            properties:
+                              effect:
+                                description: |-
+                                  (String) Taint effect (NoSchedule, PreferNoSchedule, NoExecute).
+                                  Taint effect (NoSchedule, PreferNoSchedule, NoExecute).
+                                type: string
+                              key:
+                                description: |-
+                                  (String) Taint key to tolerate.
+                                  Taint key to tolerate.
+                                type: string
+                              operator:
+                                description: |-
+                                  (String) Operator (Exists, Equal).
+                                  Operator (Exists, Equal).
+                                type: string
+                              tolerationSeconds:
+                                description: |-
+                                  (Number) Toleration seconds for NoExecute effect.
+                                  Toleration seconds for NoExecute effect.
+                                type: number
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Taint value to tolerate.
+                                type: string
+                            type: object
+                          type: array
+                        volumeMounts:
+                          description: |-
+                            (Block List) Volume mounts for the container. (see below for nested schema)
+                            Volume mounts for the container.
+                          items:
+                            properties:
+                              mountPath:
+                                description: |-
+                                  (String) Path to mount the volume in the container.
+                                  Path to mount the volume in the container.
+                                type: string
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Volume name to mount.
+                                type: string
+                              readOnly:
+                                description: |-
+                                  only.
+                                  Mount as read-only.
+                                type: boolean
+                              subPath:
+                                description: |-
+                                  path within the volume.
+                                  Sub-path within the volume.
+                                type: string
+                            type: object
+                          type: array
+                        volumes:
+                          description: |-
+                            (Block List) Volumes to attach to the pod. (see below for nested schema)
+                            Volumes to attach to the pod.
+                          items:
+                            properties:
+                              configMap:
+                                description: |-
+                                  (Block List, Max: 1) ConfigMap volume configuration. (see below for nested schema)
+                                  ConfigMap volume configuration.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the action template.
+                                        ConfigMap name.
+                                      type: string
+                                    optional:
+                                      description: |-
+                                        (Boolean) Whether the ConfigMap is optional.
+                                        Whether the ConfigMap is optional.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              emptyDir:
+                                description: |-
+                                  (Block List, Max: 1) EmptyDir volume configuration. (see below for nested schema)
+                                  EmptyDir volume configuration.
+                                items:
+                                  properties:
+                                    medium:
+                                      description: |-
+                                        (String) Storage medium (empty string for default, Memory for tmpfs).
+                                        Storage medium (empty string for default, Memory for tmpfs).
+                                      type: string
+                                    sizeLimit:
+                                      description: |-
+                                        (String) Size limit (e.g., '1Gi').
+                                        Size limit (e.g., '1Gi').
+                                      type: string
+                                  type: object
+                                type: array
+                              hostPath:
+                                description: |-
+                                  (Block List, Max: 1) HostPath volume configuration. (see below for nested schema)
+                                  HostPath volume configuration.
+                                items:
+                                  properties:
+                                    path:
+                                      description: |-
+                                        (String) Host path.
+                                        Host path.
+                                      type: string
+                                    type:
+                                      description: |-
+                                        (String) Type of the action template. Valid values: delay, customScript, container.
+                                        Host path type (Directory, File, etc.).
+                                      type: string
+                                  type: object
+                                type: array
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Volume name.
+                                type: string
+                              persistentVolumeClaim:
+                                description: |-
+                                  (Block List, Max: 1) PersistentVolumeClaim configuration. (see below for nested schema)
+                                  PersistentVolumeClaim configuration.
+                                items:
+                                  properties:
+                                    claimName:
+                                      description: |-
+                                        (String) PVC name.
+                                        PVC name.
+                                      type: string
+                                    readOnly:
+                                      description: |-
+                                        only.
+                                        Mount as read-only.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              secret:
+                                description: |-
+                                  (Block List, Max: 1) Secret volume configuration. (see below for nested schema)
+                                  Secret volume configuration.
+                                items:
+                                  properties:
+                                    optional:
+                                      description: |-
+                                        (Boolean) Whether the ConfigMap is optional.
+                                        Whether the Secret is optional.
+                                      type: boolean
+                                    secretName:
+                                      description: |-
+                                        (String) Secret name.
+                                        Secret name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  customScriptAction:
+                    description: |-
+                      (Block List, Max: 1) Custom script action configuration. Required when type is 'customScript'. (see below for nested schema)
+                      Custom script action configuration. Required when type is 'customScript'.
+                    items:
+                      properties:
+                        args:
+                          description: |-
+                            (String) Arguments to pass to the container command.
+                            Arguments to pass to the command.
+                          items:
+                            type: string
+                          type: array
+                        command:
+                          description: |-
+                            (List of String) Command to run in the container.
+                            Command to execute (e.g., 'bash', 'python', 'sh').
+                          type: string
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the container. (see below for nested schema)
+                            Environment variables for the script.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  delayAction:
+                    description: |-
+                      (Block List, Max: 1) Delay action configuration. Required when type is 'delay'. (see below for nested schema)
+                      Delay action configuration. Required when type is 'delay'.
+                    items:
+                      properties:
+                        duration:
+                          description: |-
+                            (String) Duration of the delay (e.g., '30s', '5m', '1h').
+                            Duration of the delay (e.g., '30s', '5m', '1h').
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the action template.
+                      Description of the action template.
+                    type: string
+                  hubIdentity:
+                    description: |-
+                      (String) Identity of the chaos hub this action template belongs to.
+                      Identity of the chaos hub this action template belongs to.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the action template (immutable).
+                      Unique identifier for the action template (immutable).
+                    type: string
+                  infrastructureType:
+                    description: |-
+                      (String) Infrastructure type for the action template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container. Supports runtime inputs like <+input>.
+                      Infrastructure type for the action template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container. Supports runtime inputs like <+input>.
+                    type: string
+                  name:
+                    description: |-
+                      (String) Name of the action template.
+                      Name of the action template.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier.
+                      Organization identifier.
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  projectId:
+                    description: |-
+                      (String) Project identifier.
+                      Project identifier.
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  runProperties:
+                    description: |-
+                      (Block List, Max: 1) Run properties for the action template execution. (see below for nested schema)
+                      Run properties for the action template execution.
+                    items:
+                      properties:
+                        initialDelay:
+                          description: |-
+                            (String) Initial delay before action execution (e.g., '5s', '1m').
+                            Initial delay before action execution (e.g., '5s', '1m').
+                          type: string
+                        interval:
+                          description: |-
+                            (String) Interval between retries (e.g., '10s', '30s').
+                            Interval between retries (e.g., '10s', '30s').
+                          type: string
+                        maxRetries:
+                          description: |-
+                            (Number) Maximum number of retries.
+                            Maximum number of retries.
+                          type: number
+                        stopOnFailure:
+                          description: |-
+                            (Boolean) Whether to stop on failure.
+                            Whether to stop on failure.
+                          type: boolean
+                        timeout:
+                          description: |-
+                            (String) Timeout for action execution (e.g., '5m', '10m').
+                            Timeout for action execution (e.g., '5m', '10m').
+                          type: string
+                        verbosity:
+                          description: |-
+                            (String) Verbosity level for logging.
+                            Verbosity level for logging.
+                          type: string
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags to associate with the action template.
+                      Tags to associate with the action template.
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Type of the action template. Valid values: delay, customScript, container.
+                      Type of the action template. Valid values: delay, customScript, container.
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables that can be used in the action. (see below for nested schema)
+                      Template variables that can be used in the action.
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the action template.
+                            Variable description.
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the action template.
+                            Variable name.
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required.
+                            Whether the variable is required.
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Type of the action template. Valid values: delay, customScript, container.
+                            Variable type (e.g., 'string', 'number', 'boolean').
+                          type: string
+                        value:
+                          description: |-
+                            (String) Environment variable value.
+                            Variable value.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  containerAction:
+                    description: |-
+                      (Block List, Max: 1) Container action configuration. Required when type is 'container'. (see below for nested schema)
+                      Container action configuration. Required when type is 'container'.
+                    items:
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Annotations to apply to the container pod.
+                            Annotations to apply to the container pod.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        args:
+                          description: |-
+                            (String) Arguments to pass to the container command.
+                            Arguments to pass to the container command.
+                          type: string
+                        command:
+                          description: |-
+                            (List of String) Command to run in the container.
+                            Command to run in the container.
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the container. (see below for nested schema)
+                            Environment variables for the container.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                        hostIpc:
+                          description: |-
+                            (Boolean) Use host IPC namespace.
+                            Use host IPC namespace.
+                          type: boolean
+                        hostNetwork:
+                          description: |-
+                            (Boolean) Use host network namespace.
+                            Use host network namespace.
+                          type: boolean
+                        hostPid:
+                          description: |-
+                            (Boolean) Use host PID namespace.
+                            Use host PID namespace.
+                          type: boolean
+                        image:
+                          description: |-
+                            (String) Container image to use (e.g., 'busybox:latest').
+                            Container image to use (e.g., 'busybox:latest').
+                          type: string
+                        imagePullPolicy:
+                          description: |-
+                            (String) Image pull policy (Always, IfNotPresent, Never). Supports runtime inputs like <+input>.allowedValues(...).
+                            Image pull policy (Always, IfNotPresent, Never). Supports runtime inputs like <+input>.allowedValues(...).
+                          type: string
+                        imagePullSecrets:
+                          description: |-
+                            (List of String) List of image pull secrets for private registries.
+                            List of image pull secrets for private registries.
+                          items:
+                            type: string
+                          type: array
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Labels to apply to the container pod.
+                            Labels to apply to the container pod.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        namespace:
+                          description: |-
+                            (String) Kubernetes namespace for the container.
+                            Kubernetes namespace for the container.
+                          type: string
+                        nodeSelector:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Node selector for pod scheduling.
+                            Node selector for pod scheduling.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resources:
+                          description: |-
+                            (Block List, Max: 1) Resource requirements for the container. (see below for nested schema)
+                            Resource requirements for the container.
+                          items:
+                            properties:
+                              limits:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Resource limits.
+                                  Resource limits.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              requests:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Resource requests.
+                                  Resource requests.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          type: array
+                        serviceAccountName:
+                          description: |-
+                            (String) Kubernetes service account name.
+                            Kubernetes service account name.
+                          type: string
+                        tolerations:
+                          description: |-
+                            (Block List) Tolerations for pod scheduling on tainted nodes. (see below for nested schema)
+                            Tolerations for pod scheduling on tainted nodes.
+                          items:
+                            properties:
+                              effect:
+                                description: |-
+                                  (String) Taint effect (NoSchedule, PreferNoSchedule, NoExecute).
+                                  Taint effect (NoSchedule, PreferNoSchedule, NoExecute).
+                                type: string
+                              key:
+                                description: |-
+                                  (String) Taint key to tolerate.
+                                  Taint key to tolerate.
+                                type: string
+                              operator:
+                                description: |-
+                                  (String) Operator (Exists, Equal).
+                                  Operator (Exists, Equal).
+                                type: string
+                              tolerationSeconds:
+                                description: |-
+                                  (Number) Toleration seconds for NoExecute effect.
+                                  Toleration seconds for NoExecute effect.
+                                type: number
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Taint value to tolerate.
+                                type: string
+                            type: object
+                          type: array
+                        volumeMounts:
+                          description: |-
+                            (Block List) Volume mounts for the container. (see below for nested schema)
+                            Volume mounts for the container.
+                          items:
+                            properties:
+                              mountPath:
+                                description: |-
+                                  (String) Path to mount the volume in the container.
+                                  Path to mount the volume in the container.
+                                type: string
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Volume name to mount.
+                                type: string
+                              readOnly:
+                                description: |-
+                                  only.
+                                  Mount as read-only.
+                                type: boolean
+                              subPath:
+                                description: |-
+                                  path within the volume.
+                                  Sub-path within the volume.
+                                type: string
+                            type: object
+                          type: array
+                        volumes:
+                          description: |-
+                            (Block List) Volumes to attach to the pod. (see below for nested schema)
+                            Volumes to attach to the pod.
+                          items:
+                            properties:
+                              configMap:
+                                description: |-
+                                  (Block List, Max: 1) ConfigMap volume configuration. (see below for nested schema)
+                                  ConfigMap volume configuration.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the action template.
+                                        ConfigMap name.
+                                      type: string
+                                    optional:
+                                      description: |-
+                                        (Boolean) Whether the ConfigMap is optional.
+                                        Whether the ConfigMap is optional.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              emptyDir:
+                                description: |-
+                                  (Block List, Max: 1) EmptyDir volume configuration. (see below for nested schema)
+                                  EmptyDir volume configuration.
+                                items:
+                                  properties:
+                                    medium:
+                                      description: |-
+                                        (String) Storage medium (empty string for default, Memory for tmpfs).
+                                        Storage medium (empty string for default, Memory for tmpfs).
+                                      type: string
+                                    sizeLimit:
+                                      description: |-
+                                        (String) Size limit (e.g., '1Gi').
+                                        Size limit (e.g., '1Gi').
+                                      type: string
+                                  type: object
+                                type: array
+                              hostPath:
+                                description: |-
+                                  (Block List, Max: 1) HostPath volume configuration. (see below for nested schema)
+                                  HostPath volume configuration.
+                                items:
+                                  properties:
+                                    path:
+                                      description: |-
+                                        (String) Host path.
+                                        Host path.
+                                      type: string
+                                    type:
+                                      description: |-
+                                        (String) Type of the action template. Valid values: delay, customScript, container.
+                                        Host path type (Directory, File, etc.).
+                                      type: string
+                                  type: object
+                                type: array
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Volume name.
+                                type: string
+                              persistentVolumeClaim:
+                                description: |-
+                                  (Block List, Max: 1) PersistentVolumeClaim configuration. (see below for nested schema)
+                                  PersistentVolumeClaim configuration.
+                                items:
+                                  properties:
+                                    claimName:
+                                      description: |-
+                                        (String) PVC name.
+                                        PVC name.
+                                      type: string
+                                    readOnly:
+                                      description: |-
+                                        only.
+                                        Mount as read-only.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              secret:
+                                description: |-
+                                  (Block List, Max: 1) Secret volume configuration. (see below for nested schema)
+                                  Secret volume configuration.
+                                items:
+                                  properties:
+                                    optional:
+                                      description: |-
+                                        (Boolean) Whether the ConfigMap is optional.
+                                        Whether the Secret is optional.
+                                      type: boolean
+                                    secretName:
+                                      description: |-
+                                        (String) Secret name.
+                                        Secret name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  customScriptAction:
+                    description: |-
+                      (Block List, Max: 1) Custom script action configuration. Required when type is 'customScript'. (see below for nested schema)
+                      Custom script action configuration. Required when type is 'customScript'.
+                    items:
+                      properties:
+                        args:
+                          description: |-
+                            (String) Arguments to pass to the container command.
+                            Arguments to pass to the command.
+                          items:
+                            type: string
+                          type: array
+                        command:
+                          description: |-
+                            (List of String) Command to run in the container.
+                            Command to execute (e.g., 'bash', 'python', 'sh').
+                          type: string
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the container. (see below for nested schema)
+                            Environment variables for the script.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  delayAction:
+                    description: |-
+                      (Block List, Max: 1) Delay action configuration. Required when type is 'delay'. (see below for nested schema)
+                      Delay action configuration. Required when type is 'delay'.
+                    items:
+                      properties:
+                        duration:
+                          description: |-
+                            (String) Duration of the delay (e.g., '30s', '5m', '1h').
+                            Duration of the delay (e.g., '30s', '5m', '1h').
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the action template.
+                      Description of the action template.
+                    type: string
+                  hubIdentity:
+                    description: |-
+                      (String) Identity of the chaos hub this action template belongs to.
+                      Identity of the chaos hub this action template belongs to.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the action template (immutable).
+                      Unique identifier for the action template (immutable).
+                    type: string
+                  infrastructureType:
+                    description: |-
+                      (String) Infrastructure type for the action template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container. Supports runtime inputs like <+input>.
+                      Infrastructure type for the action template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container. Supports runtime inputs like <+input>.
+                    type: string
+                  name:
+                    description: |-
+                      (String) Name of the action template.
+                      Name of the action template.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier.
+                      Organization identifier.
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  projectId:
+                    description: |-
+                      (String) Project identifier.
+                      Project identifier.
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  runProperties:
+                    description: |-
+                      (Block List, Max: 1) Run properties for the action template execution. (see below for nested schema)
+                      Run properties for the action template execution.
+                    items:
+                      properties:
+                        initialDelay:
+                          description: |-
+                            (String) Initial delay before action execution (e.g., '5s', '1m').
+                            Initial delay before action execution (e.g., '5s', '1m').
+                          type: string
+                        interval:
+                          description: |-
+                            (String) Interval between retries (e.g., '10s', '30s').
+                            Interval between retries (e.g., '10s', '30s').
+                          type: string
+                        maxRetries:
+                          description: |-
+                            (Number) Maximum number of retries.
+                            Maximum number of retries.
+                          type: number
+                        stopOnFailure:
+                          description: |-
+                            (Boolean) Whether to stop on failure.
+                            Whether to stop on failure.
+                          type: boolean
+                        timeout:
+                          description: |-
+                            (String) Timeout for action execution (e.g., '5m', '10m').
+                            Timeout for action execution (e.g., '5m', '10m').
+                          type: string
+                        verbosity:
+                          description: |-
+                            (String) Verbosity level for logging.
+                            Verbosity level for logging.
+                          type: string
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags to associate with the action template.
+                      Tags to associate with the action template.
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Type of the action template. Valid values: delay, customScript, container.
+                      Type of the action template. Valid values: delay, customScript, container.
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables that can be used in the action. (see below for nested schema)
+                      Template variables that can be used in the action.
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the action template.
+                            Variable description.
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the action template.
+                            Variable name.
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required.
+                            Whether the variable is required.
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Type of the action template. Valid values: delay, customScript, container.
+                            Variable type (e.g., 'string', 'number', 'boolean').
+                          type: string
+                        value:
+                          description: |-
+                            (String) Environment variable value.
+                            Variable value.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.hubIdentity is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.hubIdentity)
+                || (has(self.initProvider) && has(self.initProvider.hubIdentity))'
+            - message: spec.forProvider.identity is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.identity)
+                || (has(self.initProvider) && has(self.initProvider.identity))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.type is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.type)
+                || (has(self.initProvider) && has(self.initProvider.type))'
+          status:
+            description: ActionTemplateStatus defines the observed state of ActionTemplate.
+            properties:
+              atProvider:
+                properties:
+                  accountId:
+                    description: |-
+                      (String) Account identifier.
+                      Account identifier.
+                    type: string
+                  containerAction:
+                    description: |-
+                      (Block List, Max: 1) Container action configuration. Required when type is 'container'. (see below for nested schema)
+                      Container action configuration. Required when type is 'container'.
+                    items:
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Annotations to apply to the container pod.
+                            Annotations to apply to the container pod.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        args:
+                          description: |-
+                            (String) Arguments to pass to the container command.
+                            Arguments to pass to the container command.
+                          type: string
+                        command:
+                          description: |-
+                            (List of String) Command to run in the container.
+                            Command to run in the container.
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the container. (see below for nested schema)
+                            Environment variables for the container.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                        hostIpc:
+                          description: |-
+                            (Boolean) Use host IPC namespace.
+                            Use host IPC namespace.
+                          type: boolean
+                        hostNetwork:
+                          description: |-
+                            (Boolean) Use host network namespace.
+                            Use host network namespace.
+                          type: boolean
+                        hostPid:
+                          description: |-
+                            (Boolean) Use host PID namespace.
+                            Use host PID namespace.
+                          type: boolean
+                        image:
+                          description: |-
+                            (String) Container image to use (e.g., 'busybox:latest').
+                            Container image to use (e.g., 'busybox:latest').
+                          type: string
+                        imagePullPolicy:
+                          description: |-
+                            (String) Image pull policy (Always, IfNotPresent, Never). Supports runtime inputs like <+input>.allowedValues(...).
+                            Image pull policy (Always, IfNotPresent, Never). Supports runtime inputs like <+input>.allowedValues(...).
+                          type: string
+                        imagePullSecrets:
+                          description: |-
+                            (List of String) List of image pull secrets for private registries.
+                            List of image pull secrets for private registries.
+                          items:
+                            type: string
+                          type: array
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Labels to apply to the container pod.
+                            Labels to apply to the container pod.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        namespace:
+                          description: |-
+                            (String) Kubernetes namespace for the container.
+                            Kubernetes namespace for the container.
+                          type: string
+                        nodeSelector:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Node selector for pod scheduling.
+                            Node selector for pod scheduling.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resources:
+                          description: |-
+                            (Block List, Max: 1) Resource requirements for the container. (see below for nested schema)
+                            Resource requirements for the container.
+                          items:
+                            properties:
+                              limits:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Resource limits.
+                                  Resource limits.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              requests:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Resource requests.
+                                  Resource requests.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          type: array
+                        serviceAccountName:
+                          description: |-
+                            (String) Kubernetes service account name.
+                            Kubernetes service account name.
+                          type: string
+                        tolerations:
+                          description: |-
+                            (Block List) Tolerations for pod scheduling on tainted nodes. (see below for nested schema)
+                            Tolerations for pod scheduling on tainted nodes.
+                          items:
+                            properties:
+                              effect:
+                                description: |-
+                                  (String) Taint effect (NoSchedule, PreferNoSchedule, NoExecute).
+                                  Taint effect (NoSchedule, PreferNoSchedule, NoExecute).
+                                type: string
+                              key:
+                                description: |-
+                                  (String) Taint key to tolerate.
+                                  Taint key to tolerate.
+                                type: string
+                              operator:
+                                description: |-
+                                  (String) Operator (Exists, Equal).
+                                  Operator (Exists, Equal).
+                                type: string
+                              tolerationSeconds:
+                                description: |-
+                                  (Number) Toleration seconds for NoExecute effect.
+                                  Toleration seconds for NoExecute effect.
+                                type: number
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Taint value to tolerate.
+                                type: string
+                            type: object
+                          type: array
+                        volumeMounts:
+                          description: |-
+                            (Block List) Volume mounts for the container. (see below for nested schema)
+                            Volume mounts for the container.
+                          items:
+                            properties:
+                              mountPath:
+                                description: |-
+                                  (String) Path to mount the volume in the container.
+                                  Path to mount the volume in the container.
+                                type: string
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Volume name to mount.
+                                type: string
+                              readOnly:
+                                description: |-
+                                  only.
+                                  Mount as read-only.
+                                type: boolean
+                              subPath:
+                                description: |-
+                                  path within the volume.
+                                  Sub-path within the volume.
+                                type: string
+                            type: object
+                          type: array
+                        volumes:
+                          description: |-
+                            (Block List) Volumes to attach to the pod. (see below for nested schema)
+                            Volumes to attach to the pod.
+                          items:
+                            properties:
+                              configMap:
+                                description: |-
+                                  (Block List, Max: 1) ConfigMap volume configuration. (see below for nested schema)
+                                  ConfigMap volume configuration.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the action template.
+                                        ConfigMap name.
+                                      type: string
+                                    optional:
+                                      description: |-
+                                        (Boolean) Whether the ConfigMap is optional.
+                                        Whether the ConfigMap is optional.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              emptyDir:
+                                description: |-
+                                  (Block List, Max: 1) EmptyDir volume configuration. (see below for nested schema)
+                                  EmptyDir volume configuration.
+                                items:
+                                  properties:
+                                    medium:
+                                      description: |-
+                                        (String) Storage medium (empty string for default, Memory for tmpfs).
+                                        Storage medium (empty string for default, Memory for tmpfs).
+                                      type: string
+                                    sizeLimit:
+                                      description: |-
+                                        (String) Size limit (e.g., '1Gi').
+                                        Size limit (e.g., '1Gi').
+                                      type: string
+                                  type: object
+                                type: array
+                              hostPath:
+                                description: |-
+                                  (Block List, Max: 1) HostPath volume configuration. (see below for nested schema)
+                                  HostPath volume configuration.
+                                items:
+                                  properties:
+                                    path:
+                                      description: |-
+                                        (String) Host path.
+                                        Host path.
+                                      type: string
+                                    type:
+                                      description: |-
+                                        (String) Type of the action template. Valid values: delay, customScript, container.
+                                        Host path type (Directory, File, etc.).
+                                      type: string
+                                  type: object
+                                type: array
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Volume name.
+                                type: string
+                              persistentVolumeClaim:
+                                description: |-
+                                  (Block List, Max: 1) PersistentVolumeClaim configuration. (see below for nested schema)
+                                  PersistentVolumeClaim configuration.
+                                items:
+                                  properties:
+                                    claimName:
+                                      description: |-
+                                        (String) PVC name.
+                                        PVC name.
+                                      type: string
+                                    readOnly:
+                                      description: |-
+                                        only.
+                                        Mount as read-only.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              secret:
+                                description: |-
+                                  (Block List, Max: 1) Secret volume configuration. (see below for nested schema)
+                                  Secret volume configuration.
+                                items:
+                                  properties:
+                                    optional:
+                                      description: |-
+                                        (Boolean) Whether the ConfigMap is optional.
+                                        Whether the Secret is optional.
+                                      type: boolean
+                                    secretName:
+                                      description: |-
+                                        (String) Secret name.
+                                        Secret name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  createdAt:
+                    description: |-
+                      (Number) Creation timestamp (Unix epoch).
+                      Creation timestamp (Unix epoch).
+                    type: number
+                  createdBy:
+                    description: |-
+                      (String) User who created the action template.
+                      User who created the action template.
+                    type: string
+                  customScriptAction:
+                    description: |-
+                      (Block List, Max: 1) Custom script action configuration. Required when type is 'customScript'. (see below for nested schema)
+                      Custom script action configuration. Required when type is 'customScript'.
+                    items:
+                      properties:
+                        args:
+                          description: |-
+                            (String) Arguments to pass to the container command.
+                            Arguments to pass to the command.
+                          items:
+                            type: string
+                          type: array
+                        command:
+                          description: |-
+                            (List of String) Command to run in the container.
+                            Command to execute (e.g., 'bash', 'python', 'sh').
+                          type: string
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the container. (see below for nested schema)
+                            Environment variables for the script.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the action template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Environment variable value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  delayAction:
+                    description: |-
+                      (Block List, Max: 1) Delay action configuration. Required when type is 'delay'. (see below for nested schema)
+                      Delay action configuration. Required when type is 'delay'.
+                    items:
+                      properties:
+                        duration:
+                          description: |-
+                            (String) Duration of the delay (e.g., '30s', '5m', '1h').
+                            Duration of the delay (e.g., '30s', '5m', '1h').
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the action template.
+                      Description of the action template.
+                    type: string
+                  hubIdentity:
+                    description: |-
+                      (String) Identity of the chaos hub this action template belongs to.
+                      Identity of the chaos hub this action template belongs to.
+                    type: string
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  idInternal:
+                    description: |-
+                      (String) Internal ID of the action template.
+                      Internal ID of the action template.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the action template (immutable).
+                      Unique identifier for the action template (immutable).
+                    type: string
+                  infrastructureType:
+                    description: |-
+                      (String) Infrastructure type for the action template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container. Supports runtime inputs like <+input>.
+                      Infrastructure type for the action template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container. Supports runtime inputs like <+input>.
+                    type: string
+                  isDefault:
+                    description: |-
+                      (Boolean) Whether this is the default version for predefined actions.
+                      Whether this is the default version for predefined actions.
+                    type: boolean
+                  isEnterprise:
+                    description: |-
+                      (Boolean) Whether this is an enterprise action template.
+                      Whether this is an enterprise action template.
+                    type: boolean
+                  isRemoved:
+                    description: |-
+                      (Boolean) Whether the action template has been removed.
+                      Whether the action template has been removed.
+                    type: boolean
+                  name:
+                    description: |-
+                      (String) Name of the action template.
+                      Name of the action template.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier.
+                      Organization identifier.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) Project identifier.
+                      Project identifier.
+                    type: string
+                  revision:
+                    description: |-
+                      (Number) Revision number of the action template.
+                      Revision number of the action template.
+                    type: number
+                  runProperties:
+                    description: |-
+                      (Block List, Max: 1) Run properties for the action template execution. (see below for nested schema)
+                      Run properties for the action template execution.
+                    items:
+                      properties:
+                        initialDelay:
+                          description: |-
+                            (String) Initial delay before action execution (e.g., '5s', '1m').
+                            Initial delay before action execution (e.g., '5s', '1m').
+                          type: string
+                        interval:
+                          description: |-
+                            (String) Interval between retries (e.g., '10s', '30s').
+                            Interval between retries (e.g., '10s', '30s').
+                          type: string
+                        maxRetries:
+                          description: |-
+                            (Number) Maximum number of retries.
+                            Maximum number of retries.
+                          type: number
+                        stopOnFailure:
+                          description: |-
+                            (Boolean) Whether to stop on failure.
+                            Whether to stop on failure.
+                          type: boolean
+                        timeout:
+                          description: |-
+                            (String) Timeout for action execution (e.g., '5m', '10m').
+                            Timeout for action execution (e.g., '5m', '10m').
+                          type: string
+                        verbosity:
+                          description: |-
+                            (String) Verbosity level for logging.
+                            Verbosity level for logging.
+                          type: string
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags to associate with the action template.
+                      Tags to associate with the action template.
+                    items:
+                      type: string
+                    type: array
+                  template:
+                    description: |-
+                      (String) Template content/definition.
+                      Template content/definition.
+                    type: string
+                  type:
+                    description: |-
+                      (String) Type of the action template. Valid values: delay, customScript, container.
+                      Type of the action template. Valid values: delay, customScript, container.
+                    type: string
+                  updatedAt:
+                    description: |-
+                      (Number) Last update timestamp (Unix epoch).
+                      Last update timestamp (Unix epoch).
+                    type: number
+                  updatedBy:
+                    description: |-
+                      (String) User who last updated the action template.
+                      User who last updated the action template.
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables that can be used in the action. (see below for nested schema)
+                      Template variables that can be used in the action.
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the action template.
+                            Variable description.
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the action template.
+                            Variable name.
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required.
+                            Whether the variable is required.
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Type of the action template. Valid values: delay, customScript, container.
+                            Variable type (e.g., 'string', 'number', 'boolean').
+                          type: string
+                        value:
+                          description: |-
+                            (String) Environment variable value.
+                            Variable value.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

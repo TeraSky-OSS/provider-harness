@@ -1,0 +1,28 @@
+apiVersion: gitops.harness.m.crossplane.io/v1alpha1
+kind: Repository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/repository
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    repo:
+    - connectionType: HTTPS_ANONYMOUS
+      insecure: true
+      name: repo_name
+      repo: https://github.com/willycoll/argocd-example-apps.git
+    upsert: true

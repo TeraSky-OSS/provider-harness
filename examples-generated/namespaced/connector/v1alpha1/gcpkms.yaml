@@ -1,0 +1,48 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: GcpKms
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/gcpkms
+  labels:
+    testing.upbound.io/example-name: gcp_kms_manual
+  name: gcp-kms-manual
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: test
+    gcpProjectId: "1234567"
+    identifier: identifier
+    keyName: key_name
+    keyRing: key_ring
+    manual:
+    - credentials: account.${harness_platform_secret_text.test.id}
+      delegateSelectors:
+      - harness-delegate
+    name: name
+    region: us-west1
+    tags:
+    - foo:bar
+
+---
+
+apiVersion: secret.harness.m.crossplane.io/v1alpha1
+kind: Text
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/gcpkms
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: test
+    identifier: '%[1]s'
+    name: '%[2]s'
+    secretManagerIdentifier: harnessSecretManager
+    tags:
+    - foo:bar
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+    valueType: Reference

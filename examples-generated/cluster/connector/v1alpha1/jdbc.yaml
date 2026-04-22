@@ -1,0 +1,22 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Jdbc
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/jdbc
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    credentials:
+    - authType: ServiceAccount
+      serviceAccount:
+      - tokenRef: account.secret_id
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifer
+    name: name
+    tags:
+    - foo:bar
+    url: jdbc:sqlserver://1.2.3;trustServerCertificate=true

@@ -1,0 +1,26 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: GcpCloudCost
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/gcpcloudcost
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    billingExportSpec:
+    - dataSetId: data_set_id
+      tableId: table_id
+    description: test
+    featuresEnabled:
+    - BILLING
+    - VISIBILITY
+    - OPTIMIZATION
+    - GOVERNANCE
+    gcpProjectId: gcp_project_id
+    identifier: identifier
+    name: name
+    serviceAccountEmail: service_account_email
+    tags:
+    - foo:bar

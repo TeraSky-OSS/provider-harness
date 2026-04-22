@@ -1,0 +1,27 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: PipelineFilters
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/pipelinefilters
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    filterProperties:
+    - description: pipeline_description
+      filterType: PipelineSetup
+      name: pipeline_name
+      pipelineIdentifiers:
+      - id1
+      - id2
+    filterVisibility: EveryOne
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: PipelineSetup

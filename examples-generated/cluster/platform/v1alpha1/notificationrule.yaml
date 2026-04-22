@@ -1,0 +1,46 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: NotificationRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/notificationrule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    request:
+    - conditions:
+      - spec: |-
+          ${jsonencode({
+                  threshold = 1
+                })}
+        type: ErrorBudgetBurnRate
+      - spec: |-
+          ${jsonencode({
+                  threshold = 30
+                })}
+        type: ErrorBudgetRemainingPercentage
+      - spec: |-
+          ${jsonencode({
+                  threshold = 300
+                })}
+        type: ErrorBudgetRemainingMinutes
+      name: name
+      notificationMethod:
+      - spec: |-
+          ${jsonencode({
+                  webhook_url = "http://myslackwebhookurl.com"
+                  user_groups = ["account.test"]
+                  //        webhook_url = "http://myslackwebhookurl.com" // used for Slack
+                  //        integrationKey = "test-pd-integration-key" // used for PagerDuty
+                  //        msTeamKeys = ["ms-teams-key1", "ms-teams-key2"] // used for MsTeams
+                })}
+        type: Slack
+      type: ServiceLevelObjective

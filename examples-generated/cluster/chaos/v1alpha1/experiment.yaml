@@ -1,0 +1,29 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: Experiment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/experiment
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    description: Basic chaos experiment with REFERENCE import
+    hubIdentity: my-chaos-hub
+    hubOrgId: my_org
+    hubProjectId: my_project
+    identity: my-chaos-experiment
+    importType: REFERENCE
+    infraRef: my-env/my-infra
+    name: My Chaos Experiment
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - chaos
+    - kubernetes
+    - resilience
+    templateIdentity: my-template

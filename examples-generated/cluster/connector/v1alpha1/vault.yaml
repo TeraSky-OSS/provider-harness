@@ -1,0 +1,33 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Vault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/vault
+  labels:
+    testing.upbound.io/example-name: aws_auth
+  name: aws-auth
+spec:
+  forProvider:
+    accessType: AWS_IAM
+    awsRegion: aws_region
+    basePath: base_path
+    default: false
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    readOnly: true
+    renewalIntervalMinutes: 60
+    secretEngineManuallyConfigured: true
+    secretEngineName: secret_engine_name
+    secretEngineVersion: 2
+    tags:
+    - foo:bar
+    useAwsIam: true
+    useJwtAuth: false
+    useK8SAuth: false
+    useVaultAgent: false
+    vaultAwsIamRole: vault_aws_iam_role
+    vaultUrl: https://vault_url.com
+    xvaultAwsIamServerId: account.${harness_platform_secret_text.test.id}

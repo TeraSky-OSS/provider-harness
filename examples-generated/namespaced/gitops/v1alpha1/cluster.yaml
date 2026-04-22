@@ -1,0 +1,31 @@
+apiVersion: gitops.harness.m.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    request:
+    - cluster:
+      - config:
+        - clusterConnectionType: IN_CLUSTER
+          tlsClientConfig:
+          - insecure: true
+        name: name
+        server: https://kubernetes.default.svc
+      upsert: false

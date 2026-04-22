@@ -1,0 +1,56 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: FaultTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/faulttemplate
+  labels:
+    testing.upbound.io/example-name: kubernetes_fault
+  name: kubernetes-fault
+spec:
+  forProvider:
+    category:
+    - Kubernetes
+    description: Custom Kubernetes fault for chaos injection
+    hubIdentity: account-chaos-hub
+    identity: k8s-fault-template
+    infrastructures:
+    - KubernetesV2
+    links:
+    - name: Documentation
+      url: https://docs.harness.io/chaos
+    name: Kubernetes Fault Template
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    permissionsRequired: Basic
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    spec:
+    - chaos:
+      - faultName: byoc-injector
+        kubernetes:
+        - args:
+          - echo 'Running chaos fault'; sleep 30
+          command:
+          - /bin/bash
+          - -c
+          image: chaosnative/go-runner:ci
+          imagePullPolicy: IfNotPresent
+          resources:
+          - limits:
+              cpu: 150m
+              memory: 150Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+        params:
+        - name: CHAOS_DURATION
+          value: 30s
+        - name: CHAOS_INTERVAL
+          value: 5s
+    tags:
+    - kubernetes
+    - fault
+    - custom
+    type: Custom

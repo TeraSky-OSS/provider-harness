@@ -1,0 +1,25 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: EnvironmentClustersMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/environmentclustersmapping
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    clusters:
+    - agentIdentifier: account.gitopsagentdev
+      identifier: incluster
+      name: in-cluster
+      scope: ACCOUNT
+    envIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    identifier: mycustomidentifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,50 @@
+apiVersion: gitops.harness.m.crossplane.io/v1alpha1
+kind: Applications
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/applications
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    application:
+    - metadata:
+      - annotations: {}
+        labels:
+          harness.io/envRef: env_id
+          harness.io/serviceRef: service_id
+        name: appname123
+      spec:
+      - destination:
+        - namespace: namespace-123
+          server: https://1.3.4.5
+        source:
+        - path: helm-guestbook
+          repoUrl: https://github.com/willycoll/argocd-example-apps.git
+          targetRevision: master
+        syncPolicy:
+        - syncOptions:
+          - PrunePropagationPolicy=undefined
+          - CreateNamespace=false
+          - Validate=false
+          - skipSchemaValidations=false
+          - autoCreateNamespace=false
+          - pruneLast=false
+          - applyOutofSyncOnly=false
+          - Replace=false
+          - retry=false
+    clusterId: cluster_id
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    repoId: repo_id

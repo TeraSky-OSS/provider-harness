@@ -1,0 +1,21 @@
+apiVersion: service.harness.m.crossplane.io/v1alpha1
+kind: DiscoveryAgent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/discoveryagent
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    config:
+    - collectorImage: harness/service-discovery-collector:main-latest
+      kubernetes:
+      - namespace: harness-sd
+      logWatcherImage: harness/chaos-log-watcher:main-latest
+    environmentIdentifier: your_environment_id
+    infraIdentifier: your_infra_id
+    name: ExampleAgent
+    orgIdentifier: your_org_id
+    projectIdentifier: your_project_id

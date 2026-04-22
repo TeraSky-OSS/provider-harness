@@ -1,0 +1,21 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: NewRelic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/newrelic
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: nr_account_id
+    apiKeyRef: account.secret_id
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://newrelic.com/

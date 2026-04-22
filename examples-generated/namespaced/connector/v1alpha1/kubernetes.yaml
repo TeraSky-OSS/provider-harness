@@ -1,0 +1,25 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: clientKeyCert
+  name: clientkeycert
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clientKeyCert:
+    - caCertRef: account.TEST_k8ss_client_stuff
+      clientCertRef: account.test_k8s_client_cert
+      clientKeyAlgorithm: RSA
+      clientKeyPassphraseRef: account.TEST_k8s_client_test
+      clientKeyRef: account.TEST_k8s_client_key
+      masterUrl: https://kubernetes.example.com
+    delegateSelectors:
+    - harness-delegate
+    description: description
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar

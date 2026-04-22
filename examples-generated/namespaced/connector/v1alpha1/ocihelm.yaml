@@ -1,0 +1,22 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: OciHelm
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/ocihelm
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    credentials:
+    - passwordRef: account.Secret_id
+      username: username
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: admin.azurecr.io

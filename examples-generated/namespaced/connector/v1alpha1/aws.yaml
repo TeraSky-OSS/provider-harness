@@ -1,0 +1,21 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Aws
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/aws
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: description of aws connector
+    identifier: example_aws_connector
+    manual:
+    - accessKeyRef: account.access_id
+      delegateSelectors:
+      - harness-delegate
+      secretKeyRef: account.secret_id
+    name: Example aws connector
+    tags:
+    - foo:bar

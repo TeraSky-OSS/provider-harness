@@ -1,0 +1,25 @@
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: Module
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/module
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    connectorOrg: default
+    connectorProject: my_project
+    description: example
+    name: name
+    onboardingPipeline: my_onboarding_pipeline
+    onboardingPipelineOrg: default
+    onboardingPipelineProject: IaCM_Project
+    onboardingPipelineSync: true
+    repository: repo
+    repositoryBranch: main
+    repositoryConnector: ${harness_platform_connector_github.test.id}
+    repositoryPath: tf/aws/basic
+    storageType: artifact
+    system: provider

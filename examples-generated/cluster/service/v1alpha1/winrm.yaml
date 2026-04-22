@@ -1,0 +1,28 @@
+apiVersion: service.harness.crossplane.io/v1alpha1
+kind: Winrm
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/winrm
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    artifactType: IIS_APP
+    description: Service for deploying IIS appliactions using winrm.
+    name: iis-app-winrm-svc
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/winrm
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example

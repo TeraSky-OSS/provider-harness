@@ -1,0 +1,38 @@
+apiVersion: idp.harness.crossplane.io/v1alpha1
+kind: EnvironmentBlueprint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: idp/v1alpha1/environmentblueprint
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    deprecated: false
+    description: description
+    identifier: identifier
+    stable: true
+    version: v1.0.0
+    yaml: |
+      apiVersion: harness.io/v1
+      kind: EnvironmentBlueprint
+      type: long-lived
+      identifier: identifier
+      name: name
+      owner: group:account/_account_all_users
+      metadata:
+        description: description
+      spec:
+        entities:
+        - identifier: git
+          backend:
+            type: HarnessCD
+            steps:
+              apply:
+                pipeline: gittest
+                branch: main
+              destroy:
+                pipeline: gittest
+                branch: not-main
+        ownedBy:
+        - group:account/_account_all_users

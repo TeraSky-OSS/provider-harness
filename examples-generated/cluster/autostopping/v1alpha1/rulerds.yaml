@@ -1,0 +1,21 @@
+apiVersion: autostopping.harness.crossplane.io/v1alpha1
+kind: RuleRds
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/rulerds
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    cloudConnectorId: cloud_connector_id
+    database:
+    - id: database_id
+      region: region
+    dryRun: true
+    idleTimeMins: 10
+    name: name
+    tcp:
+    - forwardRule:
+      - port: 2233
+      proxyId: proxy_id

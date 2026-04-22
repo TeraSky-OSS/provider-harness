@@ -1,0 +1,20 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: HarRegistry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/harregistry
+  labels:
+    testing.upbound.io/example-name: virtual_registry
+  name: virtual-registry
+spec:
+  forProvider:
+    config:
+    - type: VIRTUAL
+      upstreamProxies:
+      - registry1
+      - registry2
+    description: Virtual Docker Registry
+    identifier: virtual_docker_registry
+    packageType: DOCKER
+    parentRef: accountId/orgId/projectId
+    spaceRef: accountId/orgId/projectId

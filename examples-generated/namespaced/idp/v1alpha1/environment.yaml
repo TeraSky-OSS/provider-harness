@@ -1,0 +1,29 @@
+apiVersion: idp.harness.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: idp/v1alpha1/environment
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    basedOn: org_id.project_id/environment_identifier
+    blueprintIdentifier: blueprint_identifier
+    blueprintVersion: v1.0.0
+    identifier: identifier
+    inputs: |
+      ttl: 1h30m
+    name: test
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    overrides: |
+      config: {}
+      entities: {}
+    owner: group:account/_account_all_users
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    targetState: running

@@ -1,0 +1,26 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Prometheus
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/prometheus
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    headers:
+    - encryptedValueRef: account.secret_identifier
+      key: key
+      value: value
+      valueEncrypted: true
+    identifier: idntifier
+    name: name
+    passwordRef: account.secret_identifier
+    tags:
+    - foo:bar
+    url: https://prometheus.com/
+    userName: user_name

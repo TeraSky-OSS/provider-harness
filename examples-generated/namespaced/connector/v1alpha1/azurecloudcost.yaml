@@ -1,0 +1,37 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: AzureCloudCost
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/azurecloudcost
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    billingExportSpec:
+    - billingType: billing_type
+      containerName: container_name
+      directoryName: directory_name
+      reportName: report_name
+      storageAccountName: storage_account_name
+      subscriptionId: subscription_id
+    billingExportSpec2:
+    - billingType: billing_type
+      containerName: container_name
+      directoryName: directory_name
+      reportName: report_name
+      storageAccountName: storage_account_name
+      subscriptionId: subscription_id
+    description: example
+    featuresEnabled:
+    - BILLING
+    - VISIBILITY
+    - OPTIMIZATION
+    - GOVERNANCE
+    identifier: identifier
+    name: name
+    subscriptionId: subscription_id
+    tags:
+    - foo:bar
+    tenantId: tenant_id

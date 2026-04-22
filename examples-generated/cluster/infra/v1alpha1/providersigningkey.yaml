@@ -1,0 +1,17 @@
+apiVersion: infra.harness.crossplane.io/v1alpha1
+kind: ProviderSigningKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providersigningkey
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    asciiArmorSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    keyId: 51852D87348FFC4C
+    keyName: HashiCorp Security
+    user: security@hashicorp.com

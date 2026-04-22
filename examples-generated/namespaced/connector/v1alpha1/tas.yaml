@@ -1,0 +1,22 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Tas
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/tas
+  labels:
+    testing.upbound.io/example-name: tas
+  name: tas
+  namespace: crossplane-system
+spec:
+  forProvider:
+    credentials:
+    - tasManualDetails:
+      - endpointUrl: https://tas.example.com
+        passwordRef: account.secret_id
+        username: admin
+      type: ManualConfig
+    description: description of tas connector
+    identifier: example_tas_cloud_provider
+    name: Example tas cloud provider
+    tags:
+    - foo:bar

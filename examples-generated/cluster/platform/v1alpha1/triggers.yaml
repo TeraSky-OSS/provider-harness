@@ -1,0 +1,52 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: Triggers
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/triggers
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    targetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    yaml: |
+      trigger:
+        name: name
+        identifier: identifier
+        enabled: true
+        description: ""
+        tags: {}
+        projectIdentifier: projectIdentifier
+        orgIdentifier: orgIdentifer
+        pipelineIdentifier: pipelineIdentifier
+        source:
+          type: Webhook
+          spec:
+            type: Github
+            spec:
+              type: Push
+              spec:
+                connectorRef: account.TestAccResourceConnectorGithub_Ssh_IZBeG
+                autoAbortPreviousExecutions: false
+                payloadConditions:
+                - key: changedFiles
+                  operator: Equals
+                  value: value
+                - key: targetBranch
+                  operator: Equals
+                  value: value
+                headerConditions: []
+                repoName: repoName
+                actions: []
+        inputYaml: |
+          pipeline: {}\n

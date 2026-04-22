@@ -1,0 +1,22 @@
+apiVersion: autostopping.harness.m.crossplane.io/v1alpha1
+kind: AzureGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/azuregateway
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    azureFuncRegion: westus2
+    cloudConnectorId: cloud_connector_id
+    deleteCloudResourcesOnDestroy: true
+    frontendIp: /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Network/publicIPAddresses/publicip
+    host_name: host_name
+    name: name
+    region: eastus2
+    resourceGroup: resource_group
+    skuSize: sku2
+    subnetId: /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Network/virtualNetworks/virtual_network/subnets/subnet_id
+    vpc: /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Network/virtualNetworks/virtual_network

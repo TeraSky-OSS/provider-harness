@@ -1,0 +1,27 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: EnvironmentGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/environmentgroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    color: '#0063F7'
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    yaml: |
+      environmentGroup:
+        name: "name"
+        identifier: "identifier"
+        description: "temp"
+        orgIdentifier: "orgIdentifer"
+        projectIdentifier: "projectIdentifier"
+        envIdentifiers: []

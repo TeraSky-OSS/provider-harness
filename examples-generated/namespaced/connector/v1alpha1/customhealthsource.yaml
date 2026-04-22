@@ -1,0 +1,26 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: CustomHealthSource
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/customhealthsource
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    headers:
+    - encryptedValueRef: account.doNotDeleteHSM
+      key: key
+      value: value
+      valueEncrypted: true
+    identifier: identifier
+    method: GET
+    name: name
+    tags:
+    - foo:bar
+    url: https://prometheus.com/
+    validationPath: loki/api/v1/labels

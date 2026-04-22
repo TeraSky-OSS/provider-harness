@@ -1,0 +1,137 @@
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersionPublish
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws_v5
+  name: aws-v5
+  namespace: crossplane-system
+spec:
+  forProvider:
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: Provider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: AWS provider for IaCM
+    type: aws
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderSigningKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: hashicorp
+  name: hashicorp
+  namespace: crossplane-system
+spec:
+  forProvider:
+    asciiArmorSecretRef:
+      key: attribute.hashicorp.asc
+      name: example-secret
+    keyId: 51852D87348FFC4C
+    keyName: HashiCorp Security
+    user: security@hashicorp.com
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws_v5
+  name: aws-v5
+  namespace: crossplane-system
+spec:
+  forProvider:
+    gpgKeyId: 51852D87348FFC4C
+    protocols:
+    - "5.0"
+    - "6.0"
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersionFile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws_darwin_amd64
+  name: aws-darwin-amd64
+  namespace: crossplane-system
+spec:
+  forProvider:
+    filename: terraform-provider-aws_5.0.0_darwin_amd64.zip
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersionFile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws_linux_amd64
+  name: aws-linux-amd64
+  namespace: crossplane-system
+spec:
+  forProvider:
+    filename: terraform-provider-aws_5.0.0_linux_amd64.zip
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersionFile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws_shasums
+  name: aws-shasums
+  namespace: crossplane-system
+spec:
+  forProvider:
+    filename: terraform-provider-aws_5.0.0_SHA256SUMS
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersionFile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionpublish
+  labels:
+    testing.upbound.io/example-name: aws_shasums_sig
+  name: aws-shasums-sig
+  namespace: crossplane-system
+spec:
+  forProvider:
+    filename: terraform-provider-aws_5.0.0_SHA256SUMS.sig
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0

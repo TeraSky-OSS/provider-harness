@@ -1,0 +1,14 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: DefaultImages
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/defaultimages
+  labels:
+    testing.upbound.io/example-name: ci_lite_engine
+  name: ci-lite-engine
+  namespace: crossplane-system
+spec:
+  forProvider:
+    field: liteEngineTag
+    kind: ci
+    value: harness/ci-lite-engine:1.16.5

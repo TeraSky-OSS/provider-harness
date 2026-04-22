@@ -1,0 +1,36 @@
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: GitConnector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/gitconnector
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    branch: master
+    generateWebhookUrl: true
+    name: example
+    passwordSecretId: ${harness_encrypted_text.example.id}
+    url: https://github.com/harness/terraform-provider-harness
+    urlType: REPO
+    username: someuser
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/gitconnector
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example-secret
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system

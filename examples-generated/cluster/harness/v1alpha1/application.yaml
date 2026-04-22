@@ -1,0 +1,15 @@
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/application
+  labels:
+    testing.upbound.io/example-name: myapp
+  name: myapp
+spec:
+  forProvider:
+    description: This is my first Harness application
+    name: My Application
+    tags:
+    - mytag:myvalue
+    - team:development

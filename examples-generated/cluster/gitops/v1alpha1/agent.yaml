@@ -1,0 +1,23 @@
+apiVersion: gitops.harness.crossplane.io/v1alpha1
+kind: Agent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/agent
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    accountId: account_id
+    identifier: identifier
+    metadata:
+    - highAvailability: true
+      namespace: namespace
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: MANAGED_ARGO_PROVIDER

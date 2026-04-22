@@ -1,0 +1,25 @@
+apiVersion: gitops.harness.m.crossplane.io/v1alpha1
+kind: RepoCert
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/repocert
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    request:
+    - certificates:
+      - items:
+        - certData: QUFBQUUyVmpaSE5oTFhOb1lUSXRibWx6ZEhBeU5UWUFBQUFJYm1semRIQXlOVFlBQUFCQkJFbUtTRU5qUUVlek9teGtaTXk3b3BLZ3dGQjlua3Q1WVJyWU1qTnVHNU44N3VSZ2c2Q0xyYm81d0FkVC95NnYwbUtWMFUydzBXWjJZQi8rK1Rwb2NrZz0=
+          certSubType: ecdsa-sha2-nistp256
+          certType: ssh
+          serverName: github.com
+        metadata:
+        - {}
+      upsert: true

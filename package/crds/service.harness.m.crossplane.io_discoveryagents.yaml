@@ -1,0 +1,1395 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: discoveryagents.service.harness.m.crossplane.io
+spec:
+  group: service.harness.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: DiscoveryAgent
+    listKind: DiscoveryAgentList
+    plural: discoveryagents
+    singular: discoveryagent
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DiscoveryAgent is the Schema for the DiscoveryAgents API. Resource
+          for managing a Harness Service Discovery Agent. This resource allows you
+          to create, read, update, and delete a Service Discovery Agent in Harness.
+          Example Usage
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DiscoveryAgentSpec defines the desired state of DiscoveryAgent
+            properties:
+              forProvider:
+                properties:
+                  config:
+                    description: |-
+                      (Block List, Min: 1) Configuration for the agent. This is a required field. (see below for nested schema)
+                      Configuration for the agent. This is a required field.
+                    items:
+                      properties:
+                        collectorImage:
+                          description: |-
+                            (String) Docker image for the collector.
+                            Docker image for the collector.
+                          type: string
+                        data:
+                          description: |-
+                            (Block List) Data collection configuration. (see below for nested schema)
+                            Data collection configuration.
+                          items:
+                            properties:
+                              blacklistedNamespaces:
+                                description: |-
+                                  (List of String) List of namespaces to exclude from discovery.
+                                  List of namespaces to exclude from discovery.
+                                items:
+                                  type: string
+                                type: array
+                              collectionWindowInMin:
+                                description: |-
+                                  (Number) Collection window in minutes.
+                                  Collection window in minutes.
+                                type: number
+                              cron:
+                                description: |-
+                                  (Block List) Cron schedule for data collection. (see below for nested schema)
+                                  Cron schedule for data collection.
+                                items:
+                                  properties:
+                                    expression:
+                                      description: |-
+                                        (String) Cron expression for scheduling.
+                                        Cron expression for scheduling.
+                                      type: string
+                                  type: object
+                                type: array
+                              enableBatchResources:
+                                description: |-
+                                  (Boolean) Whether to enable batch resources.
+                                  Whether to enable batch resources.
+                                type: boolean
+                              enableNodeAgent:
+                                description: |-
+                                  (Boolean) Whether to enable node agent.
+                                  Whether to enable node agent.
+                                type: boolean
+                              enableOrphanedPod:
+                                description: |-
+                                  (Boolean) Whether to enable orphaned pod detection.
+                                  Whether to enable orphaned pod detection.
+                                type: boolean
+                              namespaceSelector:
+                                description: |-
+                                  (String) Namespace selector for the agent.
+                                  Namespace selector for the agent.
+                                type: string
+                              nodeAgentSelector:
+                                description: |-
+                                  (String) Node selector for the node agent.
+                                  Node selector for the node agent.
+                                type: string
+                              observedNamespaces:
+                                description: |-
+                                  (List of String) List of namespaces to observe.
+                                  List of namespaces to observe.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        imagePullSecrets:
+                          description: |-
+                            (List of String) List of image pull secrets.
+                            List of image pull secrets.
+                          items:
+                            type: string
+                          type: array
+                        kubernetes:
+                          description: |-
+                            specific configuration. (see below for nested schema)
+                            Kubernetes-specific configuration.
+                          items:
+                            properties:
+                              annotations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Annotations to add to all resources.
+                                  Annotations to add to all resources.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              disableNamespaceCreation:
+                                description: |-
+                                  (Boolean) Whether to disable namespace creation.
+                                  Whether to disable namespace creation.
+                                type: boolean
+                              imagePullPolicy:
+                                description: |-
+                                  (String) The image pull policy.
+                                  The image pull policy.
+                                type: string
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Labels to add to all resources.
+                                  Labels to add to all resources.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              namespace:
+                                description: |-
+                                  (String) Kubernetes namespace to use
+                                  Kubernetes namespace to use
+                                type: string
+                              namespaced:
+                                description: |-
+                                  (Boolean) Whether the agent is namespaced.
+                                  Whether the agent is namespaced.
+                                type: boolean
+                              nodeSelector:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Node selector labels.
+                                  Node selector labels.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              resources:
+                                description: |-
+                                  (Block List) Compute resource requirements for the agent container. (see below for nested schema)
+                                  Compute resource requirements for the agent container.
+                                items:
+                                  properties:
+                                    limits:
+                                      description: |-
+                                        (Block List) Maximum amount of compute resources allowed. (see below for nested schema)
+                                        Maximum amount of compute resources allowed.
+                                      items:
+                                        properties:
+                                          cpu:
+                                            description: |-
+                                              (String) CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                              CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                            type: string
+                                          memory:
+                                            description: |-
+                                              (String) Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                              Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                            type: string
+                                        type: object
+                                      type: array
+                                    requests:
+                                      description: |-
+                                        (Block List) Minimum amount of compute resources required. (see below for nested schema)
+                                        Minimum amount of compute resources required.
+                                      items:
+                                        properties:
+                                          cpu:
+                                            description: |-
+                                              (String) CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                              CPU request in CPU units (e.g., 100m = 0.1 CPU).
+                                            type: string
+                                          memory:
+                                            description: |-
+                                              (String) Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                              Memory request in bytes (e.g., 128Mi, 1Gi).
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              runAsGroup:
+                                description: |-
+                                  (Number) The group ID to run as.
+                                  The group ID to run as.
+                                type: number
+                              runAsUser:
+                                description: |-
+                                  (Number) The user ID to run as.
+                                  The user ID to run as.
+                                type: number
+                              serviceAccount:
+                                description: |-
+                                  (String) Service account to use
+                                  Service account to use
+                                type: string
+                              tolerations:
+                                description: |-
+                                  (Block List) Tolerations for pod assignment. (see below for nested schema)
+                                  Tolerations for pod assignment.
+                                items:
+                                  properties:
+                                    effect:
+                                      description: |-
+                                        (String) Effect indicates the taint effect to match.
+                                        Effect indicates the taint effect to match.
+                                      type: string
+                                    key:
+                                      description: |-
+                                        (String) The taint key that the toleration applies to.
+                                        The taint key that the toleration applies to.
+                                      type: string
+                                    operator:
+                                      description: |-
+                                        (String) Operator represents a key's relationship to the value.
+                                        Operator represents a key's relationship to the value.
+                                      type: string
+                                    tolerationSeconds:
+                                      description: |-
+                                        (Number) TolerationSeconds represents the period of time the toleration tolerates the taint.
+                                        TolerationSeconds represents the period of time the toleration tolerates the taint.
+                                      type: number
+                                    value:
+                                      description: |-
+                                        (String) The taint value the toleration matches to.
+                                        The taint value the toleration matches to.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        logWatcherImage:
+                          description: |-
+                            (String) Docker image for the log watcher.
+                            Docker image for the log watcher.
+                          type: string
+                        mtls:
+                          description: |-
+                            (Block List) mTLS configuration. (see below for nested schema)
+                            mTLS configuration.
+                          items:
+                            properties:
+                              certPath:
+                                description: |-
+                                  (String) Path to the certificate file.
+                                  Path to the certificate file.
+                                type: string
+                              keyPath:
+                                description: |-
+                                  (String) Path to the key file.
+                                  Path to the key file.
+                                type: string
+                              secretName:
+                                description: |-
+                                  (String) Name of the Kubernetes secret containing the certificate and key.
+                                  Name of the Kubernetes secret containing the certificate and key.
+                                type: string
+                              url:
+                                description: |-
+                                  (String) URL of the mTLS server.
+                                  URL of the mTLS server.
+                                type: string
+                            type: object
+                          type: array
+                        proxy:
+                          description: |-
+                            (Block List) Proxy configuration. (see below for nested schema)
+                            Proxy configuration.
+                          items:
+                            properties:
+                              httpProxy:
+                                description: |-
+                                  (String) HTTP proxy URL.
+                                  HTTP proxy URL.
+                                type: string
+                              httpsProxy:
+                                description: |-
+                                  (String) HTTPS proxy URL.
+                                  HTTPS proxy URL.
+                                type: string
+                              noProxy:
+                                description: |-
+                                  separated list of hosts that should not use the proxy.
+                                  Comma-separated list of hosts that should not use the proxy.
+                                type: string
+                              url:
+                                description: |-
+                                  (String) URL of the mTLS server.
+                                  Proxy server URL.
+                                type: string
+                            type: object
+                          type: array
+                        skipSecureVerify:
+                          description: |-
+                            (Boolean) Whether to skip TLS verification.
+                            Whether to skip TLS verification.
+                          type: boolean
+                      type: object
+                    type: array
+                  correlationId:
+                    description: |-
+                      (String) Correlation ID for the agent.
+                      Correlation ID for the agent.
+                    type: string
+                  environmentIdentifier:
+                    description: |-
+                      (String) The environment identifier of the agent. This is a required field.
+                      The environment identifier of the agent. This is a required field.
+                    type: string
+                  infraIdentifier:
+                    description: |-
+                      (String) The infrastructure identifier of the agent. This is a required field.
+                      The infrastructure identifier of the agent. This is a required field.
+                    type: string
+                  installationType:
+                    description: |-
+                      (String) Type of installation for the agent.
+                      Type of installation for the agent.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the agent. This is a required field.
+                      The name of the agent. This is a required field.
+                    type: string
+                  orgIdentifier:
+                    description: |-
+                      64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                      The organization identifier of the agent. Must be 1-64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                    type: string
+                  permanentInstallation:
+                    description: |-
+                      (Boolean) Whether this is a permanent installation.
+                      Whether this is a permanent installation.
+                    type: boolean
+                  projectIdentifier:
+                    description: |-
+                      64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                      The project identifier of the agent. Must be 1-64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                    type: string
+                  webhookUrl:
+                    description: |-
+                      (String) Webhook URL for the agent.
+                      Webhook URL for the agent.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  config:
+                    description: |-
+                      (Block List, Min: 1) Configuration for the agent. This is a required field. (see below for nested schema)
+                      Configuration for the agent. This is a required field.
+                    items:
+                      properties:
+                        collectorImage:
+                          description: |-
+                            (String) Docker image for the collector.
+                            Docker image for the collector.
+                          type: string
+                        data:
+                          description: |-
+                            (Block List) Data collection configuration. (see below for nested schema)
+                            Data collection configuration.
+                          items:
+                            properties:
+                              blacklistedNamespaces:
+                                description: |-
+                                  (List of String) List of namespaces to exclude from discovery.
+                                  List of namespaces to exclude from discovery.
+                                items:
+                                  type: string
+                                type: array
+                              collectionWindowInMin:
+                                description: |-
+                                  (Number) Collection window in minutes.
+                                  Collection window in minutes.
+                                type: number
+                              cron:
+                                description: |-
+                                  (Block List) Cron schedule for data collection. (see below for nested schema)
+                                  Cron schedule for data collection.
+                                items:
+                                  properties:
+                                    expression:
+                                      description: |-
+                                        (String) Cron expression for scheduling.
+                                        Cron expression for scheduling.
+                                      type: string
+                                  type: object
+                                type: array
+                              enableBatchResources:
+                                description: |-
+                                  (Boolean) Whether to enable batch resources.
+                                  Whether to enable batch resources.
+                                type: boolean
+                              enableNodeAgent:
+                                description: |-
+                                  (Boolean) Whether to enable node agent.
+                                  Whether to enable node agent.
+                                type: boolean
+                              enableOrphanedPod:
+                                description: |-
+                                  (Boolean) Whether to enable orphaned pod detection.
+                                  Whether to enable orphaned pod detection.
+                                type: boolean
+                              namespaceSelector:
+                                description: |-
+                                  (String) Namespace selector for the agent.
+                                  Namespace selector for the agent.
+                                type: string
+                              nodeAgentSelector:
+                                description: |-
+                                  (String) Node selector for the node agent.
+                                  Node selector for the node agent.
+                                type: string
+                              observedNamespaces:
+                                description: |-
+                                  (List of String) List of namespaces to observe.
+                                  List of namespaces to observe.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        imagePullSecrets:
+                          description: |-
+                            (List of String) List of image pull secrets.
+                            List of image pull secrets.
+                          items:
+                            type: string
+                          type: array
+                        kubernetes:
+                          description: |-
+                            specific configuration. (see below for nested schema)
+                            Kubernetes-specific configuration.
+                          items:
+                            properties:
+                              annotations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Annotations to add to all resources.
+                                  Annotations to add to all resources.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              disableNamespaceCreation:
+                                description: |-
+                                  (Boolean) Whether to disable namespace creation.
+                                  Whether to disable namespace creation.
+                                type: boolean
+                              imagePullPolicy:
+                                description: |-
+                                  (String) The image pull policy.
+                                  The image pull policy.
+                                type: string
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Labels to add to all resources.
+                                  Labels to add to all resources.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              namespace:
+                                description: |-
+                                  (String) Kubernetes namespace to use
+                                  Kubernetes namespace to use
+                                type: string
+                              namespaced:
+                                description: |-
+                                  (Boolean) Whether the agent is namespaced.
+                                  Whether the agent is namespaced.
+                                type: boolean
+                              nodeSelector:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Node selector labels.
+                                  Node selector labels.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              resources:
+                                description: |-
+                                  (Block List) Compute resource requirements for the agent container. (see below for nested schema)
+                                  Compute resource requirements for the agent container.
+                                items:
+                                  properties:
+                                    limits:
+                                      description: |-
+                                        (Block List) Maximum amount of compute resources allowed. (see below for nested schema)
+                                        Maximum amount of compute resources allowed.
+                                      items:
+                                        properties:
+                                          cpu:
+                                            description: |-
+                                              (String) CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                              CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                            type: string
+                                          memory:
+                                            description: |-
+                                              (String) Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                              Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                            type: string
+                                        type: object
+                                      type: array
+                                    requests:
+                                      description: |-
+                                        (Block List) Minimum amount of compute resources required. (see below for nested schema)
+                                        Minimum amount of compute resources required.
+                                      items:
+                                        properties:
+                                          cpu:
+                                            description: |-
+                                              (String) CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                              CPU request in CPU units (e.g., 100m = 0.1 CPU).
+                                            type: string
+                                          memory:
+                                            description: |-
+                                              (String) Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                              Memory request in bytes (e.g., 128Mi, 1Gi).
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              runAsGroup:
+                                description: |-
+                                  (Number) The group ID to run as.
+                                  The group ID to run as.
+                                type: number
+                              runAsUser:
+                                description: |-
+                                  (Number) The user ID to run as.
+                                  The user ID to run as.
+                                type: number
+                              serviceAccount:
+                                description: |-
+                                  (String) Service account to use
+                                  Service account to use
+                                type: string
+                              tolerations:
+                                description: |-
+                                  (Block List) Tolerations for pod assignment. (see below for nested schema)
+                                  Tolerations for pod assignment.
+                                items:
+                                  properties:
+                                    effect:
+                                      description: |-
+                                        (String) Effect indicates the taint effect to match.
+                                        Effect indicates the taint effect to match.
+                                      type: string
+                                    key:
+                                      description: |-
+                                        (String) The taint key that the toleration applies to.
+                                        The taint key that the toleration applies to.
+                                      type: string
+                                    operator:
+                                      description: |-
+                                        (String) Operator represents a key's relationship to the value.
+                                        Operator represents a key's relationship to the value.
+                                      type: string
+                                    tolerationSeconds:
+                                      description: |-
+                                        (Number) TolerationSeconds represents the period of time the toleration tolerates the taint.
+                                        TolerationSeconds represents the period of time the toleration tolerates the taint.
+                                      type: number
+                                    value:
+                                      description: |-
+                                        (String) The taint value the toleration matches to.
+                                        The taint value the toleration matches to.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        logWatcherImage:
+                          description: |-
+                            (String) Docker image for the log watcher.
+                            Docker image for the log watcher.
+                          type: string
+                        mtls:
+                          description: |-
+                            (Block List) mTLS configuration. (see below for nested schema)
+                            mTLS configuration.
+                          items:
+                            properties:
+                              certPath:
+                                description: |-
+                                  (String) Path to the certificate file.
+                                  Path to the certificate file.
+                                type: string
+                              keyPath:
+                                description: |-
+                                  (String) Path to the key file.
+                                  Path to the key file.
+                                type: string
+                              secretName:
+                                description: |-
+                                  (String) Name of the Kubernetes secret containing the certificate and key.
+                                  Name of the Kubernetes secret containing the certificate and key.
+                                type: string
+                              url:
+                                description: |-
+                                  (String) URL of the mTLS server.
+                                  URL of the mTLS server.
+                                type: string
+                            type: object
+                          type: array
+                        proxy:
+                          description: |-
+                            (Block List) Proxy configuration. (see below for nested schema)
+                            Proxy configuration.
+                          items:
+                            properties:
+                              httpProxy:
+                                description: |-
+                                  (String) HTTP proxy URL.
+                                  HTTP proxy URL.
+                                type: string
+                              httpsProxy:
+                                description: |-
+                                  (String) HTTPS proxy URL.
+                                  HTTPS proxy URL.
+                                type: string
+                              noProxy:
+                                description: |-
+                                  separated list of hosts that should not use the proxy.
+                                  Comma-separated list of hosts that should not use the proxy.
+                                type: string
+                              url:
+                                description: |-
+                                  (String) URL of the mTLS server.
+                                  Proxy server URL.
+                                type: string
+                            type: object
+                          type: array
+                        skipSecureVerify:
+                          description: |-
+                            (Boolean) Whether to skip TLS verification.
+                            Whether to skip TLS verification.
+                          type: boolean
+                      type: object
+                    type: array
+                  correlationId:
+                    description: |-
+                      (String) Correlation ID for the agent.
+                      Correlation ID for the agent.
+                    type: string
+                  environmentIdentifier:
+                    description: |-
+                      (String) The environment identifier of the agent. This is a required field.
+                      The environment identifier of the agent. This is a required field.
+                    type: string
+                  infraIdentifier:
+                    description: |-
+                      (String) The infrastructure identifier of the agent. This is a required field.
+                      The infrastructure identifier of the agent. This is a required field.
+                    type: string
+                  installationType:
+                    description: |-
+                      (String) Type of installation for the agent.
+                      Type of installation for the agent.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the agent. This is a required field.
+                      The name of the agent. This is a required field.
+                    type: string
+                  orgIdentifier:
+                    description: |-
+                      64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                      The organization identifier of the agent. Must be 1-64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                    type: string
+                  permanentInstallation:
+                    description: |-
+                      (Boolean) Whether this is a permanent installation.
+                      Whether this is a permanent installation.
+                    type: boolean
+                  projectIdentifier:
+                    description: |-
+                      64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                      The project identifier of the agent. Must be 1-64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                    type: string
+                  webhookUrl:
+                    description: |-
+                      (String) Webhook URL for the agent.
+                      Webhook URL for the agent.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.config is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.config)
+                || (has(self.initProvider) && has(self.initProvider.config))'
+            - message: spec.forProvider.environmentIdentifier is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.environmentIdentifier)
+                || (has(self.initProvider) && has(self.initProvider.environmentIdentifier))'
+            - message: spec.forProvider.infraIdentifier is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.infraIdentifier)
+                || (has(self.initProvider) && has(self.initProvider.infraIdentifier))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+          status:
+            description: DiscoveryAgentStatus defines the observed state of DiscoveryAgent.
+            properties:
+              atProvider:
+                properties:
+                  config:
+                    description: |-
+                      (Block List, Min: 1) Configuration for the agent. This is a required field. (see below for nested schema)
+                      Configuration for the agent. This is a required field.
+                    items:
+                      properties:
+                        collectorImage:
+                          description: |-
+                            (String) Docker image for the collector.
+                            Docker image for the collector.
+                          type: string
+                        data:
+                          description: |-
+                            (Block List) Data collection configuration. (see below for nested schema)
+                            Data collection configuration.
+                          items:
+                            properties:
+                              blacklistedNamespaces:
+                                description: |-
+                                  (List of String) List of namespaces to exclude from discovery.
+                                  List of namespaces to exclude from discovery.
+                                items:
+                                  type: string
+                                type: array
+                              collectionWindowInMin:
+                                description: |-
+                                  (Number) Collection window in minutes.
+                                  Collection window in minutes.
+                                type: number
+                              cron:
+                                description: |-
+                                  (Block List) Cron schedule for data collection. (see below for nested schema)
+                                  Cron schedule for data collection.
+                                items:
+                                  properties:
+                                    expression:
+                                      description: |-
+                                        (String) Cron expression for scheduling.
+                                        Cron expression for scheduling.
+                                      type: string
+                                  type: object
+                                type: array
+                              enableBatchResources:
+                                description: |-
+                                  (Boolean) Whether to enable batch resources.
+                                  Whether to enable batch resources.
+                                type: boolean
+                              enableNodeAgent:
+                                description: |-
+                                  (Boolean) Whether to enable node agent.
+                                  Whether to enable node agent.
+                                type: boolean
+                              enableOrphanedPod:
+                                description: |-
+                                  (Boolean) Whether to enable orphaned pod detection.
+                                  Whether to enable orphaned pod detection.
+                                type: boolean
+                              namespaceSelector:
+                                description: |-
+                                  (String) Namespace selector for the agent.
+                                  Namespace selector for the agent.
+                                type: string
+                              nodeAgentSelector:
+                                description: |-
+                                  (String) Node selector for the node agent.
+                                  Node selector for the node agent.
+                                type: string
+                              observedNamespaces:
+                                description: |-
+                                  (List of String) List of namespaces to observe.
+                                  List of namespaces to observe.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        imagePullSecrets:
+                          description: |-
+                            (List of String) List of image pull secrets.
+                            List of image pull secrets.
+                          items:
+                            type: string
+                          type: array
+                        kubernetes:
+                          description: |-
+                            specific configuration. (see below for nested schema)
+                            Kubernetes-specific configuration.
+                          items:
+                            properties:
+                              annotations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Annotations to add to all resources.
+                                  Annotations to add to all resources.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              disableNamespaceCreation:
+                                description: |-
+                                  (Boolean) Whether to disable namespace creation.
+                                  Whether to disable namespace creation.
+                                type: boolean
+                              imagePullPolicy:
+                                description: |-
+                                  (String) The image pull policy.
+                                  The image pull policy.
+                                type: string
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Labels to add to all resources.
+                                  Labels to add to all resources.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              namespace:
+                                description: |-
+                                  (String) Kubernetes namespace to use
+                                  Kubernetes namespace to use
+                                type: string
+                              namespaced:
+                                description: |-
+                                  (Boolean) Whether the agent is namespaced.
+                                  Whether the agent is namespaced.
+                                type: boolean
+                              nodeSelector:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Node selector labels.
+                                  Node selector labels.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              resources:
+                                description: |-
+                                  (Block List) Compute resource requirements for the agent container. (see below for nested schema)
+                                  Compute resource requirements for the agent container.
+                                items:
+                                  properties:
+                                    limits:
+                                      description: |-
+                                        (Block List) Maximum amount of compute resources allowed. (see below for nested schema)
+                                        Maximum amount of compute resources allowed.
+                                      items:
+                                        properties:
+                                          cpu:
+                                            description: |-
+                                              (String) CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                              CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                            type: string
+                                          memory:
+                                            description: |-
+                                              (String) Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                              Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                            type: string
+                                        type: object
+                                      type: array
+                                    requests:
+                                      description: |-
+                                        (Block List) Minimum amount of compute resources required. (see below for nested schema)
+                                        Minimum amount of compute resources required.
+                                      items:
+                                        properties:
+                                          cpu:
+                                            description: |-
+                                              (String) CPU limit in CPU units (e.g., 500m = 0.5 CPU, 2 = 2 CPUs).
+                                              CPU request in CPU units (e.g., 100m = 0.1 CPU).
+                                            type: string
+                                          memory:
+                                            description: |-
+                                              (String) Memory limit in bytes (e.g., 128Mi, 1Gi).
+                                              Memory request in bytes (e.g., 128Mi, 1Gi).
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              runAsGroup:
+                                description: |-
+                                  (Number) The group ID to run as.
+                                  The group ID to run as.
+                                type: number
+                              runAsUser:
+                                description: |-
+                                  (Number) The user ID to run as.
+                                  The user ID to run as.
+                                type: number
+                              serviceAccount:
+                                description: |-
+                                  (String) Service account to use
+                                  Service account to use
+                                type: string
+                              tolerations:
+                                description: |-
+                                  (Block List) Tolerations for pod assignment. (see below for nested schema)
+                                  Tolerations for pod assignment.
+                                items:
+                                  properties:
+                                    effect:
+                                      description: |-
+                                        (String) Effect indicates the taint effect to match.
+                                        Effect indicates the taint effect to match.
+                                      type: string
+                                    key:
+                                      description: |-
+                                        (String) The taint key that the toleration applies to.
+                                        The taint key that the toleration applies to.
+                                      type: string
+                                    operator:
+                                      description: |-
+                                        (String) Operator represents a key's relationship to the value.
+                                        Operator represents a key's relationship to the value.
+                                      type: string
+                                    tolerationSeconds:
+                                      description: |-
+                                        (Number) TolerationSeconds represents the period of time the toleration tolerates the taint.
+                                        TolerationSeconds represents the period of time the toleration tolerates the taint.
+                                      type: number
+                                    value:
+                                      description: |-
+                                        (String) The taint value the toleration matches to.
+                                        The taint value the toleration matches to.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        logWatcherImage:
+                          description: |-
+                            (String) Docker image for the log watcher.
+                            Docker image for the log watcher.
+                          type: string
+                        mtls:
+                          description: |-
+                            (Block List) mTLS configuration. (see below for nested schema)
+                            mTLS configuration.
+                          items:
+                            properties:
+                              certPath:
+                                description: |-
+                                  (String) Path to the certificate file.
+                                  Path to the certificate file.
+                                type: string
+                              keyPath:
+                                description: |-
+                                  (String) Path to the key file.
+                                  Path to the key file.
+                                type: string
+                              secretName:
+                                description: |-
+                                  (String) Name of the Kubernetes secret containing the certificate and key.
+                                  Name of the Kubernetes secret containing the certificate and key.
+                                type: string
+                              url:
+                                description: |-
+                                  (String) URL of the mTLS server.
+                                  URL of the mTLS server.
+                                type: string
+                            type: object
+                          type: array
+                        proxy:
+                          description: |-
+                            (Block List) Proxy configuration. (see below for nested schema)
+                            Proxy configuration.
+                          items:
+                            properties:
+                              httpProxy:
+                                description: |-
+                                  (String) HTTP proxy URL.
+                                  HTTP proxy URL.
+                                type: string
+                              httpsProxy:
+                                description: |-
+                                  (String) HTTPS proxy URL.
+                                  HTTPS proxy URL.
+                                type: string
+                              noProxy:
+                                description: |-
+                                  separated list of hosts that should not use the proxy.
+                                  Comma-separated list of hosts that should not use the proxy.
+                                type: string
+                              url:
+                                description: |-
+                                  (String) URL of the mTLS server.
+                                  Proxy server URL.
+                                type: string
+                            type: object
+                          type: array
+                        skipSecureVerify:
+                          description: |-
+                            (Boolean) Whether to skip TLS verification.
+                            Whether to skip TLS verification.
+                          type: boolean
+                      type: object
+                    type: array
+                  correlationId:
+                    description: |-
+                      (String) Correlation ID for the agent.
+                      Correlation ID for the agent.
+                    type: string
+                  createdAt:
+                    description: |-
+                      (String) Timestamp when the agent was created.
+                      Timestamp when the agent was created.
+                    type: string
+                  createdBy:
+                    description: |-
+                      (String) User who created the agent.
+                      User who created the agent.
+                    type: string
+                  description:
+                    description: |-
+                      (String) Description of the agent.
+                      Description of the agent.
+                    type: string
+                  environmentIdentifier:
+                    description: |-
+                      (String) The environment identifier of the agent. This is a required field.
+                      The environment identifier of the agent. This is a required field.
+                    type: string
+                  id:
+                    description: (String) The unique identifier of the agent.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) The unique identity of the agent.
+                      The unique identity of the agent.
+                    type: string
+                  infraIdentifier:
+                    description: |-
+                      (String) The infrastructure identifier of the agent. This is a required field.
+                      The infrastructure identifier of the agent. This is a required field.
+                    type: string
+                  installationDetails:
+                    description: |-
+                      (List of Object) Installation details of the agent. (see below for nested schema)
+                      Installation details of the agent.
+                    items:
+                      properties:
+                        accountIdentifier:
+                          description: (String)
+                          type: string
+                        agentDetails:
+                          description: (List of Object) (see below for nested schema)
+                          items:
+                            properties:
+                              cluster:
+                                description: (List of Object) (see below for nested
+                                  schema)
+                                items:
+                                  properties:
+                                    name:
+                                      description: (String) The name of the agent.
+                                        This is a required field.
+                                      type: string
+                                    namespace:
+                                      description: (String) Kubernetes namespace to
+                                        use
+                                      type: string
+                                    status:
+                                      description: (String)
+                                      type: string
+                                    uid:
+                                      description: (String)
+                                      type: string
+                                  type: object
+                                type: array
+                              status:
+                                description: (String)
+                                type: string
+                            type: object
+                          type: array
+                        agentId:
+                          description: (String)
+                          type: string
+                        createdAt:
+                          description: (String) Timestamp when the agent was created.
+                          type: string
+                        createdBy:
+                          description: (String) User who created the agent.
+                          type: string
+                        delegateId:
+                          description: (String)
+                          type: string
+                        delegateTaskId:
+                          description: (String)
+                          type: string
+                        delegateTaskStatus:
+                          description: (String)
+                          type: string
+                        environmentIdentifier:
+                          description: (String) The environment identifier of the
+                            agent. This is a required field.
+                          type: string
+                        id:
+                          description: (String) The unique identifier of the agent.
+                          type: string
+                        isCronTriggered:
+                          description: (Boolean)
+                          type: boolean
+                        logStreamCreatedAt:
+                          description: (String)
+                          type: string
+                        logStreamId:
+                          description: (String)
+                          type: string
+                        organizationIdentifier:
+                          description: (String)
+                          type: string
+                        projectIdentifier:
+                          description: 64 characters and contain only alphanumeric
+                            characters, hyphens, or underscores.
+                          type: string
+                        removed:
+                          description: (Boolean) Whether the agent has been removed.
+                          type: boolean
+                        stopped:
+                          description: (Boolean)
+                          type: boolean
+                        updatedAt:
+                          description: (String) Timestamp when the agent was last
+                            updated.
+                          type: string
+                        updatedBy:
+                          description: (String) User who last updated the agent.
+                          type: string
+                      type: object
+                    type: array
+                  installationType:
+                    description: |-
+                      (String) Type of installation for the agent.
+                      Type of installation for the agent.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the agent. This is a required field.
+                      The name of the agent. This is a required field.
+                    type: string
+                  networkMapCount:
+                    description: |-
+                      (Number) Number of network maps associated with this agent.
+                      Number of network maps associated with this agent.
+                    type: number
+                  orgIdentifier:
+                    description: |-
+                      64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                      The organization identifier of the agent. Must be 1-64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                    type: string
+                  permanentInstallation:
+                    description: |-
+                      (Boolean) Whether this is a permanent installation.
+                      Whether this is a permanent installation.
+                    type: boolean
+                  projectIdentifier:
+                    description: |-
+                      64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                      The project identifier of the agent. Must be 1-64 characters and contain only alphanumeric characters, hyphens, or underscores.
+                    type: string
+                  removed:
+                    description: |-
+                      (Boolean) Whether the agent has been removed.
+                      Whether the agent has been removed.
+                    type: boolean
+                  removedAt:
+                    description: |-
+                      (String) Timestamp when the agent was removed.
+                      Timestamp when the agent was removed.
+                    type: string
+                  serviceCount:
+                    description: |-
+                      (Number) Number of services managed by this agent.
+                      Number of services managed by this agent.
+                    type: number
+                  tags:
+                    description: |-
+                      (List of String) List of resource tags for the agent.
+                      List of resource tags for the agent.
+                    items:
+                      type: string
+                    type: array
+                  updatedAt:
+                    description: |-
+                      (String) Timestamp when the agent was last updated.
+                      Timestamp when the agent was last updated.
+                    type: string
+                  updatedBy:
+                    description: |-
+                      (String) User who last updated the agent.
+                      User who last updated the agent.
+                    type: string
+                  webhookUrl:
+                    description: |-
+                      (String) Webhook URL for the agent.
+                      Webhook URL for the agent.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

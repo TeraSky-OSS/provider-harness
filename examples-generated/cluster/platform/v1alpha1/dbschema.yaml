@@ -1,0 +1,27 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: DbSchema
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/dbschema
+  labels:
+    testing.upbound.io/example-name: default_type_test
+  name: default-type-test
+spec:
+  forProvider:
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    schemaSource:
+    - archivePath: path/to/archive.zip
+      connector: gitConnector
+      location: db/example-changelog.yaml
+      repo: TestRepo
+    service: service1
+    tags:
+    - foo:bar
+    - bar:foo

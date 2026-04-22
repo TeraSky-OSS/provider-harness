@@ -1,0 +1,24 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: FfApiKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/ffapikey
+  labels:
+    testing.upbound.io/example-name: testserverapikey
+  name: testserverapikey
+spec:
+  forProvider:
+    description: this is a server SDK key
+    envIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    expiredAt: 1713729225
+    identifier: testserver
+    name: TestServer
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: Server

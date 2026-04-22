@@ -1,0 +1,51 @@
+apiVersion: autostopping.harness.m.crossplane.io/v1alpha1
+kind: RuleVm
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/rulevm
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cloudConnectorId: cloud_connector_id
+    depends:
+    - delayInSec: 5
+      ruleId: 24576
+    dryRun: true
+    filter:
+    - regions:
+      - useast2
+      vmIds:
+      - /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Compute/virtualMachines/virtual_machine
+    http:
+    - health:
+      - path: /
+        port: 80
+        protocol: http
+        statusCodeFrom: 200
+        statusCodeTo: 299
+        timeout: 30
+      proxyId: proxy_id
+      routing:
+      - action: forward
+        sourcePort: 443
+        sourceProtocol: https
+        targetPort: 443
+        targetProtocol: https
+      - action: forward
+        sourcePort: 80
+        sourceProtocol: http
+        targetPort: 80
+        targetProtocol: http
+    idleTimeMins: 10
+    name: name
+    tcp:
+    - forwardRule:
+      - port: 2233
+      proxyId: proxy_id
+      rdp:
+      - port: 3389
+      ssh:
+      - port: 22

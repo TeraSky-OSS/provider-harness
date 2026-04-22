@@ -1,0 +1,23 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: AppDynamics
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/appdynamics
+  labels:
+    testing.upbound.io/example-name: token
+  name: token
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountName: myaccount
+    apiToken:
+    - clientId: client_id
+      clientSecretRef: account.secret_id
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://appdynamics.com/

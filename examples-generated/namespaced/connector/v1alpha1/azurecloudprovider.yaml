@@ -1,0 +1,28 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: AzureCloudProvider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/azurecloudprovider
+  labels:
+    testing.upbound.io/example-name: manual_config_secret
+  name: manual-config-secret
+  namespace: crossplane-system
+spec:
+  forProvider:
+    azureEnvironmentType: AZURE
+    credentials:
+    - azureManualDetails:
+      - applicationId: application_id
+        auth:
+        - azureClientSecretKey:
+          - secretRef: account.${harness_platform_secret_text.test.id}
+          type: Secret
+        tenantId: tenant_id
+      type: ManualConfig
+    delegateSelectors:
+    - harness-delegate
+    description: example
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar

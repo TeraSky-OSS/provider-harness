@@ -1,0 +1,30 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/resourcegroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    allowedScopeLevels:
+    - account
+    description: test
+    identifier: identifier
+    includedScopes:
+    - accountId: account_id
+      filter: EXCLUDING_CHILD_SCOPES
+    name: name
+    resourceFilter:
+    - includeAllResources: false
+      resources:
+      - attributeFilter:
+        - attributeName: category
+          attributeValues:
+          - CLOUD_COST
+        resourceType: CONNECTOR
+    tags:
+    - foo:bar

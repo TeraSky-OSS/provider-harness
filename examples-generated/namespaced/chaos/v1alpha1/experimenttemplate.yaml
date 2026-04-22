@@ -1,0 +1,48 @@
+apiVersion: chaos.harness.m.crossplane.io/v1alpha1
+kind: ExperimentTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/experimenttemplate
+  labels:
+    testing.upbound.io/example-name: simple_fault
+  name: simple-fault
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Basic experiment with single pod delete fault
+    hubIdentity: account-chaos-hub
+    identity: simple-pod-delete
+    name: Simple Pod Delete Experiment
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    spec:
+    - cleanupPolicy: delete
+      faults:
+      - authEnabled: false
+        identity: pod-delete
+        isEnterprise: true
+        name: pod-delete-fault
+        revision: v1
+        values:
+        - name: TARGET_WORKLOAD_KIND
+          value: deployment
+        - name: TARGET_WORKLOAD_NAMESPACE
+          value: <+input>.default('default')
+        - name: TOTAL_CHAOS_DURATION
+          value: <+input>.default('30s')
+      infraType: KubernetesV2
+      vertices:
+      - end:
+        - {}
+        name: pod-delete-vertex
+        start:
+        - faults:
+          - name: pod-delete-fault
+    tags:
+    - kubernetes
+    - pod-delete
+    - simple

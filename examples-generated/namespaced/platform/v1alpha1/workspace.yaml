@@ -1,0 +1,64 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/workspace
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    costEstimationEnabled: true
+    defaultPipelines:
+      apply: apply_pipeline_id
+      destroy: destroy_pipeline_id
+      drift: drift_pipeline_id
+      plan: plan_pipeline_id
+    environmentVariable:
+    - key: key1
+      value: val1
+      valueType: string
+    - key: key2
+      value: val2
+      valueType: string
+    identifier: example
+    name: example
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    providerConnector: ${harness_platform_connector_github.test.id}
+    provisionerType: terraform
+    provisionerVersion: 1.5.6
+    repository: https://github.com/org/repo
+    repositoryBranch: main
+    repositoryConnector: ${harness_platform_connector_github.test.id}
+    repositoryPath: tf/aws/basic
+    tags:
+    - tag1
+    - tag2
+    terraformVariable:
+    - key: key1
+      value: val1
+      valueType: string
+    - key: key2
+      value: val2
+      valueType: string
+    terraformVariableFile:
+    - repository: https://github.com/org/repo
+      repositoryBranch: main
+      repositoryConnector: ${harness_platform_connector_github.test.id}
+      repositoryPath: tf/gcp/basic
+    - repository: https://github.com/org/repo
+      repositoryCommit: v1.0.0
+      repositoryConnector: ${harness_platform_connector_github.test.id}
+      repositoryPath: tf/aws/basic
+    - repository: https://github.com/org/repo
+      repositoryConnector: ${harness_platform_connector_github.test.id}
+      repositoryPath: tf/aws/basic
+      repositorySha: 349d90bb9c90f4a3482981c259080de31609e6f6
+    variableSets:
+    - ${harness_platform_infra_variable_set.test.id}

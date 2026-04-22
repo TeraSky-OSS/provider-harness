@@ -1,0 +1,891 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: orchestratorconfigs.cluster.harness.m.crossplane.io
+spec:
+  group: cluster.harness.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: OrchestratorConfig
+    listKind: OrchestratorConfigList
+    plural: orchestratorconfigs
+    singular: orchestratorconfig
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: OrchestratorConfig is the Schema for the OrchestratorConfigs
+          API. Resource for ClusterOrchestrator Config.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: OrchestratorConfigSpec defines the desired state of OrchestratorConfig
+            properties:
+              forProvider:
+                properties:
+                  binpacking:
+                    description: |-
+                      (Block List, Max: 1) Binpacking preferences for Cluster Orchestrator (see below for nested schema)
+                      Binpacking preferences for Cluster Orchestrator
+                    items:
+                      properties:
+                        disruption:
+                          description: |-
+                            (Block List, Max: 1) Harness disruption configuration (see below for nested schema)
+                            Harness disruption configuration
+                          items:
+                            properties:
+                              budget:
+                                description: |-
+                                  (Block List) Budgets for disruption (see below for nested schema)
+                                  Budgets for disruption
+                                items:
+                                  properties:
+                                    nodes:
+                                      description: |-
+                                        (String) Number or percentage of Nodes to consider for disruption
+                                        Number or percentage of Nodes to consider for disruption
+                                      type: string
+                                    reasons:
+                                      description: |-
+                                        (List of String) Reasons for disruption
+                                        Reasons for disruption
+                                      items:
+                                        type: string
+                                      type: array
+                                    schedule:
+                                      description: |-
+                                        (Block List, Max: 1) Schedule for disruption budget (see below for nested schema)
+                                        Schedule for disruption budget
+                                      items:
+                                        properties:
+                                          duration:
+                                            description: |-
+                                              (String) Duration for disruption budget
+                                              Duration for disruption budget
+                                            type: string
+                                          frequency:
+                                            description: |-
+                                              (String) Frequency for disruption budget
+                                              Frequency for disruption budget
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              criteria:
+                                description: |-
+                                  (String) Criteria for considering a nodes for disruption
+                                  Criteria for considering a nodes for disruption
+                                type: string
+                              delay:
+                                description: |-
+                                  (String) Deletion delay
+                                  Deletion delay
+                                type: string
+                            type: object
+                          type: array
+                        podEviction:
+                          description: |-
+                            (Block List, Max: 1) Harness Pod Evictor Configuration (see below for nested schema)
+                            Harness Pod Evictor Configuration
+                          items:
+                            properties:
+                              threshold:
+                                description: |-
+                                  (Block List, Min: 1, Max: 1) Minimum Threshold for considering a node as underutilized (see below for nested schema)
+                                  Minimum Threshold for considering a node as underutilized
+                                items:
+                                  properties:
+                                    cpu:
+                                      description: |-
+                                        (Number) CPU percentage for considering a node as underutilized
+                                        CPU percentage for considering a node as underutilized
+                                      type: number
+                                    memory:
+                                      description: |-
+                                        (Number) Memory percentage for considering a node as underutilized
+                                        Memory percentage for considering a node as underutilized
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  commitmentIntegration:
+                    description: |-
+                      (Block List, Max: 1) Commitment integration configuration for Cluster Orchestrator (see below for nested schema)
+                      Commitment integration configuration for Cluster Orchestrator
+                    items:
+                      properties:
+                        enabled:
+                          description: |-
+                            (Boolean) Flag to enable Commitment Integration
+                            Flag to enable Commitment Integration
+                          type: boolean
+                        masterAccountId:
+                          description: |-
+                            (String) Master AWS account id for commitment integration
+                            Master AWS account id for commitment integration
+                          type: string
+                      type: object
+                    type: array
+                  disabled:
+                    description: |-
+                      (Boolean) Whether the cluster orchestrator is disabled
+                      Whether the cluster orchestrator is disabled
+                    type: boolean
+                  distribution:
+                    description: |-
+                      (Block List, Min: 1, Max: 1) Spot and Ondemand Distribution Preferences for workload replicas (see below for nested schema)
+                      Spot and Ondemand Distribution Preferences for workload replicas
+                    items:
+                      properties:
+                        baseOndemandCapacity:
+                          description: |-
+                            (Number) Number of minimum ondemand replicas required for workloads
+                            Number of minimum ondemand replicas required for workloads
+                          type: number
+                        ondemandReplicaPercentage:
+                          description: |-
+                            demand replicas required for workloads
+                            Percentage of on-demand replicas required for workloads
+                          type: number
+                        selector:
+                          description: |-
+                            (String) Selector for choosing workloads for distribution
+                            Selector for choosing workloads for distribution
+                          type: string
+                        strategy:
+                          description: |-
+                            (String) Strategy for choosing spot nodes for cluster
+                            Strategy for choosing spot nodes for cluster
+                          type: string
+                      type: object
+                    type: array
+                  nodePreferences:
+                    description: |-
+                      (Block List, Max: 1) Node preferences for Cluster Orchestrator (see below for nested schema)
+                      Node preferences for Cluster Orchestrator
+                    items:
+                      properties:
+                        reverseFallbackInterval:
+                          description: |-
+                            (String) Reverse fallback interval
+                            Reverse fallback interval
+                          type: string
+                        ttl:
+                          description: |-
+                            (String) TTL for nodes
+                            TTL for nodes
+                          type: string
+                      type: object
+                    type: array
+                  orchestratorId:
+                    description: |-
+                      (String) ID of the Cluster Orchestrator Object
+                      ID of the Cluster Orchestrator Object
+                    type: string
+                  replacementSchedule:
+                    description: |-
+                      (Block List, Max: 1) Replacement schedule for Cluster Orchestrator (see below for nested schema)
+                      Replacement schedule for Cluster Orchestrator
+                    items:
+                      properties:
+                        appliesTo:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) Defines the scope of the replacement schedule (see below for nested schema)
+                            Defines the scope of the replacement schedule
+                          items:
+                            properties:
+                              consolidation:
+                                description: (Boolean)
+                                type: boolean
+                              harnessPodEviction:
+                                description: (Boolean)
+                                type: boolean
+                              reverseFallback:
+                                description: (Boolean)
+                                type: boolean
+                            type: object
+                          type: array
+                        windowDetails:
+                          description: '(Block List, Max: 1) (see below for nested
+                            schema)'
+                          items:
+                            properties:
+                              allDay:
+                                description: (Boolean)
+                                type: boolean
+                              days:
+                                description: |-
+                                  (List of String) List of days on which schedule need to be active. Valid values are SUN, MON, TUE, WED, THU, FRI and SAT.
+                                  List of days on which schedule need to be active. Valid values are SUN, MON, TUE, WED, THU, FRI and SAT.
+                                items:
+                                  type: string
+                                type: array
+                              endTime:
+                                description: |-
+                                  (String) End time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                  End time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                type: string
+                              startTime:
+                                description: |-
+                                  (String) Start time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                  Start time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                type: string
+                              timeZone:
+                                description: |-
+                                  (String) Time zone in which the schedule needs to be executed. Example Valid values: UTC, America/New_York, Europe/London, Asia/Kolkata, Asia/Tokyo, Asia/Hong_Kong, Asia/Singapore, Australia/Melbourne and Australia/Sydney.
+                                  Time zone in which the schedule needs to be executed. Example Valid values: UTC, America/New_York, Europe/London, Asia/Kolkata, Asia/Tokyo, Asia/Hong_Kong, Asia/Singapore, Australia/Melbourne and Australia/Sydney.
+                                type: string
+                            type: object
+                          type: array
+                        windowType:
+                          description: |-
+                            (String) Window type for replacement schedule
+                            Window type for replacement schedule
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  binpacking:
+                    description: |-
+                      (Block List, Max: 1) Binpacking preferences for Cluster Orchestrator (see below for nested schema)
+                      Binpacking preferences for Cluster Orchestrator
+                    items:
+                      properties:
+                        disruption:
+                          description: |-
+                            (Block List, Max: 1) Harness disruption configuration (see below for nested schema)
+                            Harness disruption configuration
+                          items:
+                            properties:
+                              budget:
+                                description: |-
+                                  (Block List) Budgets for disruption (see below for nested schema)
+                                  Budgets for disruption
+                                items:
+                                  properties:
+                                    nodes:
+                                      description: |-
+                                        (String) Number or percentage of Nodes to consider for disruption
+                                        Number or percentage of Nodes to consider for disruption
+                                      type: string
+                                    reasons:
+                                      description: |-
+                                        (List of String) Reasons for disruption
+                                        Reasons for disruption
+                                      items:
+                                        type: string
+                                      type: array
+                                    schedule:
+                                      description: |-
+                                        (Block List, Max: 1) Schedule for disruption budget (see below for nested schema)
+                                        Schedule for disruption budget
+                                      items:
+                                        properties:
+                                          duration:
+                                            description: |-
+                                              (String) Duration for disruption budget
+                                              Duration for disruption budget
+                                            type: string
+                                          frequency:
+                                            description: |-
+                                              (String) Frequency for disruption budget
+                                              Frequency for disruption budget
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              criteria:
+                                description: |-
+                                  (String) Criteria for considering a nodes for disruption
+                                  Criteria for considering a nodes for disruption
+                                type: string
+                              delay:
+                                description: |-
+                                  (String) Deletion delay
+                                  Deletion delay
+                                type: string
+                            type: object
+                          type: array
+                        podEviction:
+                          description: |-
+                            (Block List, Max: 1) Harness Pod Evictor Configuration (see below for nested schema)
+                            Harness Pod Evictor Configuration
+                          items:
+                            properties:
+                              threshold:
+                                description: |-
+                                  (Block List, Min: 1, Max: 1) Minimum Threshold for considering a node as underutilized (see below for nested schema)
+                                  Minimum Threshold for considering a node as underutilized
+                                items:
+                                  properties:
+                                    cpu:
+                                      description: |-
+                                        (Number) CPU percentage for considering a node as underutilized
+                                        CPU percentage for considering a node as underutilized
+                                      type: number
+                                    memory:
+                                      description: |-
+                                        (Number) Memory percentage for considering a node as underutilized
+                                        Memory percentage for considering a node as underutilized
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  commitmentIntegration:
+                    description: |-
+                      (Block List, Max: 1) Commitment integration configuration for Cluster Orchestrator (see below for nested schema)
+                      Commitment integration configuration for Cluster Orchestrator
+                    items:
+                      properties:
+                        enabled:
+                          description: |-
+                            (Boolean) Flag to enable Commitment Integration
+                            Flag to enable Commitment Integration
+                          type: boolean
+                        masterAccountId:
+                          description: |-
+                            (String) Master AWS account id for commitment integration
+                            Master AWS account id for commitment integration
+                          type: string
+                      type: object
+                    type: array
+                  disabled:
+                    description: |-
+                      (Boolean) Whether the cluster orchestrator is disabled
+                      Whether the cluster orchestrator is disabled
+                    type: boolean
+                  distribution:
+                    description: |-
+                      (Block List, Min: 1, Max: 1) Spot and Ondemand Distribution Preferences for workload replicas (see below for nested schema)
+                      Spot and Ondemand Distribution Preferences for workload replicas
+                    items:
+                      properties:
+                        baseOndemandCapacity:
+                          description: |-
+                            (Number) Number of minimum ondemand replicas required for workloads
+                            Number of minimum ondemand replicas required for workloads
+                          type: number
+                        ondemandReplicaPercentage:
+                          description: |-
+                            demand replicas required for workloads
+                            Percentage of on-demand replicas required for workloads
+                          type: number
+                        selector:
+                          description: |-
+                            (String) Selector for choosing workloads for distribution
+                            Selector for choosing workloads for distribution
+                          type: string
+                        strategy:
+                          description: |-
+                            (String) Strategy for choosing spot nodes for cluster
+                            Strategy for choosing spot nodes for cluster
+                          type: string
+                      type: object
+                    type: array
+                  nodePreferences:
+                    description: |-
+                      (Block List, Max: 1) Node preferences for Cluster Orchestrator (see below for nested schema)
+                      Node preferences for Cluster Orchestrator
+                    items:
+                      properties:
+                        reverseFallbackInterval:
+                          description: |-
+                            (String) Reverse fallback interval
+                            Reverse fallback interval
+                          type: string
+                        ttl:
+                          description: |-
+                            (String) TTL for nodes
+                            TTL for nodes
+                          type: string
+                      type: object
+                    type: array
+                  orchestratorId:
+                    description: |-
+                      (String) ID of the Cluster Orchestrator Object
+                      ID of the Cluster Orchestrator Object
+                    type: string
+                  replacementSchedule:
+                    description: |-
+                      (Block List, Max: 1) Replacement schedule for Cluster Orchestrator (see below for nested schema)
+                      Replacement schedule for Cluster Orchestrator
+                    items:
+                      properties:
+                        appliesTo:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) Defines the scope of the replacement schedule (see below for nested schema)
+                            Defines the scope of the replacement schedule
+                          items:
+                            properties:
+                              consolidation:
+                                description: (Boolean)
+                                type: boolean
+                              harnessPodEviction:
+                                description: (Boolean)
+                                type: boolean
+                              reverseFallback:
+                                description: (Boolean)
+                                type: boolean
+                            type: object
+                          type: array
+                        windowDetails:
+                          description: '(Block List, Max: 1) (see below for nested
+                            schema)'
+                          items:
+                            properties:
+                              allDay:
+                                description: (Boolean)
+                                type: boolean
+                              days:
+                                description: |-
+                                  (List of String) List of days on which schedule need to be active. Valid values are SUN, MON, TUE, WED, THU, FRI and SAT.
+                                  List of days on which schedule need to be active. Valid values are SUN, MON, TUE, WED, THU, FRI and SAT.
+                                items:
+                                  type: string
+                                type: array
+                              endTime:
+                                description: |-
+                                  (String) End time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                  End time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                type: string
+                              startTime:
+                                description: |-
+                                  (String) Start time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                  Start time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                type: string
+                              timeZone:
+                                description: |-
+                                  (String) Time zone in which the schedule needs to be executed. Example Valid values: UTC, America/New_York, Europe/London, Asia/Kolkata, Asia/Tokyo, Asia/Hong_Kong, Asia/Singapore, Australia/Melbourne and Australia/Sydney.
+                                  Time zone in which the schedule needs to be executed. Example Valid values: UTC, America/New_York, Europe/London, Asia/Kolkata, Asia/Tokyo, Asia/Hong_Kong, Asia/Singapore, Australia/Melbourne and Australia/Sydney.
+                                type: string
+                            type: object
+                          type: array
+                        windowType:
+                          description: |-
+                            (String) Window type for replacement schedule
+                            Window type for replacement schedule
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.distribution is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.distribution)
+                || (has(self.initProvider) && has(self.initProvider.distribution))'
+            - message: spec.forProvider.orchestratorId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.orchestratorId)
+                || (has(self.initProvider) && has(self.initProvider.orchestratorId))'
+          status:
+            description: OrchestratorConfigStatus defines the observed state of OrchestratorConfig.
+            properties:
+              atProvider:
+                properties:
+                  binpacking:
+                    description: |-
+                      (Block List, Max: 1) Binpacking preferences for Cluster Orchestrator (see below for nested schema)
+                      Binpacking preferences for Cluster Orchestrator
+                    items:
+                      properties:
+                        disruption:
+                          description: |-
+                            (Block List, Max: 1) Harness disruption configuration (see below for nested schema)
+                            Harness disruption configuration
+                          items:
+                            properties:
+                              budget:
+                                description: |-
+                                  (Block List) Budgets for disruption (see below for nested schema)
+                                  Budgets for disruption
+                                items:
+                                  properties:
+                                    nodes:
+                                      description: |-
+                                        (String) Number or percentage of Nodes to consider for disruption
+                                        Number or percentage of Nodes to consider for disruption
+                                      type: string
+                                    reasons:
+                                      description: |-
+                                        (List of String) Reasons for disruption
+                                        Reasons for disruption
+                                      items:
+                                        type: string
+                                      type: array
+                                    schedule:
+                                      description: |-
+                                        (Block List, Max: 1) Schedule for disruption budget (see below for nested schema)
+                                        Schedule for disruption budget
+                                      items:
+                                        properties:
+                                          duration:
+                                            description: |-
+                                              (String) Duration for disruption budget
+                                              Duration for disruption budget
+                                            type: string
+                                          frequency:
+                                            description: |-
+                                              (String) Frequency for disruption budget
+                                              Frequency for disruption budget
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              criteria:
+                                description: |-
+                                  (String) Criteria for considering a nodes for disruption
+                                  Criteria for considering a nodes for disruption
+                                type: string
+                              delay:
+                                description: |-
+                                  (String) Deletion delay
+                                  Deletion delay
+                                type: string
+                            type: object
+                          type: array
+                        podEviction:
+                          description: |-
+                            (Block List, Max: 1) Harness Pod Evictor Configuration (see below for nested schema)
+                            Harness Pod Evictor Configuration
+                          items:
+                            properties:
+                              threshold:
+                                description: |-
+                                  (Block List, Min: 1, Max: 1) Minimum Threshold for considering a node as underutilized (see below for nested schema)
+                                  Minimum Threshold for considering a node as underutilized
+                                items:
+                                  properties:
+                                    cpu:
+                                      description: |-
+                                        (Number) CPU percentage for considering a node as underutilized
+                                        CPU percentage for considering a node as underutilized
+                                      type: number
+                                    memory:
+                                      description: |-
+                                        (Number) Memory percentage for considering a node as underutilized
+                                        Memory percentage for considering a node as underutilized
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  commitmentIntegration:
+                    description: |-
+                      (Block List, Max: 1) Commitment integration configuration for Cluster Orchestrator (see below for nested schema)
+                      Commitment integration configuration for Cluster Orchestrator
+                    items:
+                      properties:
+                        enabled:
+                          description: |-
+                            (Boolean) Flag to enable Commitment Integration
+                            Flag to enable Commitment Integration
+                          type: boolean
+                        masterAccountId:
+                          description: |-
+                            (String) Master AWS account id for commitment integration
+                            Master AWS account id for commitment integration
+                          type: string
+                      type: object
+                    type: array
+                  disabled:
+                    description: |-
+                      (Boolean) Whether the cluster orchestrator is disabled
+                      Whether the cluster orchestrator is disabled
+                    type: boolean
+                  distribution:
+                    description: |-
+                      (Block List, Min: 1, Max: 1) Spot and Ondemand Distribution Preferences for workload replicas (see below for nested schema)
+                      Spot and Ondemand Distribution Preferences for workload replicas
+                    items:
+                      properties:
+                        baseOndemandCapacity:
+                          description: |-
+                            (Number) Number of minimum ondemand replicas required for workloads
+                            Number of minimum ondemand replicas required for workloads
+                          type: number
+                        ondemandReplicaPercentage:
+                          description: |-
+                            demand replicas required for workloads
+                            Percentage of on-demand replicas required for workloads
+                          type: number
+                        selector:
+                          description: |-
+                            (String) Selector for choosing workloads for distribution
+                            Selector for choosing workloads for distribution
+                          type: string
+                        strategy:
+                          description: |-
+                            (String) Strategy for choosing spot nodes for cluster
+                            Strategy for choosing spot nodes for cluster
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  nodePreferences:
+                    description: |-
+                      (Block List, Max: 1) Node preferences for Cluster Orchestrator (see below for nested schema)
+                      Node preferences for Cluster Orchestrator
+                    items:
+                      properties:
+                        reverseFallbackInterval:
+                          description: |-
+                            (String) Reverse fallback interval
+                            Reverse fallback interval
+                          type: string
+                        ttl:
+                          description: |-
+                            (String) TTL for nodes
+                            TTL for nodes
+                          type: string
+                      type: object
+                    type: array
+                  orchestratorId:
+                    description: |-
+                      (String) ID of the Cluster Orchestrator Object
+                      ID of the Cluster Orchestrator Object
+                    type: string
+                  replacementSchedule:
+                    description: |-
+                      (Block List, Max: 1) Replacement schedule for Cluster Orchestrator (see below for nested schema)
+                      Replacement schedule for Cluster Orchestrator
+                    items:
+                      properties:
+                        appliesTo:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) Defines the scope of the replacement schedule (see below for nested schema)
+                            Defines the scope of the replacement schedule
+                          items:
+                            properties:
+                              consolidation:
+                                description: (Boolean)
+                                type: boolean
+                              harnessPodEviction:
+                                description: (Boolean)
+                                type: boolean
+                              reverseFallback:
+                                description: (Boolean)
+                                type: boolean
+                            type: object
+                          type: array
+                        windowDetails:
+                          description: '(Block List, Max: 1) (see below for nested
+                            schema)'
+                          items:
+                            properties:
+                              allDay:
+                                description: (Boolean)
+                                type: boolean
+                              days:
+                                description: |-
+                                  (List of String) List of days on which schedule need to be active. Valid values are SUN, MON, TUE, WED, THU, FRI and SAT.
+                                  List of days on which schedule need to be active. Valid values are SUN, MON, TUE, WED, THU, FRI and SAT.
+                                items:
+                                  type: string
+                                type: array
+                              endTime:
+                                description: |-
+                                  (String) End time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                  End time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                type: string
+                              startTime:
+                                description: |-
+                                  (String) Start time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                  Start time of schedule in the format HH:MM. Eg : 13:15 for 01:15pm
+                                type: string
+                              timeZone:
+                                description: |-
+                                  (String) Time zone in which the schedule needs to be executed. Example Valid values: UTC, America/New_York, Europe/London, Asia/Kolkata, Asia/Tokyo, Asia/Hong_Kong, Asia/Singapore, Australia/Melbourne and Australia/Sydney.
+                                  Time zone in which the schedule needs to be executed. Example Valid values: UTC, America/New_York, Europe/London, Asia/Kolkata, Asia/Tokyo, Asia/Hong_Kong, Asia/Singapore, Australia/Melbourne and Australia/Sydney.
+                                type: string
+                            type: object
+                          type: array
+                        windowType:
+                          description: |-
+                            (String) Window type for replacement schedule
+                            Window type for replacement schedule
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

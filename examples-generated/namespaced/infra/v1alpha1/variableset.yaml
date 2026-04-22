@@ -1,0 +1,48 @@
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: VariableSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/variableset
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    connector:
+    - connectorRef: harness_platform_connector_aws.test.id
+      type: aws
+    - connectorRef: harness_platform_connector_azure.test.id
+      type: azure
+    description: some description
+    environmentVariable:
+    - key: key1
+      value: value1
+      valueType: string
+    - key: key2
+      value: harness_platform_secret_text.test.id
+      valueType: secret
+    identifier: example
+    name: example
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    terraformVariable:
+    - key: key1
+      value: "1111"
+      valueType: string
+    - key: key2
+      value: 1111u
+      valueType: string
+    terraformVariableFile:
+    - repository: https://github.com/org/repo
+      repositoryBranch: main
+      repositoryConnector: harness_platform_connector_github.test.id
+      repositoryPath: tf/aws/basic
+    - repository: https://github.com/org/repo
+      repositoryBranch: br2
+      repositoryConnector: harness_platform_connector_github.test.id
+      repositoryPath: tf/aws/basic

@@ -1,0 +1,28 @@
+apiVersion: gitops.harness.m.crossplane.io/v1alpha1
+kind: RepoCred
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/repocred
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    creds:
+    - sshPrivateKeySecretRef:
+        key: example-key
+        name: example-secret
+      type: git
+      url: git@github.com:yourorg
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

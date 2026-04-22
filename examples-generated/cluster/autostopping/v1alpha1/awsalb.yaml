@@ -1,0 +1,19 @@
+apiVersion: autostopping.harness.crossplane.io/v1alpha1
+kind: AwsAlb
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/awsalb
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    cloudConnectorId: cloud_connector_id
+    deleteCloudResourcesOnDestroy: true
+    host_name: host_name
+    name: name
+    region: region
+    securityGroups:
+    - sg1
+    - sg2
+    vpc: vpc

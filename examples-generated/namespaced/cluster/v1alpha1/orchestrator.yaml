@@ -1,0 +1,15 @@
+apiVersion: cluster.harness.m.crossplane.io/v1alpha1
+kind: Orchestrator
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/orchestrator
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterEndpoint: http://test.test.com
+    k8sConnectorId: test
+    name: name
+    region: ${data.aws_region.current.name}

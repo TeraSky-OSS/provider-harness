@@ -1,0 +1,17 @@
+apiVersion: service.harness.crossplane.io/v1alpha1
+kind: DiscoverySetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/discoverysetting
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    imageRegistry:
+    - account: <account_name>
+      secrets:
+      - <secret_name>
+      server: <registry_server>
+    orgIdentifier: sechaosworkshop
+    projectIdentifier: se1

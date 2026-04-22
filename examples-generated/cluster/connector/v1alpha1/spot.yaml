@@ -1,0 +1,20 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Spot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/spot
+  labels:
+    testing.upbound.io/example-name: spot
+  name: spot
+spec:
+  forProvider:
+    description: description of spot connector
+    identifier: example_spot_cloud_provider
+    name: Example spot cloud provider
+    permanentToken:
+    - apiTokenRef: account.TEST_spot_api_token
+      delegateSelectors:
+      - harness-delegate
+      spotAccountId: <my-account-id>
+    tags:
+    - foo:bar

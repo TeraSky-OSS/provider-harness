@@ -1,0 +1,21 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: TerraformCloud
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/terraformcloud
+  labels:
+    testing.upbound.io/example-name: terraform_cloud
+  name: terraform-cloud
+spec:
+  forProvider:
+    credentials:
+    - apiToken:
+      - apiTokenRef: account.TEST_terraform_cloud_api_token
+    delegateSelectors:
+    - harness-delegate
+    description: description of terraform cloud connector
+    identifier: example_terraform_cloud_connector
+    name: Example terraform cloud connector
+    tags:
+    - foo:bar
+    url: https://app.terraform.io/

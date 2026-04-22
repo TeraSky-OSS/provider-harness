@@ -1,0 +1,26 @@
+apiVersion: governance.harness.crossplane.io/v1alpha1
+kind: RuleEnforcement
+metadata:
+  annotations:
+    meta.upbound.io/example-id: governance/v1alpha1/ruleenforcement
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cloudProvider: AWS/AZURE/GCP
+    description: description
+    executionSchedule: 0 0 * * * *
+    executionTimezone: UTC
+    identifier: identifier
+    isDryRun: false
+    isEnabled: true
+    name: name
+    ruleIds:
+    - rule_id1
+    ruleSetIds:
+    - rule_set_id1
+    targetAccounts:
+    - awsAccountId/azureSubscriptionId/gcpProjectId
+    targetRegions:
+    - us-east-1/eastus

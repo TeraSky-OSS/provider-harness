@@ -1,0 +1,28 @@
+apiVersion: autostopping.harness.m.crossplane.io/v1alpha1
+kind: GcpProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/gcpproxy
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    allocateStaticIp: false
+    apiKeySecretRef:
+      key: example-key
+      name: example-secret
+    certificates:
+    - certSecretId: projects/project_id/secrets/secret_id/versions/1
+      keySecretId: projects/project_id/secrets/secret_id/versions/1
+    cloudConnectorId: cloud_connector_id
+    deleteCloudResourcesOnDestroy: false
+    machineType: e2-micro
+    name: name
+    region: region
+    securityGroups:
+    - http-server
+    subnetId: https://www.googleapis.com/compute/v1/projects/project_id/regions/region/subnetworks/subnet_name
+    vpc: https://www.googleapis.com/compute/v1/projects/project_id/global/networks/netwok_id
+    zone: zone

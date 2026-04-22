@@ -1,0 +1,22 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: AzureKeyVault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/azurekeyvault
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    azureEnvironmentType: AZURE
+    clientId: client_id
+    description: example
+    identifier: identifier
+    isDefault: false
+    name: name
+    secretKey: account.secret_key
+    subscription: subscription
+    tags:
+    - foo:bar
+    tenantId: tenant_id
+    vaultName: vault_name

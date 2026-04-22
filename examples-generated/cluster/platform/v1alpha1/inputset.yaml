@@ -1,0 +1,37 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: InputSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/inputset
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    pipelineIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - foo:bar
+    yaml: |
+      inputSet:
+        identifier: "identifier"
+        name: "name"
+        tags:
+          foo: "bar"
+        orgIdentifier: "org_id"
+        projectIdentifier: "project_id"
+        pipeline:
+          identifier: "pipeline_id"
+          variables:
+          - name: "key"
+            type: "String"
+            value: "value"

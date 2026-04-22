@@ -1,0 +1,19 @@
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/encryptedtext
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-secret
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    usageScope:
+    - environmentFilterType: PRODUCTION_ENVIRONMENTS
+    - environmentFilterType: NON_PRODUCTION_ENVIRONMENTS
+    valueSecretRef:
+      key: example-key
+      name: example-secret

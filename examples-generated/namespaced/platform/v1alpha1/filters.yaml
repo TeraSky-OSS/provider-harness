@@ -1,0 +1,25 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Filters
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/filters
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    filterProperties:
+    - filterType: Connector
+      tags:
+      - foo:bar
+    filterVisibility: EveryOne
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: Connector

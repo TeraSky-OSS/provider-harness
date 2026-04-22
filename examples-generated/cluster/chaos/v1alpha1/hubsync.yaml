@@ -1,0 +1,17 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: HubSync
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/hubsync
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    hubId: <hub_id>
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

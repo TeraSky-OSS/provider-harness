@@ -1,0 +1,20 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Roles
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/roles
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    allowedScopeLevels:
+    - account
+    description: test
+    identifier: identifier
+    name: name
+    permissions:
+    - core_resourcegroup_view
+    tags:
+    - foo:bar

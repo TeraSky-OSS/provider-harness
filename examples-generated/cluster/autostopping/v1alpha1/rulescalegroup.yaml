@@ -1,0 +1,38 @@
+apiVersion: autostopping.harness.crossplane.io/v1alpha1
+kind: RuleScaleGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/rulescalegroup
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    cloudConnectorId: test-connector
+    customDomains:
+    - app.example.com
+    http:
+    - health:
+      - path: /
+        port: 80
+        protocol: http
+        statusCodeFrom: 200
+        statusCodeTo: 299
+        timeout: 30
+      proxyId: lb-id
+      routing:
+      - action: forward
+        sourcePort: 80
+        sourceProtocol: http
+        targetPort: 80
+        targetProtocol: http
+    idleTimeMins: 5
+    name: test
+    scaleGroup:
+    - desired: 1
+      id: asg-arn
+      max: 2
+      min: 1
+      name: asg-name
+      onDemand: 1
+      region: us-east-1

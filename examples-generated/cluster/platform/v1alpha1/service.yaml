@@ -1,0 +1,65 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: Service
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/service
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: test
+    gitDetails:
+    - branch_name: branchName
+      commitMessage: commitMessage
+      connectorRef: connectorRef
+      filePath: filePath
+      repoName: repoName
+      storeType: REMOTE
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    yaml: |
+      service:
+        name: name
+        identifier: identifier
+        serviceDefinition:
+          spec:
+            manifests:
+              - manifest:
+                  identifier: manifest1
+                  type: K8sManifest
+                  spec:
+                    store:
+                      type: Github
+                      spec:
+                        connectorRef: <+input>
+                        gitFetchType: Branch
+                        paths:
+                          - files1
+                        repoName: <+input>
+                        branch: master
+                    skipResourceVersioning: false
+            configFiles:
+              - configFile:
+                  identifier: configFile1
+                  spec:
+                    store:
+                      type: Harness
+                      spec:
+                        files:
+                          - <+org.description>
+            variables:
+              - name: var1
+                type: String
+                value: val1
+              - name: var2
+                type: String
+                value: val2
+          type: Kubernetes
+        gitOpsEnabled: false

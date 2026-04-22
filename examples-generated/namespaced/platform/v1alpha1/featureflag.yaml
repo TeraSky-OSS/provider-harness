@@ -1,0 +1,36 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: FeatureFlag
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/featureflag
+  labels:
+    testing.upbound.io/example-name: mybooleanflag
+  name: mybooleanflag
+  namespace: crossplane-system
+spec:
+  forProvider:
+    defaultOffVariation: Disabled
+    defaultOnVariation: Enabled
+    environment:
+    - identifier: MY_ENVIRONMENT
+    identifier: MY_FEATURE
+    kind: boolean
+    name: MY_FEATURE
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    permanent: false
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - identifier: mytag
+    variation:
+    - description: The feature is enabled
+      identifier: Enabled
+      name: Enabled
+      value: "true"
+    - description: The feature is disabled
+      identifier: Disabled
+      name: Disabled
+      value: "false"

@@ -1,0 +1,34 @@
+apiVersion: chaos.harness.m.crossplane.io/v1alpha1
+kind: SecurityGovernanceRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/securitygovernancerule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    conditionIds:
+    - <condition_id>
+    description: <description>
+    isEnabled: true
+    name: <name>
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - <tag1>
+    - <tag2>
+    timeWindows:
+    - duration: 24h
+      recurrence:
+      - type: Daily
+        until: -1
+      startTime: 1711238400000
+      timeZone: UTC
+    userGroupIds:
+    - _project_all_users

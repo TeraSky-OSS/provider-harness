@@ -1,0 +1,12 @@
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: DelegateApproval
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/delegateapproval
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    approve: true
+    delegateId: ${data.harness_delegate.test.id}

@@ -1,0 +1,24 @@
+apiVersion: idp.harness.crossplane.io/v1alpha1
+kind: CatalogEntity
+metadata:
+  annotations:
+    meta.upbound.io/example-id: idp/v1alpha1/catalogentity
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    identifier: identifier
+    kind: component
+    yaml: |
+      apiVersion: harness.io/v1
+      kind: Component
+      name: Example Catalog
+      identifier: "%[1]s"
+      type: service
+      owner: user:account/admin@harness.io
+      spec:
+          lifecycle: prod
+      metadata:
+          tags:
+              - test

@@ -1,0 +1,26 @@
+apiVersion: chaos.harness.m.crossplane.io/v1alpha1
+kind: Hub
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/hub
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    connectorId: <connector_id>
+    description: <description>
+    isDefault: false
+    name: <name>
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    repoBranch: <repo_branch>
+    repoName: <repo_name>
+    tags:
+    - <tag1>
+    - <tag2>

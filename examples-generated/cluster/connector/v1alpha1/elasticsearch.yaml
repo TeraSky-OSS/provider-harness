@@ -1,0 +1,21 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Elasticsearch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/elasticsearch
+  labels:
+    testing.upbound.io/example-name: token
+  name: token
+spec:
+  forProvider:
+    apiToken:
+    - clientId: client_id
+      clientSecretRef: account.secret_id
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: http://elk6.dev.harness.io:9200/

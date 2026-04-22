@@ -1,0 +1,29 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Bitbucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/bitbucket
+  labels:
+    testing.upbound.io/example-name: username_token
+  name: username-token
+  namespace: crossplane-system
+spec:
+  forProvider:
+    apiAuthentication:
+    - authType: UsernameToken
+      tokenRef: account.secret_id
+      username: username
+    connectionType: Account
+    credentials:
+    - http:
+      - passwordRef: account.secret_id
+        username: username
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://bitbucket.com/account
+    validationRepo: some_repo

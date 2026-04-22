@@ -1,0 +1,23 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Nexus
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/nexus
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    credentials:
+    - passwordRef: account.secret_id
+      username: admin
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://nexus.example.com
+    version: 3.x

@@ -1,0 +1,97 @@
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: InfrastructureDefinition
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/infrastructuredefinition
+  labels:
+    testing.upbound.io/example-name: k8s
+  name: k8s
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    cloudProviderType: KUBERNETES_CLUSTER
+    deploymentType: KUBERNETES
+    envId: ${harness_environment.dev.id}
+    kubernetes:
+    - cloudProviderName: example-cluster
+      namespace: dev
+      releaseName: ${service.name}
+    name: k8s-eks-us-east-1
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/infrastructuredefinition
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example
+
+---
+
+apiVersion: cloudprovider.harness.m.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/infrastructuredefinition
+  labels:
+    testing.upbound.io/example-name: dev
+  name: dev
+  namespace: crossplane-system
+spec:
+  forProvider:
+    authentication:
+    - delegateSelectors:
+      - k8s
+    name: k8s-dev
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/infrastructuredefinition
+  labels:
+    testing.upbound.io/example-name: dev
+  name: dev
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    name: dev
+    type: NON_PROD
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: YamlConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/infrastructuredefinition
+  labels:
+    testing.upbound.io/example-name: example_yaml
+  name: example-yaml
+  namespace: crossplane-system
+spec:
+  forProvider:
+    content: |
+      harnessApiVersion: '1.0'
+      type: CUSTOM_DEPLOYMENT_TYPE
+      fetchInstanceScript: |-
+        set -ex
+        curl http://${url}/${file_name} > ${INSTANCE_OUTPUT_PATH}
+      hostAttributes:
+        hostname: host
+      hostObjectArrayPath: hosts
+      variables:
+      - name: url
+      - name: file_name
+    path: Setup/Template Library/Example Folder/deployment_template.yaml

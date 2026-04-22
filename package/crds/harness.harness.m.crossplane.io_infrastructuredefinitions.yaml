@@ -1,0 +1,1973 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: infrastructuredefinitions.harness.harness.m.crossplane.io
+spec:
+  group: harness.harness.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: InfrastructureDefinition
+    listKind: InfrastructureDefinitionList
+    plural: infrastructuredefinitions
+    singular: infrastructuredefinition
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: InfrastructureDefinition is the Schema for the InfrastructureDefinitions
+          API. Resource for creating am infrastructure definition. This resource uses
+          the config-as-code API's. When updating the name or path of this resource
+          you should typically also set the create_before_destroy = true lifecycle
+          setting.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InfrastructureDefinitionSpec defines the desired state of
+              InfrastructureDefinition
+            properties:
+              forProvider:
+                properties:
+                  appId:
+                    description: |-
+                      (String) The id of the application the infrastructure definition belongs to.
+                      The id of the application the infrastructure definition belongs to.
+                    type: string
+                  awsAmi:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws AMI deployments. (see below for nested schema)
+                      The configuration details for Aws AMI deployments.
+                    items:
+                      properties:
+                        amiDeploymentType:
+                          description: |-
+                            (String) The ami deployment type to use. Valid options are AWS_ASG, SPOTINST
+                            The ami deployment type to use. Valid options are AWS_ASG, SPOTINST
+                          type: string
+                        asgIdentifiesWorkload:
+                          description: |-
+                            (Boolean) Flag to indicate whether the autoscaling group identifies the workload.
+                            Flag to indicate whether the autoscaling group identifies the workload.
+                          type: boolean
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        classicLoadbalancers:
+                          description: |-
+                            (Set of String) The classic load balancers to use.
+                            The classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        spotinstCloudProviderName:
+                          description: |-
+                            (String) The name of the SpotInst cloud provider to connect with.
+                            The name of the SpotInst cloud provider to connect with.
+                          type: string
+                        spotinstConfigJson:
+                          description: |-
+                            (String) The SpotInst configuration to use.
+                            The SpotInst configuration to use.
+                          type: string
+                        stageClassicLoadbalancers:
+                          description: |-
+                            (Set of String) The staging classic load balancers to use.
+                            The staging classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        stageTargetGroupArns:
+                          description: |-
+                            (Set of String) The staging classic load balancers to use.
+                            The staging classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        targetGroupArns:
+                          description: |-
+                            (Set of String) The ARN's of the target groups.
+                            The ARN's of the target groups.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        useTrafficShift:
+                          description: |-
+                            (Boolean) Flag to enable traffic shifting.
+                            Flag to enable traffic shifting.
+                          type: boolean
+                      type: object
+                    type: array
+                  awsEcs:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws AMI deployments. (see below for nested schema)
+                      The configuration details for Aws AMI deployments.
+                    items:
+                      properties:
+                        assignPublicIp:
+                          description: |-
+                            (Boolean) Flag to assign a public IP address.
+                            Flag to assign a public IP address.
+                          type: boolean
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        clusterName:
+                          description: |-
+                            (String) The name of the ECS cluster to use.
+                            The name of the ECS cluster to use.
+                          type: string
+                        executionRole:
+                          description: |-
+                            (String) The ARN of the role to use for execution.
+                            The ARN of the role to use for execution.
+                          type: string
+                        launchType:
+                          description: |-
+                            (String) The type of launch configuration to use. Valid options are FARGATE
+                            The type of launch configuration to use. Valid options are FARGATE
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        securityGroupIds:
+                          description: |-
+                            (Set of String) The security group ids to apply to the ecs service.
+                            The security group ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        subnetIds:
+                          description: |-
+                            (Set of String) The subnet ids to apply to the ecs service.
+                            The subnet ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        vpcId:
+                          description: |-
+                            (String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          type: string
+                      type: object
+                    type: array
+                  awsLambda:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws Lambda deployments. (see below for nested schema)
+                      The configuration details for Aws Lambda deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        iamRole:
+                          description: |-
+                            (String) The IAM role to use.
+                            The IAM role to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        securityGroupIds:
+                          description: |-
+                            (Set of String) The security group ids to apply to the ecs service.
+                            The security group ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        subnetIds:
+                          description: |-
+                            (Set of String) The subnet ids to apply to the ecs service.
+                            The subnet ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        vpcId:
+                          description: |-
+                            (String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          type: string
+                      type: object
+                    type: array
+                  awsSsh:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for AWS SSH deployments. (see below for nested schema)
+                      The configuration details for AWS SSH deployments.
+                    items:
+                      properties:
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        desiredCapacity:
+                          description: |-
+                            (Number) The desired capacity of the auto scaling group.
+                            The desired capacity of the auto scaling group.
+                          type: number
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        hostConnectionType:
+                          description: |-
+                            (String) The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                            The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        loadbalancerName:
+                          description: |-
+                            (String) The name of the load balancer to use.
+                            The name of the load balancer to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        tag:
+                          description: |-
+                            (Block Set) The tags to use when selecting the instances. (see below for nested schema)
+                            The tags to use when selecting the instances.
+                          items:
+                            properties:
+                              key:
+                                description: |-
+                                  (String) The key of the tag.
+                                  The key of the tag.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) The value of the tag.
+                                  The value of the tag.
+                                type: string
+                            type: object
+                          type: array
+                        vpcIds:
+                          description: |-
+                            (Set of String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
+                  awsWinrm:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for AWS WinRM deployments. (see below for nested schema)
+                      The configuration details for AWS WinRM deployments.
+                    items:
+                      properties:
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        desiredCapacity:
+                          description: |-
+                            (Number) The desired capacity of the auto scaling group.
+                            The desired capacity of the autoscaling group.
+                          type: number
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        hostConnectionType:
+                          description: |-
+                            (String) The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                            The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        loadbalancerName:
+                          description: |-
+                            (String) The name of the load balancer to use.
+                            The name of the load balancer to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                      type: object
+                    type: array
+                  azureVmss:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Azure VMSS deployments. (see below for nested schema)
+                      The configuration details for Azure VMSS deployments.
+                    items:
+                      properties:
+                        authType:
+                          description: |-
+                            (String) The type of authentication to use. Valid options are SSH_PUBLIC_KEY.
+                            The type of authentication to use. Valid options are SSH_PUBLIC_KEY.
+                          type: string
+                        baseName:
+                          description: |-
+                            (String) Base name.
+                            Base name.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        deploymentType:
+                          description: |-
+                            (String) The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                            The type of deployment. Valid options are NATIVE_VMSS
+                          type: string
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        resourceGroupName:
+                          description: |-
+                            (String) The name of the resource group.
+                            The name of the resource group.
+                          type: string
+                        subscriptionId:
+                          description: |-
+                            (String) The unique id of the azure subscription.
+                            The unique id of the azure subscription.
+                          type: string
+                        username:
+                          description: |-
+                            (String) The username to connect with.
+                            The username to connect with.
+                          type: string
+                      type: object
+                    type: array
+                  azureWebapp:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Azure WebApp deployments. (see below for nested schema)
+                      The configuration details for Azure WebApp deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        resourceGroup:
+                          description: |-
+                            (String) The name of the resource group.
+                            The name of the resource group.
+                          type: string
+                        subscriptionId:
+                          description: |-
+                            (String) The unique id of the azure subscription.
+                            The unique id of the azure subscription.
+                          type: string
+                      type: object
+                    type: array
+                  cloudProviderType:
+                    description: |-
+                      (String) The type of the cloud provider to connect with. Valid options are AWS, AZURE, CUSTOM, PHYSICAL_DATA_CENTER, KUBERNETES_CLUSTER, PCF, SPOT_INST
+                      The type of the cloud provider to connect with. Valid options are AWS, AZURE, CUSTOM, PHYSICAL_DATA_CENTER, KUBERNETES_CLUSTER, PCF, SPOT_INST
+                    type: string
+                  custom:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Custom deployments. (see below for nested schema)
+                      The configuration details for Custom deployments.
+                    items:
+                      properties:
+                        deploymentTypeTemplateVersion:
+                          description: |-
+                            (String) The template version
+                            The template version
+                          type: string
+                        variable:
+                          description: |-
+                            (Block Set) Variables to be used in the service (see below for nested schema)
+                            Variables to be used in the service
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) The name of the infrastructure definition
+                                  Name of the variable
+                                type: string
+                              value:
+                                description: |-
+                                  (String) The value of the tag.
+                                  Value of the variable
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  datacenterSsh:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for SSH datacenter deployments. (see below for nested schema)
+                      The configuration details for SSH datacenter deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostConnectionAttributesName:
+                          description: |-
+                            (String) The name of the SSH connection attributes to use.
+                            The name of the SSH connection attributes to use.
+                          type: string
+                        hostnames:
+                          description: |-
+                            (Set of String) A list of hosts to deploy to.
+                            A list of hosts to deploy to.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
+                  datacenterWinrm:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for WinRM datacenter deployments. (see below for nested schema)
+                      The configuration details for WinRM datacenter deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostnames:
+                          description: |-
+                            (Set of String) A list of hosts to deploy to.
+                            A list of hosts to deploy to.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        winrmConnectionAttributesName:
+                          description: |-
+                            (String) The name of the WinRM connection attributes to use.
+                            The name of the WinRM connection attributes to use.
+                          type: string
+                      type: object
+                    type: array
+                  deploymentTemplateUri:
+                    description: |-
+                      (String) The URI of the deployment template to use. Only used if deployment_type is CUSTOM.
+                      The URI of the deployment template to use. Only used if deployment_type is `CUSTOM`.
+                    type: string
+                  deploymentType:
+                    description: |-
+                      (String) The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                      The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                    type: string
+                  envId:
+                    description: |-
+                      (String) The id of the environment the infrastructure definition belongs to.
+                      The id of the environment the infrastructure definition belongs to.
+                    type: string
+                  kubernetes:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Kubernetes deployments. (see below for nested schema)
+                      The configuration details for Kubernetes deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) The namespace in Kubernetes to deploy to.
+                            The namespace in Kubernetes to deploy to.
+                          type: string
+                        releaseName:
+                          description: |-
+                            ${infra.kubernetes.infraId}
+                            The naming convention of the release. When using Helm Native the default is ${infra.kubernetes.infraId}. For standard Kubernetes manifests the default is release-${infra.kubernetes.infraId}
+                          type: string
+                      type: object
+                    type: array
+                  kubernetesGcp:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Kubernetes on GCP deployments. (see below for nested schema)
+                      The configuration details for Kubernetes on GCP deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        clusterName:
+                          description: |-
+                            (String) The name of the ECS cluster to use.
+                            The name of the cluster being deployed to.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) The namespace in Kubernetes to deploy to.
+                            The namespace in Kubernetes to deploy to.
+                          type: string
+                        releaseName:
+                          description: |-
+                            ${infra.kubernetes.infraId}
+                            The naming convention of the release.
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) The name of the infrastructure definition
+                      The name of the infrastructure definition
+                    type: string
+                  provisionerName:
+                    description: |-
+                      (String) The name of the infrastructure provisioner to use.
+                      The name of the infrastructure provisioner to use.
+                    type: string
+                  scopedServices:
+                    description: |-
+                      (Set of String) The list of service names to scope this infrastructure definition to.
+                      The list of service names to scope this infrastructure definition to.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  tanzu:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for PCF deployments. (see below for nested schema)
+                      The configuration details for PCF deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        organization:
+                          description: |-
+                            (String) The PCF organization to use.
+                            The PCF organization to use.
+                          type: string
+                        space:
+                          description: |-
+                            (String) The PCF space to deploy to.
+                            The PCF space to deploy to.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  appId:
+                    description: |-
+                      (String) The id of the application the infrastructure definition belongs to.
+                      The id of the application the infrastructure definition belongs to.
+                    type: string
+                  awsAmi:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws AMI deployments. (see below for nested schema)
+                      The configuration details for Aws AMI deployments.
+                    items:
+                      properties:
+                        amiDeploymentType:
+                          description: |-
+                            (String) The ami deployment type to use. Valid options are AWS_ASG, SPOTINST
+                            The ami deployment type to use. Valid options are AWS_ASG, SPOTINST
+                          type: string
+                        asgIdentifiesWorkload:
+                          description: |-
+                            (Boolean) Flag to indicate whether the autoscaling group identifies the workload.
+                            Flag to indicate whether the autoscaling group identifies the workload.
+                          type: boolean
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        classicLoadbalancers:
+                          description: |-
+                            (Set of String) The classic load balancers to use.
+                            The classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        spotinstCloudProviderName:
+                          description: |-
+                            (String) The name of the SpotInst cloud provider to connect with.
+                            The name of the SpotInst cloud provider to connect with.
+                          type: string
+                        spotinstConfigJson:
+                          description: |-
+                            (String) The SpotInst configuration to use.
+                            The SpotInst configuration to use.
+                          type: string
+                        stageClassicLoadbalancers:
+                          description: |-
+                            (Set of String) The staging classic load balancers to use.
+                            The staging classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        stageTargetGroupArns:
+                          description: |-
+                            (Set of String) The staging classic load balancers to use.
+                            The staging classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        targetGroupArns:
+                          description: |-
+                            (Set of String) The ARN's of the target groups.
+                            The ARN's of the target groups.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        useTrafficShift:
+                          description: |-
+                            (Boolean) Flag to enable traffic shifting.
+                            Flag to enable traffic shifting.
+                          type: boolean
+                      type: object
+                    type: array
+                  awsEcs:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws AMI deployments. (see below for nested schema)
+                      The configuration details for Aws AMI deployments.
+                    items:
+                      properties:
+                        assignPublicIp:
+                          description: |-
+                            (Boolean) Flag to assign a public IP address.
+                            Flag to assign a public IP address.
+                          type: boolean
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        clusterName:
+                          description: |-
+                            (String) The name of the ECS cluster to use.
+                            The name of the ECS cluster to use.
+                          type: string
+                        executionRole:
+                          description: |-
+                            (String) The ARN of the role to use for execution.
+                            The ARN of the role to use for execution.
+                          type: string
+                        launchType:
+                          description: |-
+                            (String) The type of launch configuration to use. Valid options are FARGATE
+                            The type of launch configuration to use. Valid options are FARGATE
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        securityGroupIds:
+                          description: |-
+                            (Set of String) The security group ids to apply to the ecs service.
+                            The security group ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        subnetIds:
+                          description: |-
+                            (Set of String) The subnet ids to apply to the ecs service.
+                            The subnet ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        vpcId:
+                          description: |-
+                            (String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          type: string
+                      type: object
+                    type: array
+                  awsLambda:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws Lambda deployments. (see below for nested schema)
+                      The configuration details for Aws Lambda deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        iamRole:
+                          description: |-
+                            (String) The IAM role to use.
+                            The IAM role to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        securityGroupIds:
+                          description: |-
+                            (Set of String) The security group ids to apply to the ecs service.
+                            The security group ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        subnetIds:
+                          description: |-
+                            (Set of String) The subnet ids to apply to the ecs service.
+                            The subnet ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        vpcId:
+                          description: |-
+                            (String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          type: string
+                      type: object
+                    type: array
+                  awsSsh:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for AWS SSH deployments. (see below for nested schema)
+                      The configuration details for AWS SSH deployments.
+                    items:
+                      properties:
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        desiredCapacity:
+                          description: |-
+                            (Number) The desired capacity of the auto scaling group.
+                            The desired capacity of the auto scaling group.
+                          type: number
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        hostConnectionType:
+                          description: |-
+                            (String) The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                            The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        loadbalancerName:
+                          description: |-
+                            (String) The name of the load balancer to use.
+                            The name of the load balancer to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        tag:
+                          description: |-
+                            (Block Set) The tags to use when selecting the instances. (see below for nested schema)
+                            The tags to use when selecting the instances.
+                          items:
+                            properties:
+                              key:
+                                description: |-
+                                  (String) The key of the tag.
+                                  The key of the tag.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) The value of the tag.
+                                  The value of the tag.
+                                type: string
+                            type: object
+                          type: array
+                        vpcIds:
+                          description: |-
+                            (Set of String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
+                  awsWinrm:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for AWS WinRM deployments. (see below for nested schema)
+                      The configuration details for AWS WinRM deployments.
+                    items:
+                      properties:
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        desiredCapacity:
+                          description: |-
+                            (Number) The desired capacity of the auto scaling group.
+                            The desired capacity of the autoscaling group.
+                          type: number
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        hostConnectionType:
+                          description: |-
+                            (String) The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                            The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        loadbalancerName:
+                          description: |-
+                            (String) The name of the load balancer to use.
+                            The name of the load balancer to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                      type: object
+                    type: array
+                  azureVmss:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Azure VMSS deployments. (see below for nested schema)
+                      The configuration details for Azure VMSS deployments.
+                    items:
+                      properties:
+                        authType:
+                          description: |-
+                            (String) The type of authentication to use. Valid options are SSH_PUBLIC_KEY.
+                            The type of authentication to use. Valid options are SSH_PUBLIC_KEY.
+                          type: string
+                        baseName:
+                          description: |-
+                            (String) Base name.
+                            Base name.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        deploymentType:
+                          description: |-
+                            (String) The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                            The type of deployment. Valid options are NATIVE_VMSS
+                          type: string
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        resourceGroupName:
+                          description: |-
+                            (String) The name of the resource group.
+                            The name of the resource group.
+                          type: string
+                        subscriptionId:
+                          description: |-
+                            (String) The unique id of the azure subscription.
+                            The unique id of the azure subscription.
+                          type: string
+                        username:
+                          description: |-
+                            (String) The username to connect with.
+                            The username to connect with.
+                          type: string
+                      type: object
+                    type: array
+                  azureWebapp:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Azure WebApp deployments. (see below for nested schema)
+                      The configuration details for Azure WebApp deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        resourceGroup:
+                          description: |-
+                            (String) The name of the resource group.
+                            The name of the resource group.
+                          type: string
+                        subscriptionId:
+                          description: |-
+                            (String) The unique id of the azure subscription.
+                            The unique id of the azure subscription.
+                          type: string
+                      type: object
+                    type: array
+                  cloudProviderType:
+                    description: |-
+                      (String) The type of the cloud provider to connect with. Valid options are AWS, AZURE, CUSTOM, PHYSICAL_DATA_CENTER, KUBERNETES_CLUSTER, PCF, SPOT_INST
+                      The type of the cloud provider to connect with. Valid options are AWS, AZURE, CUSTOM, PHYSICAL_DATA_CENTER, KUBERNETES_CLUSTER, PCF, SPOT_INST
+                    type: string
+                  custom:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Custom deployments. (see below for nested schema)
+                      The configuration details for Custom deployments.
+                    items:
+                      properties:
+                        deploymentTypeTemplateVersion:
+                          description: |-
+                            (String) The template version
+                            The template version
+                          type: string
+                        variable:
+                          description: |-
+                            (Block Set) Variables to be used in the service (see below for nested schema)
+                            Variables to be used in the service
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) The name of the infrastructure definition
+                                  Name of the variable
+                                type: string
+                              value:
+                                description: |-
+                                  (String) The value of the tag.
+                                  Value of the variable
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  datacenterSsh:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for SSH datacenter deployments. (see below for nested schema)
+                      The configuration details for SSH datacenter deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostConnectionAttributesName:
+                          description: |-
+                            (String) The name of the SSH connection attributes to use.
+                            The name of the SSH connection attributes to use.
+                          type: string
+                        hostnames:
+                          description: |-
+                            (Set of String) A list of hosts to deploy to.
+                            A list of hosts to deploy to.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
+                  datacenterWinrm:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for WinRM datacenter deployments. (see below for nested schema)
+                      The configuration details for WinRM datacenter deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostnames:
+                          description: |-
+                            (Set of String) A list of hosts to deploy to.
+                            A list of hosts to deploy to.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        winrmConnectionAttributesName:
+                          description: |-
+                            (String) The name of the WinRM connection attributes to use.
+                            The name of the WinRM connection attributes to use.
+                          type: string
+                      type: object
+                    type: array
+                  deploymentTemplateUri:
+                    description: |-
+                      (String) The URI of the deployment template to use. Only used if deployment_type is CUSTOM.
+                      The URI of the deployment template to use. Only used if deployment_type is `CUSTOM`.
+                    type: string
+                  deploymentType:
+                    description: |-
+                      (String) The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                      The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                    type: string
+                  envId:
+                    description: |-
+                      (String) The id of the environment the infrastructure definition belongs to.
+                      The id of the environment the infrastructure definition belongs to.
+                    type: string
+                  kubernetes:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Kubernetes deployments. (see below for nested schema)
+                      The configuration details for Kubernetes deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) The namespace in Kubernetes to deploy to.
+                            The namespace in Kubernetes to deploy to.
+                          type: string
+                        releaseName:
+                          description: |-
+                            ${infra.kubernetes.infraId}
+                            The naming convention of the release. When using Helm Native the default is ${infra.kubernetes.infraId}. For standard Kubernetes manifests the default is release-${infra.kubernetes.infraId}
+                          type: string
+                      type: object
+                    type: array
+                  kubernetesGcp:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Kubernetes on GCP deployments. (see below for nested schema)
+                      The configuration details for Kubernetes on GCP deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        clusterName:
+                          description: |-
+                            (String) The name of the ECS cluster to use.
+                            The name of the cluster being deployed to.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) The namespace in Kubernetes to deploy to.
+                            The namespace in Kubernetes to deploy to.
+                          type: string
+                        releaseName:
+                          description: |-
+                            ${infra.kubernetes.infraId}
+                            The naming convention of the release.
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) The name of the infrastructure definition
+                      The name of the infrastructure definition
+                    type: string
+                  provisionerName:
+                    description: |-
+                      (String) The name of the infrastructure provisioner to use.
+                      The name of the infrastructure provisioner to use.
+                    type: string
+                  scopedServices:
+                    description: |-
+                      (Set of String) The list of service names to scope this infrastructure definition to.
+                      The list of service names to scope this infrastructure definition to.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  tanzu:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for PCF deployments. (see below for nested schema)
+                      The configuration details for PCF deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        organization:
+                          description: |-
+                            (String) The PCF organization to use.
+                            The PCF organization to use.
+                          type: string
+                        space:
+                          description: |-
+                            (String) The PCF space to deploy to.
+                            The PCF space to deploy to.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.appId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.appId)
+                || (has(self.initProvider) && has(self.initProvider.appId))'
+            - message: spec.forProvider.cloudProviderType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.cloudProviderType)
+                || (has(self.initProvider) && has(self.initProvider.cloudProviderType))'
+            - message: spec.forProvider.deploymentType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.deploymentType)
+                || (has(self.initProvider) && has(self.initProvider.deploymentType))'
+            - message: spec.forProvider.envId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.envId)
+                || (has(self.initProvider) && has(self.initProvider.envId))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+          status:
+            description: InfrastructureDefinitionStatus defines the observed state
+              of InfrastructureDefinition.
+            properties:
+              atProvider:
+                properties:
+                  appId:
+                    description: |-
+                      (String) The id of the application the infrastructure definition belongs to.
+                      The id of the application the infrastructure definition belongs to.
+                    type: string
+                  awsAmi:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws AMI deployments. (see below for nested schema)
+                      The configuration details for Aws AMI deployments.
+                    items:
+                      properties:
+                        amiDeploymentType:
+                          description: |-
+                            (String) The ami deployment type to use. Valid options are AWS_ASG, SPOTINST
+                            The ami deployment type to use. Valid options are AWS_ASG, SPOTINST
+                          type: string
+                        asgIdentifiesWorkload:
+                          description: |-
+                            (Boolean) Flag to indicate whether the autoscaling group identifies the workload.
+                            Flag to indicate whether the autoscaling group identifies the workload.
+                          type: boolean
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        classicLoadbalancers:
+                          description: |-
+                            (Set of String) The classic load balancers to use.
+                            The classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        spotinstCloudProviderName:
+                          description: |-
+                            (String) The name of the SpotInst cloud provider to connect with.
+                            The name of the SpotInst cloud provider to connect with.
+                          type: string
+                        spotinstConfigJson:
+                          description: |-
+                            (String) The SpotInst configuration to use.
+                            The SpotInst configuration to use.
+                          type: string
+                        stageClassicLoadbalancers:
+                          description: |-
+                            (Set of String) The staging classic load balancers to use.
+                            The staging classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        stageTargetGroupArns:
+                          description: |-
+                            (Set of String) The staging classic load balancers to use.
+                            The staging classic load balancers to use.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        targetGroupArns:
+                          description: |-
+                            (Set of String) The ARN's of the target groups.
+                            The ARN's of the target groups.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        useTrafficShift:
+                          description: |-
+                            (Boolean) Flag to enable traffic shifting.
+                            Flag to enable traffic shifting.
+                          type: boolean
+                      type: object
+                    type: array
+                  awsEcs:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws AMI deployments. (see below for nested schema)
+                      The configuration details for Aws AMI deployments.
+                    items:
+                      properties:
+                        assignPublicIp:
+                          description: |-
+                            (Boolean) Flag to assign a public IP address.
+                            Flag to assign a public IP address.
+                          type: boolean
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        clusterName:
+                          description: |-
+                            (String) The name of the ECS cluster to use.
+                            The name of the ECS cluster to use.
+                          type: string
+                        executionRole:
+                          description: |-
+                            (String) The ARN of the role to use for execution.
+                            The ARN of the role to use for execution.
+                          type: string
+                        launchType:
+                          description: |-
+                            (String) The type of launch configuration to use. Valid options are FARGATE
+                            The type of launch configuration to use. Valid options are FARGATE
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        securityGroupIds:
+                          description: |-
+                            (Set of String) The security group ids to apply to the ecs service.
+                            The security group ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        subnetIds:
+                          description: |-
+                            (Set of String) The subnet ids to apply to the ecs service.
+                            The subnet ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        vpcId:
+                          description: |-
+                            (String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          type: string
+                      type: object
+                    type: array
+                  awsLambda:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Aws Lambda deployments. (see below for nested schema)
+                      The configuration details for Aws Lambda deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        iamRole:
+                          description: |-
+                            (String) The IAM role to use.
+                            The IAM role to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        securityGroupIds:
+                          description: |-
+                            (Set of String) The security group ids to apply to the ecs service.
+                            The security group ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        subnetIds:
+                          description: |-
+                            (Set of String) The subnet ids to apply to the ecs service.
+                            The subnet ids to apply to the ecs service.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        vpcId:
+                          description: |-
+                            (String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          type: string
+                      type: object
+                    type: array
+                  awsSsh:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for AWS SSH deployments. (see below for nested schema)
+                      The configuration details for AWS SSH deployments.
+                    items:
+                      properties:
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        desiredCapacity:
+                          description: |-
+                            (Number) The desired capacity of the auto scaling group.
+                            The desired capacity of the auto scaling group.
+                          type: number
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        hostConnectionType:
+                          description: |-
+                            (String) The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                            The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        loadbalancerName:
+                          description: |-
+                            (String) The name of the load balancer to use.
+                            The name of the load balancer to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                        tag:
+                          description: |-
+                            (Block Set) The tags to use when selecting the instances. (see below for nested schema)
+                            The tags to use when selecting the instances.
+                          items:
+                            properties:
+                              key:
+                                description: |-
+                                  (String) The key of the tag.
+                                  The key of the tag.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) The value of the tag.
+                                  The value of the tag.
+                                type: string
+                            type: object
+                          type: array
+                        vpcIds:
+                          description: |-
+                            (Set of String) The VPC ids to use when selecting the instances.
+                            The VPC ids to use when selecting the instances.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
+                  awsWinrm:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for AWS WinRM deployments. (see below for nested schema)
+                      The configuration details for AWS WinRM deployments.
+                    items:
+                      properties:
+                        autoscalingGroupName:
+                          description: |-
+                            (String) The name of the autoscaling group.
+                            The name of the autoscaling group.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        desiredCapacity:
+                          description: |-
+                            (Number) The desired capacity of the auto scaling group.
+                            The desired capacity of the autoscaling group.
+                          type: number
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        hostConnectionType:
+                          description: |-
+                            (String) The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                            The type of host connection to use. Valid options are PRIVATE_DNS, PUBLIC_DNS, PRIVATE_IP, PUBLIC_IP
+                          type: string
+                        hostnameConvention:
+                          description: |-
+                            (String) The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('.')[0]}
+                            The naming convention to use for the hostname. Defaults to ${host.ec2Instance.privateDnsName.split('\.')[0]}
+                          type: string
+                        loadbalancerName:
+                          description: |-
+                            (String) The name of the load balancer to use.
+                            The name of the load balancer to use.
+                          type: string
+                        region:
+                          description: |-
+                            (String) The region to deploy to.
+                            The region to deploy to.
+                          type: string
+                      type: object
+                    type: array
+                  azureVmss:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Azure VMSS deployments. (see below for nested schema)
+                      The configuration details for Azure VMSS deployments.
+                    items:
+                      properties:
+                        authType:
+                          description: |-
+                            (String) The type of authentication to use. Valid options are SSH_PUBLIC_KEY.
+                            The type of authentication to use. Valid options are SSH_PUBLIC_KEY.
+                          type: string
+                        baseName:
+                          description: |-
+                            (String) Base name.
+                            Base name.
+                          type: string
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        deploymentType:
+                          description: |-
+                            (String) The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                            The type of deployment. Valid options are NATIVE_VMSS
+                          type: string
+                        hostConnectionAttrsName:
+                          description: |-
+                            (String) The name of the host connection attributes to use.
+                            The name of the host connection attributes to use.
+                          type: string
+                        resourceGroupName:
+                          description: |-
+                            (String) The name of the resource group.
+                            The name of the resource group.
+                          type: string
+                        subscriptionId:
+                          description: |-
+                            (String) The unique id of the azure subscription.
+                            The unique id of the azure subscription.
+                          type: string
+                        username:
+                          description: |-
+                            (String) The username to connect with.
+                            The username to connect with.
+                          type: string
+                      type: object
+                    type: array
+                  azureWebapp:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Azure WebApp deployments. (see below for nested schema)
+                      The configuration details for Azure WebApp deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        resourceGroup:
+                          description: |-
+                            (String) The name of the resource group.
+                            The name of the resource group.
+                          type: string
+                        subscriptionId:
+                          description: |-
+                            (String) The unique id of the azure subscription.
+                            The unique id of the azure subscription.
+                          type: string
+                      type: object
+                    type: array
+                  cloudProviderType:
+                    description: |-
+                      (String) The type of the cloud provider to connect with. Valid options are AWS, AZURE, CUSTOM, PHYSICAL_DATA_CENTER, KUBERNETES_CLUSTER, PCF, SPOT_INST
+                      The type of the cloud provider to connect with. Valid options are AWS, AZURE, CUSTOM, PHYSICAL_DATA_CENTER, KUBERNETES_CLUSTER, PCF, SPOT_INST
+                    type: string
+                  custom:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Custom deployments. (see below for nested schema)
+                      The configuration details for Custom deployments.
+                    items:
+                      properties:
+                        deploymentTypeTemplateVersion:
+                          description: |-
+                            (String) The template version
+                            The template version
+                          type: string
+                        variable:
+                          description: |-
+                            (Block Set) Variables to be used in the service (see below for nested schema)
+                            Variables to be used in the service
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) The name of the infrastructure definition
+                                  Name of the variable
+                                type: string
+                              value:
+                                description: |-
+                                  (String) The value of the tag.
+                                  Value of the variable
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  datacenterSsh:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for SSH datacenter deployments. (see below for nested schema)
+                      The configuration details for SSH datacenter deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostConnectionAttributesName:
+                          description: |-
+                            (String) The name of the SSH connection attributes to use.
+                            The name of the SSH connection attributes to use.
+                          type: string
+                        hostnames:
+                          description: |-
+                            (Set of String) A list of hosts to deploy to.
+                            A list of hosts to deploy to.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
+                  datacenterWinrm:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for WinRM datacenter deployments. (see below for nested schema)
+                      The configuration details for WinRM datacenter deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        hostnames:
+                          description: |-
+                            (Set of String) A list of hosts to deploy to.
+                            A list of hosts to deploy to.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        winrmConnectionAttributesName:
+                          description: |-
+                            (String) The name of the WinRM connection attributes to use.
+                            The name of the WinRM connection attributes to use.
+                          type: string
+                      type: object
+                    type: array
+                  deploymentTemplateUri:
+                    description: |-
+                      (String) The URI of the deployment template to use. Only used if deployment_type is CUSTOM.
+                      The URI of the deployment template to use. Only used if deployment_type is `CUSTOM`.
+                    type: string
+                  deploymentType:
+                    description: |-
+                      (String) The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                      The type of the deployment to use. Valid options are AMI, AWS_CODEDEPLOY, AWS_LAMBDA, AZURE_VMSS, AZURE_WEBAPP, CUSTOM, ECS, HELM, KUBERNETES, PCF, SSH, WINRM
+                    type: string
+                  envId:
+                    description: |-
+                      (String) The id of the environment the infrastructure definition belongs to.
+                      The id of the environment the infrastructure definition belongs to.
+                    type: string
+                  id:
+                    description: (String) The unique id of the infrastructure definition.
+                    type: string
+                  kubernetes:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Kubernetes deployments. (see below for nested schema)
+                      The configuration details for Kubernetes deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) The namespace in Kubernetes to deploy to.
+                            The namespace in Kubernetes to deploy to.
+                          type: string
+                        releaseName:
+                          description: |-
+                            ${infra.kubernetes.infraId}
+                            The naming convention of the release. When using Helm Native the default is ${infra.kubernetes.infraId}. For standard Kubernetes manifests the default is release-${infra.kubernetes.infraId}
+                          type: string
+                      type: object
+                    type: array
+                  kubernetesGcp:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for Kubernetes on GCP deployments. (see below for nested schema)
+                      The configuration details for Kubernetes on GCP deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        clusterName:
+                          description: |-
+                            (String) The name of the ECS cluster to use.
+                            The name of the cluster being deployed to.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) The namespace in Kubernetes to deploy to.
+                            The namespace in Kubernetes to deploy to.
+                          type: string
+                        releaseName:
+                          description: |-
+                            ${infra.kubernetes.infraId}
+                            The naming convention of the release.
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) The name of the infrastructure definition
+                      The name of the infrastructure definition
+                    type: string
+                  provisionerName:
+                    description: |-
+                      (String) The name of the infrastructure provisioner to use.
+                      The name of the infrastructure provisioner to use.
+                    type: string
+                  scopedServices:
+                    description: |-
+                      (Set of String) The list of service names to scope this infrastructure definition to.
+                      The list of service names to scope this infrastructure definition to.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  tanzu:
+                    description: |-
+                      (Block List, Max: 1) The configuration details for PCF deployments. (see below for nested schema)
+                      The configuration details for PCF deployments.
+                    items:
+                      properties:
+                        cloudProviderName:
+                          description: |-
+                            (String) The name of the cloud provider to connect with.
+                            The name of the cloud provider to connect with.
+                          type: string
+                        organization:
+                          description: |-
+                            (String) The PCF organization to use.
+                            The PCF organization to use.
+                          type: string
+                        space:
+                          description: |-
+                            (String) The PCF space to deploy to.
+                            The PCF space to deploy to.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

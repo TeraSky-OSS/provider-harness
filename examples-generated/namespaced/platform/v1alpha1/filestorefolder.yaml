@@ -1,0 +1,24 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: FileStoreFolder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/filestorefolder
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: description
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    parentIdentifier: parent_identifier
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - foo:bar
+    - baz:qux

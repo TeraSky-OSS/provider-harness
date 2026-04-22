@@ -10,15 +10,39 @@ package namespaced
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/crossplane/upjet-provider-template/apis/namespaced/null/v1alpha1"
-	v1alpha1namespaced "github.com/crossplane/upjet-provider-template/apis/namespaced/v1alpha1"
-	v1beta1 "github.com/crossplane/upjet-provider-template/apis/namespaced/v1beta1"
+	v1alpha1 "github.com/terasky-oss/provider-harness/apis/namespaced/autostopping/v1alpha1"
+	v1alpha1chaos "github.com/terasky-oss/provider-harness/apis/namespaced/chaos/v1alpha1"
+	v1alpha1cloudprovider "github.com/terasky-oss/provider-harness/apis/namespaced/cloudprovider/v1alpha1"
+	v1alpha1cluster "github.com/terasky-oss/provider-harness/apis/namespaced/cluster/v1alpha1"
+	v1alpha1connector "github.com/terasky-oss/provider-harness/apis/namespaced/connector/v1alpha1"
+	v1alpha1gitops "github.com/terasky-oss/provider-harness/apis/namespaced/gitops/v1alpha1"
+	v1alpha1governance "github.com/terasky-oss/provider-harness/apis/namespaced/governance/v1alpha1"
+	v1alpha1harness "github.com/terasky-oss/provider-harness/apis/namespaced/harness/v1alpha1"
+	v1alpha1idp "github.com/terasky-oss/provider-harness/apis/namespaced/idp/v1alpha1"
+	v1alpha1infra "github.com/terasky-oss/provider-harness/apis/namespaced/infra/v1alpha1"
+	v1alpha1platform "github.com/terasky-oss/provider-harness/apis/namespaced/platform/v1alpha1"
+	v1alpha1secret "github.com/terasky-oss/provider-harness/apis/namespaced/secret/v1alpha1"
+	v1alpha1service "github.com/terasky-oss/provider-harness/apis/namespaced/service/v1alpha1"
+	v1alpha1namespaced "github.com/terasky-oss/provider-harness/apis/namespaced/v1alpha1"
+	v1beta1 "github.com/terasky-oss/provider-harness/apis/namespaced/v1beta1"
 )
 
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1chaos.SchemeBuilder.AddToScheme,
+		v1alpha1cloudprovider.SchemeBuilder.AddToScheme,
+		v1alpha1cluster.SchemeBuilder.AddToScheme,
+		v1alpha1connector.SchemeBuilder.AddToScheme,
+		v1alpha1gitops.SchemeBuilder.AddToScheme,
+		v1alpha1governance.SchemeBuilder.AddToScheme,
+		v1alpha1harness.SchemeBuilder.AddToScheme,
+		v1alpha1idp.SchemeBuilder.AddToScheme,
+		v1alpha1infra.SchemeBuilder.AddToScheme,
+		v1alpha1platform.SchemeBuilder.AddToScheme,
+		v1alpha1secret.SchemeBuilder.AddToScheme,
+		v1alpha1service.SchemeBuilder.AddToScheme,
 		v1alpha1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)

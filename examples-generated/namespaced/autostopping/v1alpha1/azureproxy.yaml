@@ -1,0 +1,26 @@
+apiVersion: autostopping.harness.m.crossplane.io/v1alpha1
+kind: AzureProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/azureproxy
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    allocateStaticIp: true
+    apiKeySecretRef:
+      key: example-key
+      name: example-secret
+    cloudConnectorId: cloud_connector_id
+    deleteCloudResourcesOnDestroy: true
+    keypair: ""
+    machineType: Standard_D2s_v3
+    name: name
+    region: eastus2
+    resourceGroup: resource_group
+    securityGroups:
+    - /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Network/networkSecurityGroups/network_security_group
+    subnetId: /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Network/virtualNetworks/virtual_network/subnets/subnet_id
+    vpc: /subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Network/virtualNetworks/virtual_network

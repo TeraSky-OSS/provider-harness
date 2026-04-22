@@ -1,0 +1,25 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Awscc
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/awscc
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    accountId: account_id
+    crossAccountAccess:
+    - externalId: external_id
+      roleArn: role_arn
+    description: test
+    featuresEnabled:
+    - OPTIMIZATION
+    - VISIBILITY
+    - BILLING
+    identifier: identifier
+    name: name
+    reportName: report_name
+    s3Bucket: s3bucket
+    tags:
+    - foo:bar

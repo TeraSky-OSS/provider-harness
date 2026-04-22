@@ -1,0 +1,17 @@
+apiVersion: autostopping.harness.crossplane.io/v1alpha1
+kind: RuleK8s
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/rulek8s
+  labels:
+    testing.upbound.io/example-name: demo-rule
+  name: demo-rule
+spec:
+  forProvider:
+    cloudConnectorId: gcp_qa
+    dryRun: false
+    idleTimeMins: 10
+    k8sConnectorId: app_cluster
+    k8sNamespace: default
+    name: demo-rule
+    ruleYaml: ${file("${path.module}/rule.yaml")}

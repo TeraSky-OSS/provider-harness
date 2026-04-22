@@ -1,0 +1,2660 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: probetemplates.chaos.harness.crossplane.io
+spec:
+  group: chaos.harness.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: ProbeTemplate
+    listKind: ProbeTemplateList
+    plural: probetemplates
+    singular: probetemplate
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ProbeTemplate is the Schema for the ProbeTemplates API. Resource
+          for managing Harness Chaos Probe Templates.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ProbeTemplateSpec defines the desired state of ProbeTemplate
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  apmProbe:
+                    description: |-
+                      (Block List, Max: 1) APM probe configuration. Required when type is 'apmProbe'. (see below for nested schema)
+                      APM probe configuration. Required when type is 'apmProbe'.
+                    items:
+                      properties:
+                        apmType:
+                          description: |-
+                            (String) APM provider type. Valid values: Prometheus, AppDynamics, SplunkObservability, Dynatrace, NewRelic, Datadog, GCPCloudMonitoring.
+                            APM provider type. Valid values: Prometheus, AppDynamics, SplunkObservability, Dynatrace, NewRelic, Datadog, GCPCloudMonitoring.
+                          type: string
+                        appDynamicsInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'AppDynamics'. (see below for nested schema)
+                            AppDynamics-specific inputs. Required when apm_type is 'AppDynamics'.
+                          items:
+                            properties:
+                              appdMetrics:
+                                description: |-
+                                  (Block List, Max: 1) AppDynamics metrics configuration. (see below for nested schema)
+                                  AppDynamics metrics configuration.
+                                items:
+                                  properties:
+                                    applicationName:
+                                      description: |-
+                                        (String) AppDynamics application name.
+                                        AppDynamics application name.
+                                      type: string
+                                    durationInMin:
+                                      description: |-
+                                        (Number) Duration in minutes for the AppDynamics query.
+                                        Duration in minutes for the AppDynamics query.
+                                      type: number
+                                    metricsFullPath:
+                                      description: |-
+                                        (String) Full path to the AppDynamics metric.
+                                        Full path to the AppDynamics metric.
+                                      type: string
+                                  type: object
+                                type: array
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for AppDynamics.
+                                type: string
+                            type: object
+                          type: array
+                        comparator:
+                          description: |-
+                            (Block List, Max: 1) Comparator for APM metric validation. (see below for nested schema)
+                            Comparator for APM metric validation.
+                          items:
+                            properties:
+                              criteria:
+                                description: |-
+                                  (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                  Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                type: string
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Comparator type (string, int, float).
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Expected value.
+                                type: string
+                            type: object
+                          type: array
+                        datadogInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Datadog'. (see below for nested schema)
+                            Datadog-specific inputs. Required when apm_type is 'Datadog'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Datadog.
+                                type: string
+                              durationInMin:
+                                description: |-
+                                  (Number) Duration in minutes for the AppDynamics query.
+                                  Duration in minutes for the Datadog query.
+                                type: number
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  Datadog query string.
+                                type: string
+                              syntheticsTest:
+                                description: |-
+                                  (Block List, Max: 1) Datadog Synthetics test configuration. (see below for nested schema)
+                                  Datadog Synthetics test configuration.
+                                items:
+                                  properties:
+                                    publicId:
+                                      description: |-
+                                        (String) Public ID of the Datadog Synthetics test.
+                                        Public ID of the Datadog Synthetics test.
+                                      type: string
+                                    testType:
+                                      description: |-
+                                        (String) Type of Synthetics test (api, browser).
+                                        Type of Synthetics test (api, browser).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        dynatraceInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Dynatrace'. (see below for nested schema)
+                            Dynatrace-specific inputs. Required when apm_type is 'Dynatrace'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Dynatrace.
+                                type: string
+                              durationInMin:
+                                description: |-
+                                  (Number) Duration in minutes for the AppDynamics query.
+                                  Duration in minutes for the Dynatrace query.
+                                type: number
+                              metrics:
+                                description: |-
+                                  (Block List, Max: 1) Dynatrace metrics configuration. (see below for nested schema)
+                                  Dynatrace metrics configuration.
+                                items:
+                                  properties:
+                                    entitySelector:
+                                      description: |-
+                                        (String) Dynatrace entity selector.
+                                        Dynatrace entity selector.
+                                      type: string
+                                    metricsSelector:
+                                      description: |-
+                                        (String) Dynatrace metrics selector.
+                                        Dynatrace metrics selector.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        gcpCloudMonitoringInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'GCPCloudMonitoring'. (see below for nested schema)
+                            GCP Cloud Monitoring-specific inputs. Required when apm_type is 'GCPCloudMonitoring'.
+                          items:
+                            properties:
+                              projectId:
+                                description: |-
+                                  (String) Project identifier.
+                                  GCP project ID.
+                                type: string
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  GCP monitoring query string.
+                                type: string
+                              serviceAccountKeySecretRef:
+                                description: |-
+                                  (String, Sensitive) GCP service account key (JSON).
+                                  GCP service account key (JSON).
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          type: array
+                        newRelicInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'NewRelic'. (see below for nested schema)
+                            NewRelic-specific inputs. Required when apm_type is 'NewRelic'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for NewRelic.
+                                type: string
+                              newRelicMetric:
+                                description: |-
+                                  (Block List, Max: 1) NewRelic metric configuration. (see below for nested schema)
+                                  NewRelic metric configuration.
+                                items:
+                                  properties:
+                                    query:
+                                      description: |-
+                                        (String) Datadog query string.
+                                        NRQL query string.
+                                      type: string
+                                    queryMetric:
+                                      description: |-
+                                        (String) NewRelic query metric name.
+                                        NewRelic query metric name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        prometheusInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Prometheus'. (see below for nested schema)
+                            Prometheus-specific inputs. Required when apm_type is 'Prometheus'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Prometheus.
+                                type: string
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  PromQL query string.
+                                type: string
+                              tlsConfig:
+                                description: |-
+                                  (Block List, Max: 1) TLS configuration for Prometheus connection. (see below for nested schema)
+                                  TLS configuration for Prometheus connection.
+                                items:
+                                  properties:
+                                    caCertSecret:
+                                      description: |-
+                                        (String) Harness secret identifier for CA certificate.
+                                        Harness secret identifier for CA certificate.
+                                      type: string
+                                    clientCertSecret:
+                                      description: |-
+                                        (String) Harness secret identifier for client certificate.
+                                        Harness secret identifier for client certificate.
+                                      type: string
+                                    clientKeySecret:
+                                      description: |-
+                                        (String) Harness secret identifier for client key.
+                                        Harness secret identifier for client key.
+                                      type: string
+                                    insecureSkipVerify:
+                                      description: |-
+                                        (Boolean) Skip TLS certificate verification.
+                                        Skip TLS certificate verification.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        splunkObservabilityInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'SplunkObservability'. (see below for nested schema)
+                            SplunkObservability-specific inputs. Required when apm_type is 'SplunkObservability'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Splunk Observability.
+                                type: string
+                              splunkObservabilityMetrics:
+                                description: |-
+                                  (Block List, Max: 1) Splunk Observability metrics configuration. (see below for nested schema)
+                                  Splunk Observability metrics configuration.
+                                items:
+                                  properties:
+                                    durationInMin:
+                                      description: |-
+                                        (Number) Duration in minutes for the AppDynamics query.
+                                        Duration in minutes for the Splunk query.
+                                      type: number
+                                    query:
+                                      description: |-
+                                        (String) Datadog query string.
+                                        Splunk Observability query string.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  cmdProbe:
+                    description: |-
+                      (Block List, Max: 1) Command probe configuration. Required when type is 'cmdProbe'. (see below for nested schema)
+                      Command probe configuration. Required when type is 'cmdProbe'.
+                    items:
+                      properties:
+                        command:
+                          description: |-
+                            (String) Command to execute.
+                            Command to execute.
+                          type: string
+                        comparator:
+                          description: |-
+                            (Block List, Max: 1) Comparator for APM metric validation. (see below for nested schema)
+                            Comparator for command output validation.
+                          items:
+                            properties:
+                              criteria:
+                                description: |-
+                                  (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                  Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                type: string
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Comparator type (string, int, float).
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Expected value.
+                                type: string
+                            type: object
+                          type: array
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the command. (see below for nested schema)
+                            Environment variables for the command.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the probe template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                        source:
+                          description: |-
+                            (String) Source of the command (inline, configMap, secret).
+                            Source of the command (inline, configMap, secret).
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the probe template.
+                      Description of the probe template.
+                    type: string
+                  httpProbe:
+                    description: |-
+                      (Block List, Max: 1) HTTP probe configuration. Required when type is 'httpProbe'. (see below for nested schema)
+                      HTTP probe configuration. Required when type is 'httpProbe'.
+                    items:
+                      properties:
+                        auth:
+                          description: |-
+                            (Block List, Max: 1) Authentication configuration. (see below for nested schema)
+                            Authentication configuration.
+                          items:
+                            properties:
+                              passwordSecretRef:
+                                description: |-
+                                  (String, Sensitive) Password for basic auth.
+                                  Password for basic auth.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              tokenSecretRef:
+                                description: |-
+                                  (String, Sensitive) Token for bearer auth.
+                                  Token for bearer auth.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Auth type (basic, bearer, etc.).
+                                type: string
+                              username:
+                                description: |-
+                                  (String) Username for basic auth.
+                                  Username for basic auth.
+                                type: string
+                            type: object
+                          type: array
+                        headers:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) HTTP headers.
+                            HTTP headers.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        method:
+                          description: |-
+                            (Block List, Max: 1) HTTP method configuration with GET or POST. (see below for nested schema)
+                            HTTP method configuration with GET or POST.
+                          items:
+                            properties:
+                              get:
+                                description: |-
+                                  (Block List, Max: 1) GET method configuration. (see below for nested schema)
+                                  GET method configuration.
+                                items:
+                                  properties:
+                                    criteria:
+                                      description: |-
+                                        (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                        Response criteria (e.g., '==', '!=', 'contains').
+                                      type: string
+                                    responseBody:
+                                      description: |-
+                                        (String) Expected response body.
+                                        Expected response body.
+                                      type: string
+                                    responseCode:
+                                      description: |-
+                                        (String) Expected HTTP response code (e.g., '200', '404').
+                                        Expected HTTP response code (e.g., '200', '404').
+                                      type: string
+                                  type: object
+                                type: array
+                              post:
+                                description: |-
+                                  (Block List, Max: 1) POST method configuration. (see below for nested schema)
+                                  POST method configuration.
+                                items:
+                                  properties:
+                                    body:
+                                      description: |-
+                                        (String) POST request body.
+                                        POST request body.
+                                      type: string
+                                    bodyPath:
+                                      description: |-
+                                        (String) Path to file containing POST body.
+                                        Path to file containing POST body.
+                                      type: string
+                                    contentType:
+                                      description: |-
+                                        Type header for POST request.
+                                        Content-Type header for POST request.
+                                      type: string
+                                    criteria:
+                                      description: |-
+                                        (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                        Response criteria (e.g., '==', '!=', 'contains').
+                                      type: string
+                                    responseBody:
+                                      description: |-
+                                        (String) Expected response body.
+                                        Expected response body.
+                                      type: string
+                                    responseCode:
+                                      description: |-
+                                        (String) Expected HTTP response code (e.g., '200', '404').
+                                        Expected HTTP response code (e.g., '200', '404').
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        tlsConfig:
+                          description: |-
+                            (Block List, Max: 1) TLS configuration for Prometheus connection. (see below for nested schema)
+                            TLS configuration.
+                          items:
+                            properties:
+                              caCert:
+                                description: |-
+                                  (String) CA certificate.
+                                  CA certificate.
+                                type: string
+                              clientCert:
+                                description: |-
+                                  (String) Client certificate.
+                                  Client certificate.
+                                type: string
+                              clientKeySecretRef:
+                                description: |-
+                                  (String, Sensitive) Client key.
+                                  Client key.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              insecureSkipVerify:
+                                description: |-
+                                  (Boolean) Skip TLS certificate verification.
+                                  Skip TLS certificate verification.
+                                type: boolean
+                            type: object
+                          type: array
+                        url:
+                          description: |-
+                            (String) URL to probe.
+                            URL to probe.
+                          type: string
+                      type: object
+                    type: array
+                  hubIdentity:
+                    description: |-
+                      (String) Identity of the chaos hub this probe template belongs to.
+                      Identity of the chaos hub this probe template belongs to.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the probe template (immutable).
+                      Unique identifier for the probe template (immutable).
+                    type: string
+                  infrastructureType:
+                    description: |-
+                      (String) Infrastructure type for the probe template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container.
+                      Infrastructure type for the probe template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container.
+                    type: string
+                  k8sProbe:
+                    description: |-
+                      (Block List, Max: 1) Kubernetes probe configuration. Required when type is 'k8sProbe'. (see below for nested schema)
+                      Kubernetes probe configuration. Required when type is 'k8sProbe'.
+                    items:
+                      properties:
+                        fieldSelector:
+                          description: |-
+                            (String) Field selector for filtering resources.
+                            Field selector for filtering resources.
+                          type: string
+                        group:
+                          description: |-
+                            (String) API group (e.g., 'apps', 'batch').
+                            API group (e.g., 'apps', 'batch').
+                          type: string
+                        labelSelector:
+                          description: |-
+                            (String) Label selector for filtering resources.
+                            Label selector for filtering resources.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) Kubernetes namespace.
+                            Kubernetes namespace.
+                          type: string
+                        operation:
+                          description: |-
+                            (String) Operation to perform (create, delete, present, absent, etc.).
+                            Operation to perform (create, delete, present, absent, etc.).
+                          type: string
+                        resource:
+                          description: |-
+                            (String) Resource type (e.g., 'pods', 'deployments').
+                            Resource type (e.g., 'pods', 'deployments').
+                          type: string
+                        resourceNames:
+                          description: |-
+                            separated list of resource names.
+                            Comma-separated list of resource names.
+                          type: string
+                        version:
+                          description: |-
+                            (String) API version (e.g., 'v1', 'v1beta1').
+                            API version (e.g., 'v1', 'v1beta1').
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Name of the probe template.
+                      Name of the probe template.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier.
+                      Organization identifier.
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  projectId:
+                    description: |-
+                      (String) Project identifier.
+                      Project identifier.
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  runProperties:
+                    description: |-
+                      (Block List, Max: 1) Run properties for the probe template execution. (see below for nested schema)
+                      Run properties for the probe template execution.
+                    items:
+                      properties:
+                        attempt:
+                          description: |-
+                            (Number) Number of attempts.
+                            Number of attempts.
+                          type: number
+                        initialDelay:
+                          description: |-
+                            (String) Initial delay before probe execution (e.g., '5s', '1m').
+                            Initial delay before probe execution (e.g., '5s', '1m').
+                          type: string
+                        interval:
+                          description: |-
+                            (String) Interval between probe executions (e.g., '10s', '30s').
+                            Interval between probe executions (e.g., '10s', '30s').
+                          type: string
+                        pollingInterval:
+                          description: |-
+                            (String) Polling interval for continuous probes (e.g., '2s', '5s').
+                            Polling interval for continuous probes (e.g., '2s', '5s').
+                          type: string
+                        retry:
+                          description: |-
+                            (Number) Number of retries.
+                            Number of retries.
+                          type: number
+                        stopOnFailure:
+                          description: |-
+                            (Boolean) Whether to stop on failure.
+                            Whether to stop on failure.
+                          type: boolean
+                        timeout:
+                          description: |-
+                            (String) Timeout for probe execution (e.g., '30s', '5m').
+                            Timeout for probe execution (e.g., '30s', '5m').
+                          type: string
+                        verbosity:
+                          description: |-
+                            (String) Verbosity level for logging.
+                            Verbosity level for logging.
+                          type: string
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags to associate with the probe template.
+                      Tags to associate with the probe template.
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                      Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables that can be used in the probe. (see below for nested schema)
+                      Template variables that can be used in the probe.
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the probe template.
+                            Variable description.
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the probe template.
+                            Variable name.
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required.
+                            Whether the variable is required.
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                            Variable type (e.g., 'string', 'number', 'boolean').
+                          type: string
+                        value:
+                          description: |-
+                            (String) Expected value.
+                            Variable value.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  apmProbe:
+                    description: |-
+                      (Block List, Max: 1) APM probe configuration. Required when type is 'apmProbe'. (see below for nested schema)
+                      APM probe configuration. Required when type is 'apmProbe'.
+                    items:
+                      properties:
+                        apmType:
+                          description: |-
+                            (String) APM provider type. Valid values: Prometheus, AppDynamics, SplunkObservability, Dynatrace, NewRelic, Datadog, GCPCloudMonitoring.
+                            APM provider type. Valid values: Prometheus, AppDynamics, SplunkObservability, Dynatrace, NewRelic, Datadog, GCPCloudMonitoring.
+                          type: string
+                        appDynamicsInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'AppDynamics'. (see below for nested schema)
+                            AppDynamics-specific inputs. Required when apm_type is 'AppDynamics'.
+                          items:
+                            properties:
+                              appdMetrics:
+                                description: |-
+                                  (Block List, Max: 1) AppDynamics metrics configuration. (see below for nested schema)
+                                  AppDynamics metrics configuration.
+                                items:
+                                  properties:
+                                    applicationName:
+                                      description: |-
+                                        (String) AppDynamics application name.
+                                        AppDynamics application name.
+                                      type: string
+                                    durationInMin:
+                                      description: |-
+                                        (Number) Duration in minutes for the AppDynamics query.
+                                        Duration in minutes for the AppDynamics query.
+                                      type: number
+                                    metricsFullPath:
+                                      description: |-
+                                        (String) Full path to the AppDynamics metric.
+                                        Full path to the AppDynamics metric.
+                                      type: string
+                                  type: object
+                                type: array
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for AppDynamics.
+                                type: string
+                            type: object
+                          type: array
+                        comparator:
+                          description: |-
+                            (Block List, Max: 1) Comparator for APM metric validation. (see below for nested schema)
+                            Comparator for APM metric validation.
+                          items:
+                            properties:
+                              criteria:
+                                description: |-
+                                  (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                  Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                type: string
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Comparator type (string, int, float).
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Expected value.
+                                type: string
+                            type: object
+                          type: array
+                        datadogInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Datadog'. (see below for nested schema)
+                            Datadog-specific inputs. Required when apm_type is 'Datadog'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Datadog.
+                                type: string
+                              durationInMin:
+                                description: |-
+                                  (Number) Duration in minutes for the AppDynamics query.
+                                  Duration in minutes for the Datadog query.
+                                type: number
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  Datadog query string.
+                                type: string
+                              syntheticsTest:
+                                description: |-
+                                  (Block List, Max: 1) Datadog Synthetics test configuration. (see below for nested schema)
+                                  Datadog Synthetics test configuration.
+                                items:
+                                  properties:
+                                    publicId:
+                                      description: |-
+                                        (String) Public ID of the Datadog Synthetics test.
+                                        Public ID of the Datadog Synthetics test.
+                                      type: string
+                                    testType:
+                                      description: |-
+                                        (String) Type of Synthetics test (api, browser).
+                                        Type of Synthetics test (api, browser).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        dynatraceInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Dynatrace'. (see below for nested schema)
+                            Dynatrace-specific inputs. Required when apm_type is 'Dynatrace'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Dynatrace.
+                                type: string
+                              durationInMin:
+                                description: |-
+                                  (Number) Duration in minutes for the AppDynamics query.
+                                  Duration in minutes for the Dynatrace query.
+                                type: number
+                              metrics:
+                                description: |-
+                                  (Block List, Max: 1) Dynatrace metrics configuration. (see below for nested schema)
+                                  Dynatrace metrics configuration.
+                                items:
+                                  properties:
+                                    entitySelector:
+                                      description: |-
+                                        (String) Dynatrace entity selector.
+                                        Dynatrace entity selector.
+                                      type: string
+                                    metricsSelector:
+                                      description: |-
+                                        (String) Dynatrace metrics selector.
+                                        Dynatrace metrics selector.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        gcpCloudMonitoringInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'GCPCloudMonitoring'. (see below for nested schema)
+                            GCP Cloud Monitoring-specific inputs. Required when apm_type is 'GCPCloudMonitoring'.
+                          items:
+                            properties:
+                              projectId:
+                                description: |-
+                                  (String) Project identifier.
+                                  GCP project ID.
+                                type: string
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  GCP monitoring query string.
+                                type: string
+                              serviceAccountKeySecretRef:
+                                description: |-
+                                  (String, Sensitive) GCP service account key (JSON).
+                                  GCP service account key (JSON).
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            required:
+                            - serviceAccountKeySecretRef
+                            type: object
+                          type: array
+                        newRelicInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'NewRelic'. (see below for nested schema)
+                            NewRelic-specific inputs. Required when apm_type is 'NewRelic'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for NewRelic.
+                                type: string
+                              newRelicMetric:
+                                description: |-
+                                  (Block List, Max: 1) NewRelic metric configuration. (see below for nested schema)
+                                  NewRelic metric configuration.
+                                items:
+                                  properties:
+                                    query:
+                                      description: |-
+                                        (String) Datadog query string.
+                                        NRQL query string.
+                                      type: string
+                                    queryMetric:
+                                      description: |-
+                                        (String) NewRelic query metric name.
+                                        NewRelic query metric name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        prometheusInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Prometheus'. (see below for nested schema)
+                            Prometheus-specific inputs. Required when apm_type is 'Prometheus'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Prometheus.
+                                type: string
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  PromQL query string.
+                                type: string
+                              tlsConfig:
+                                description: |-
+                                  (Block List, Max: 1) TLS configuration for Prometheus connection. (see below for nested schema)
+                                  TLS configuration for Prometheus connection.
+                                items:
+                                  properties:
+                                    caCertSecret:
+                                      description: |-
+                                        (String) Harness secret identifier for CA certificate.
+                                        Harness secret identifier for CA certificate.
+                                      type: string
+                                    clientCertSecret:
+                                      description: |-
+                                        (String) Harness secret identifier for client certificate.
+                                        Harness secret identifier for client certificate.
+                                      type: string
+                                    clientKeySecret:
+                                      description: |-
+                                        (String) Harness secret identifier for client key.
+                                        Harness secret identifier for client key.
+                                      type: string
+                                    insecureSkipVerify:
+                                      description: |-
+                                        (Boolean) Skip TLS certificate verification.
+                                        Skip TLS certificate verification.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        splunkObservabilityInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'SplunkObservability'. (see below for nested schema)
+                            SplunkObservability-specific inputs. Required when apm_type is 'SplunkObservability'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Splunk Observability.
+                                type: string
+                              splunkObservabilityMetrics:
+                                description: |-
+                                  (Block List, Max: 1) Splunk Observability metrics configuration. (see below for nested schema)
+                                  Splunk Observability metrics configuration.
+                                items:
+                                  properties:
+                                    durationInMin:
+                                      description: |-
+                                        (Number) Duration in minutes for the AppDynamics query.
+                                        Duration in minutes for the Splunk query.
+                                      type: number
+                                    query:
+                                      description: |-
+                                        (String) Datadog query string.
+                                        Splunk Observability query string.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  cmdProbe:
+                    description: |-
+                      (Block List, Max: 1) Command probe configuration. Required when type is 'cmdProbe'. (see below for nested schema)
+                      Command probe configuration. Required when type is 'cmdProbe'.
+                    items:
+                      properties:
+                        command:
+                          description: |-
+                            (String) Command to execute.
+                            Command to execute.
+                          type: string
+                        comparator:
+                          description: |-
+                            (Block List, Max: 1) Comparator for APM metric validation. (see below for nested schema)
+                            Comparator for command output validation.
+                          items:
+                            properties:
+                              criteria:
+                                description: |-
+                                  (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                  Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                type: string
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Comparator type (string, int, float).
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Expected value.
+                                type: string
+                            type: object
+                          type: array
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the command. (see below for nested schema)
+                            Environment variables for the command.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the probe template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                        source:
+                          description: |-
+                            (String) Source of the command (inline, configMap, secret).
+                            Source of the command (inline, configMap, secret).
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the probe template.
+                      Description of the probe template.
+                    type: string
+                  httpProbe:
+                    description: |-
+                      (Block List, Max: 1) HTTP probe configuration. Required when type is 'httpProbe'. (see below for nested schema)
+                      HTTP probe configuration. Required when type is 'httpProbe'.
+                    items:
+                      properties:
+                        auth:
+                          description: |-
+                            (Block List, Max: 1) Authentication configuration. (see below for nested schema)
+                            Authentication configuration.
+                          items:
+                            properties:
+                              passwordSecretRef:
+                                description: |-
+                                  (String, Sensitive) Password for basic auth.
+                                  Password for basic auth.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              tokenSecretRef:
+                                description: |-
+                                  (String, Sensitive) Token for bearer auth.
+                                  Token for bearer auth.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Auth type (basic, bearer, etc.).
+                                type: string
+                              username:
+                                description: |-
+                                  (String) Username for basic auth.
+                                  Username for basic auth.
+                                type: string
+                            type: object
+                          type: array
+                        headers:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) HTTP headers.
+                            HTTP headers.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        method:
+                          description: |-
+                            (Block List, Max: 1) HTTP method configuration with GET or POST. (see below for nested schema)
+                            HTTP method configuration with GET or POST.
+                          items:
+                            properties:
+                              get:
+                                description: |-
+                                  (Block List, Max: 1) GET method configuration. (see below for nested schema)
+                                  GET method configuration.
+                                items:
+                                  properties:
+                                    criteria:
+                                      description: |-
+                                        (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                        Response criteria (e.g., '==', '!=', 'contains').
+                                      type: string
+                                    responseBody:
+                                      description: |-
+                                        (String) Expected response body.
+                                        Expected response body.
+                                      type: string
+                                    responseCode:
+                                      description: |-
+                                        (String) Expected HTTP response code (e.g., '200', '404').
+                                        Expected HTTP response code (e.g., '200', '404').
+                                      type: string
+                                  type: object
+                                type: array
+                              post:
+                                description: |-
+                                  (Block List, Max: 1) POST method configuration. (see below for nested schema)
+                                  POST method configuration.
+                                items:
+                                  properties:
+                                    body:
+                                      description: |-
+                                        (String) POST request body.
+                                        POST request body.
+                                      type: string
+                                    bodyPath:
+                                      description: |-
+                                        (String) Path to file containing POST body.
+                                        Path to file containing POST body.
+                                      type: string
+                                    contentType:
+                                      description: |-
+                                        Type header for POST request.
+                                        Content-Type header for POST request.
+                                      type: string
+                                    criteria:
+                                      description: |-
+                                        (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                        Response criteria (e.g., '==', '!=', 'contains').
+                                      type: string
+                                    responseBody:
+                                      description: |-
+                                        (String) Expected response body.
+                                        Expected response body.
+                                      type: string
+                                    responseCode:
+                                      description: |-
+                                        (String) Expected HTTP response code (e.g., '200', '404').
+                                        Expected HTTP response code (e.g., '200', '404').
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        tlsConfig:
+                          description: |-
+                            (Block List, Max: 1) TLS configuration for Prometheus connection. (see below for nested schema)
+                            TLS configuration.
+                          items:
+                            properties:
+                              caCert:
+                                description: |-
+                                  (String) CA certificate.
+                                  CA certificate.
+                                type: string
+                              clientCert:
+                                description: |-
+                                  (String) Client certificate.
+                                  Client certificate.
+                                type: string
+                              clientKeySecretRef:
+                                description: |-
+                                  (String, Sensitive) Client key.
+                                  Client key.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              insecureSkipVerify:
+                                description: |-
+                                  (Boolean) Skip TLS certificate verification.
+                                  Skip TLS certificate verification.
+                                type: boolean
+                            type: object
+                          type: array
+                        url:
+                          description: |-
+                            (String) URL to probe.
+                            URL to probe.
+                          type: string
+                      type: object
+                    type: array
+                  hubIdentity:
+                    description: |-
+                      (String) Identity of the chaos hub this probe template belongs to.
+                      Identity of the chaos hub this probe template belongs to.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the probe template (immutable).
+                      Unique identifier for the probe template (immutable).
+                    type: string
+                  infrastructureType:
+                    description: |-
+                      (String) Infrastructure type for the probe template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container.
+                      Infrastructure type for the probe template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container.
+                    type: string
+                  k8sProbe:
+                    description: |-
+                      (Block List, Max: 1) Kubernetes probe configuration. Required when type is 'k8sProbe'. (see below for nested schema)
+                      Kubernetes probe configuration. Required when type is 'k8sProbe'.
+                    items:
+                      properties:
+                        fieldSelector:
+                          description: |-
+                            (String) Field selector for filtering resources.
+                            Field selector for filtering resources.
+                          type: string
+                        group:
+                          description: |-
+                            (String) API group (e.g., 'apps', 'batch').
+                            API group (e.g., 'apps', 'batch').
+                          type: string
+                        labelSelector:
+                          description: |-
+                            (String) Label selector for filtering resources.
+                            Label selector for filtering resources.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) Kubernetes namespace.
+                            Kubernetes namespace.
+                          type: string
+                        operation:
+                          description: |-
+                            (String) Operation to perform (create, delete, present, absent, etc.).
+                            Operation to perform (create, delete, present, absent, etc.).
+                          type: string
+                        resource:
+                          description: |-
+                            (String) Resource type (e.g., 'pods', 'deployments').
+                            Resource type (e.g., 'pods', 'deployments').
+                          type: string
+                        resourceNames:
+                          description: |-
+                            separated list of resource names.
+                            Comma-separated list of resource names.
+                          type: string
+                        version:
+                          description: |-
+                            (String) API version (e.g., 'v1', 'v1beta1').
+                            API version (e.g., 'v1', 'v1beta1').
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Name of the probe template.
+                      Name of the probe template.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier.
+                      Organization identifier.
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  projectId:
+                    description: |-
+                      (String) Project identifier.
+                      Project identifier.
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  runProperties:
+                    description: |-
+                      (Block List, Max: 1) Run properties for the probe template execution. (see below for nested schema)
+                      Run properties for the probe template execution.
+                    items:
+                      properties:
+                        attempt:
+                          description: |-
+                            (Number) Number of attempts.
+                            Number of attempts.
+                          type: number
+                        initialDelay:
+                          description: |-
+                            (String) Initial delay before probe execution (e.g., '5s', '1m').
+                            Initial delay before probe execution (e.g., '5s', '1m').
+                          type: string
+                        interval:
+                          description: |-
+                            (String) Interval between probe executions (e.g., '10s', '30s').
+                            Interval between probe executions (e.g., '10s', '30s').
+                          type: string
+                        pollingInterval:
+                          description: |-
+                            (String) Polling interval for continuous probes (e.g., '2s', '5s').
+                            Polling interval for continuous probes (e.g., '2s', '5s').
+                          type: string
+                        retry:
+                          description: |-
+                            (Number) Number of retries.
+                            Number of retries.
+                          type: number
+                        stopOnFailure:
+                          description: |-
+                            (Boolean) Whether to stop on failure.
+                            Whether to stop on failure.
+                          type: boolean
+                        timeout:
+                          description: |-
+                            (String) Timeout for probe execution (e.g., '30s', '5m').
+                            Timeout for probe execution (e.g., '30s', '5m').
+                          type: string
+                        verbosity:
+                          description: |-
+                            (String) Verbosity level for logging.
+                            Verbosity level for logging.
+                          type: string
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags to associate with the probe template.
+                      Tags to associate with the probe template.
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                      Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables that can be used in the probe. (see below for nested schema)
+                      Template variables that can be used in the probe.
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the probe template.
+                            Variable description.
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the probe template.
+                            Variable name.
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required.
+                            Whether the variable is required.
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                            Variable type (e.g., 'string', 'number', 'boolean').
+                          type: string
+                        value:
+                          description: |-
+                            (String) Expected value.
+                            Variable value.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.hubIdentity is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.hubIdentity)
+                || (has(self.initProvider) && has(self.initProvider.hubIdentity))'
+            - message: spec.forProvider.identity is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.identity)
+                || (has(self.initProvider) && has(self.initProvider.identity))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.type is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.type)
+                || (has(self.initProvider) && has(self.initProvider.type))'
+          status:
+            description: ProbeTemplateStatus defines the observed state of ProbeTemplate.
+            properties:
+              atProvider:
+                properties:
+                  accountId:
+                    description: |-
+                      (String) Account identifier.
+                      Account identifier.
+                    type: string
+                  apmProbe:
+                    description: |-
+                      (Block List, Max: 1) APM probe configuration. Required when type is 'apmProbe'. (see below for nested schema)
+                      APM probe configuration. Required when type is 'apmProbe'.
+                    items:
+                      properties:
+                        apmType:
+                          description: |-
+                            (String) APM provider type. Valid values: Prometheus, AppDynamics, SplunkObservability, Dynatrace, NewRelic, Datadog, GCPCloudMonitoring.
+                            APM provider type. Valid values: Prometheus, AppDynamics, SplunkObservability, Dynatrace, NewRelic, Datadog, GCPCloudMonitoring.
+                          type: string
+                        appDynamicsInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'AppDynamics'. (see below for nested schema)
+                            AppDynamics-specific inputs. Required when apm_type is 'AppDynamics'.
+                          items:
+                            properties:
+                              appdMetrics:
+                                description: |-
+                                  (Block List, Max: 1) AppDynamics metrics configuration. (see below for nested schema)
+                                  AppDynamics metrics configuration.
+                                items:
+                                  properties:
+                                    applicationName:
+                                      description: |-
+                                        (String) AppDynamics application name.
+                                        AppDynamics application name.
+                                      type: string
+                                    durationInMin:
+                                      description: |-
+                                        (Number) Duration in minutes for the AppDynamics query.
+                                        Duration in minutes for the AppDynamics query.
+                                      type: number
+                                    metricsFullPath:
+                                      description: |-
+                                        (String) Full path to the AppDynamics metric.
+                                        Full path to the AppDynamics metric.
+                                      type: string
+                                  type: object
+                                type: array
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for AppDynamics.
+                                type: string
+                            type: object
+                          type: array
+                        comparator:
+                          description: |-
+                            (Block List, Max: 1) Comparator for APM metric validation. (see below for nested schema)
+                            Comparator for APM metric validation.
+                          items:
+                            properties:
+                              criteria:
+                                description: |-
+                                  (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                  Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                type: string
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Comparator type (string, int, float).
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Expected value.
+                                type: string
+                            type: object
+                          type: array
+                        datadogInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Datadog'. (see below for nested schema)
+                            Datadog-specific inputs. Required when apm_type is 'Datadog'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Datadog.
+                                type: string
+                              durationInMin:
+                                description: |-
+                                  (Number) Duration in minutes for the AppDynamics query.
+                                  Duration in minutes for the Datadog query.
+                                type: number
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  Datadog query string.
+                                type: string
+                              syntheticsTest:
+                                description: |-
+                                  (Block List, Max: 1) Datadog Synthetics test configuration. (see below for nested schema)
+                                  Datadog Synthetics test configuration.
+                                items:
+                                  properties:
+                                    publicId:
+                                      description: |-
+                                        (String) Public ID of the Datadog Synthetics test.
+                                        Public ID of the Datadog Synthetics test.
+                                      type: string
+                                    testType:
+                                      description: |-
+                                        (String) Type of Synthetics test (api, browser).
+                                        Type of Synthetics test (api, browser).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        dynatraceInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Dynatrace'. (see below for nested schema)
+                            Dynatrace-specific inputs. Required when apm_type is 'Dynatrace'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Dynatrace.
+                                type: string
+                              durationInMin:
+                                description: |-
+                                  (Number) Duration in minutes for the AppDynamics query.
+                                  Duration in minutes for the Dynatrace query.
+                                type: number
+                              metrics:
+                                description: |-
+                                  (Block List, Max: 1) Dynatrace metrics configuration. (see below for nested schema)
+                                  Dynatrace metrics configuration.
+                                items:
+                                  properties:
+                                    entitySelector:
+                                      description: |-
+                                        (String) Dynatrace entity selector.
+                                        Dynatrace entity selector.
+                                      type: string
+                                    metricsSelector:
+                                      description: |-
+                                        (String) Dynatrace metrics selector.
+                                        Dynatrace metrics selector.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        gcpCloudMonitoringInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'GCPCloudMonitoring'. (see below for nested schema)
+                            GCP Cloud Monitoring-specific inputs. Required when apm_type is 'GCPCloudMonitoring'.
+                          items:
+                            properties:
+                              projectId:
+                                description: |-
+                                  (String) Project identifier.
+                                  GCP project ID.
+                                type: string
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  GCP monitoring query string.
+                                type: string
+                            type: object
+                          type: array
+                        newRelicInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'NewRelic'. (see below for nested schema)
+                            NewRelic-specific inputs. Required when apm_type is 'NewRelic'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for NewRelic.
+                                type: string
+                              newRelicMetric:
+                                description: |-
+                                  (Block List, Max: 1) NewRelic metric configuration. (see below for nested schema)
+                                  NewRelic metric configuration.
+                                items:
+                                  properties:
+                                    query:
+                                      description: |-
+                                        (String) Datadog query string.
+                                        NRQL query string.
+                                      type: string
+                                    queryMetric:
+                                      description: |-
+                                        (String) NewRelic query metric name.
+                                        NewRelic query metric name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        prometheusInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'Prometheus'. (see below for nested schema)
+                            Prometheus-specific inputs. Required when apm_type is 'Prometheus'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Prometheus.
+                                type: string
+                              query:
+                                description: |-
+                                  (String) Datadog query string.
+                                  PromQL query string.
+                                type: string
+                              tlsConfig:
+                                description: |-
+                                  (Block List, Max: 1) TLS configuration for Prometheus connection. (see below for nested schema)
+                                  TLS configuration for Prometheus connection.
+                                items:
+                                  properties:
+                                    caCertSecret:
+                                      description: |-
+                                        (String) Harness secret identifier for CA certificate.
+                                        Harness secret identifier for CA certificate.
+                                      type: string
+                                    clientCertSecret:
+                                      description: |-
+                                        (String) Harness secret identifier for client certificate.
+                                        Harness secret identifier for client certificate.
+                                      type: string
+                                    clientKeySecret:
+                                      description: |-
+                                        (String) Harness secret identifier for client key.
+                                        Harness secret identifier for client key.
+                                      type: string
+                                    insecureSkipVerify:
+                                      description: |-
+                                        (Boolean) Skip TLS certificate verification.
+                                        Skip TLS certificate verification.
+                                      type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        splunkObservabilityInputs:
+                          description: |-
+                            specific inputs. Required when apm_type is 'SplunkObservability'. (see below for nested schema)
+                            SplunkObservability-specific inputs. Required when apm_type is 'SplunkObservability'.
+                          items:
+                            properties:
+                              connectorId:
+                                description: |-
+                                  (String) Harness connector ID for AppDynamics.
+                                  Harness connector ID for Splunk Observability.
+                                type: string
+                              splunkObservabilityMetrics:
+                                description: |-
+                                  (Block List, Max: 1) Splunk Observability metrics configuration. (see below for nested schema)
+                                  Splunk Observability metrics configuration.
+                                items:
+                                  properties:
+                                    durationInMin:
+                                      description: |-
+                                        (Number) Duration in minutes for the AppDynamics query.
+                                        Duration in minutes for the Splunk query.
+                                      type: number
+                                    query:
+                                      description: |-
+                                        (String) Datadog query string.
+                                        Splunk Observability query string.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  cmdProbe:
+                    description: |-
+                      (Block List, Max: 1) Command probe configuration. Required when type is 'cmdProbe'. (see below for nested schema)
+                      Command probe configuration. Required when type is 'cmdProbe'.
+                    items:
+                      properties:
+                        command:
+                          description: |-
+                            (String) Command to execute.
+                            Command to execute.
+                          type: string
+                        comparator:
+                          description: |-
+                            (Block List, Max: 1) Comparator for APM metric validation. (see below for nested schema)
+                            Comparator for command output validation.
+                          items:
+                            properties:
+                              criteria:
+                                description: |-
+                                  (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                  Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                type: string
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Comparator type (string, int, float).
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Expected value.
+                                type: string
+                            type: object
+                          type: array
+                        env:
+                          description: |-
+                            (Block List) Environment variables for the command. (see below for nested schema)
+                            Environment variables for the command.
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Name of the probe template.
+                                  Environment variable name.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Expected value.
+                                  Environment variable value.
+                                type: string
+                            type: object
+                          type: array
+                        source:
+                          description: |-
+                            (String) Source of the command (inline, configMap, secret).
+                            Source of the command (inline, configMap, secret).
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the probe template.
+                      Description of the probe template.
+                    type: string
+                  httpProbe:
+                    description: |-
+                      (Block List, Max: 1) HTTP probe configuration. Required when type is 'httpProbe'. (see below for nested schema)
+                      HTTP probe configuration. Required when type is 'httpProbe'.
+                    items:
+                      properties:
+                        auth:
+                          description: |-
+                            (Block List, Max: 1) Authentication configuration. (see below for nested schema)
+                            Authentication configuration.
+                          items:
+                            properties:
+                              type:
+                                description: |-
+                                  (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                                  Auth type (basic, bearer, etc.).
+                                type: string
+                              username:
+                                description: |-
+                                  (String) Username for basic auth.
+                                  Username for basic auth.
+                                type: string
+                            type: object
+                          type: array
+                        headers:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) HTTP headers.
+                            HTTP headers.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        method:
+                          description: |-
+                            (Block List, Max: 1) HTTP method configuration with GET or POST. (see below for nested schema)
+                            HTTP method configuration with GET or POST.
+                          items:
+                            properties:
+                              get:
+                                description: |-
+                                  (Block List, Max: 1) GET method configuration. (see below for nested schema)
+                                  GET method configuration.
+                                items:
+                                  properties:
+                                    criteria:
+                                      description: |-
+                                        (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                        Response criteria (e.g., '==', '!=', 'contains').
+                                      type: string
+                                    responseBody:
+                                      description: |-
+                                        (String) Expected response body.
+                                        Expected response body.
+                                      type: string
+                                    responseCode:
+                                      description: |-
+                                        (String) Expected HTTP response code (e.g., '200', '404').
+                                        Expected HTTP response code (e.g., '200', '404').
+                                      type: string
+                                  type: object
+                                type: array
+                              post:
+                                description: |-
+                                  (Block List, Max: 1) POST method configuration. (see below for nested schema)
+                                  POST method configuration.
+                                items:
+                                  properties:
+                                    body:
+                                      description: |-
+                                        (String) POST request body.
+                                        POST request body.
+                                      type: string
+                                    bodyPath:
+                                      description: |-
+                                        (String) Path to file containing POST body.
+                                        Path to file containing POST body.
+                                      type: string
+                                    contentType:
+                                      description: |-
+                                        Type header for POST request.
+                                        Content-Type header for POST request.
+                                      type: string
+                                    criteria:
+                                      description: |-
+                                        (String) Comparison criteria (==, !=, <, >, <=, >=, contains, matches, notMatches, oneOf).
+                                        Response criteria (e.g., '==', '!=', 'contains').
+                                      type: string
+                                    responseBody:
+                                      description: |-
+                                        (String) Expected response body.
+                                        Expected response body.
+                                      type: string
+                                    responseCode:
+                                      description: |-
+                                        (String) Expected HTTP response code (e.g., '200', '404').
+                                        Expected HTTP response code (e.g., '200', '404').
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        tlsConfig:
+                          description: |-
+                            (Block List, Max: 1) TLS configuration for Prometheus connection. (see below for nested schema)
+                            TLS configuration.
+                          items:
+                            properties:
+                              caCert:
+                                description: |-
+                                  (String) CA certificate.
+                                  CA certificate.
+                                type: string
+                              clientCert:
+                                description: |-
+                                  (String) Client certificate.
+                                  Client certificate.
+                                type: string
+                              insecureSkipVerify:
+                                description: |-
+                                  (Boolean) Skip TLS certificate verification.
+                                  Skip TLS certificate verification.
+                                type: boolean
+                            type: object
+                          type: array
+                        url:
+                          description: |-
+                            (String) URL to probe.
+                            URL to probe.
+                          type: string
+                      type: object
+                    type: array
+                  hubIdentity:
+                    description: |-
+                      (String) Identity of the chaos hub this probe template belongs to.
+                      Identity of the chaos hub this probe template belongs to.
+                    type: string
+                  hubRef:
+                    description: |-
+                      (String) Hub reference.
+                      Hub reference.
+                    type: string
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the probe template (immutable).
+                      Unique identifier for the probe template (immutable).
+                    type: string
+                  infrastructureType:
+                    description: |-
+                      (String) Infrastructure type for the probe template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container.
+                      Infrastructure type for the probe template. Valid values: Kubernetes, KubernetesV2, Windows, Linux, CloudFoundry, Container.
+                    type: string
+                  isDefault:
+                    description: |-
+                      (Boolean) Whether this is the default version for predefined probes.
+                      Whether this is the default version for predefined probes.
+                    type: boolean
+                  k8sProbe:
+                    description: |-
+                      (Block List, Max: 1) Kubernetes probe configuration. Required when type is 'k8sProbe'. (see below for nested schema)
+                      Kubernetes probe configuration. Required when type is 'k8sProbe'.
+                    items:
+                      properties:
+                        fieldSelector:
+                          description: |-
+                            (String) Field selector for filtering resources.
+                            Field selector for filtering resources.
+                          type: string
+                        group:
+                          description: |-
+                            (String) API group (e.g., 'apps', 'batch').
+                            API group (e.g., 'apps', 'batch').
+                          type: string
+                        labelSelector:
+                          description: |-
+                            (String) Label selector for filtering resources.
+                            Label selector for filtering resources.
+                          type: string
+                        namespace:
+                          description: |-
+                            (String) Kubernetes namespace.
+                            Kubernetes namespace.
+                          type: string
+                        operation:
+                          description: |-
+                            (String) Operation to perform (create, delete, present, absent, etc.).
+                            Operation to perform (create, delete, present, absent, etc.).
+                          type: string
+                        resource:
+                          description: |-
+                            (String) Resource type (e.g., 'pods', 'deployments').
+                            Resource type (e.g., 'pods', 'deployments').
+                          type: string
+                        resourceNames:
+                          description: |-
+                            separated list of resource names.
+                            Comma-separated list of resource names.
+                          type: string
+                        version:
+                          description: |-
+                            (String) API version (e.g., 'v1', 'v1beta1').
+                            API version (e.g., 'v1', 'v1beta1').
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Name of the probe template.
+                      Name of the probe template.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier.
+                      Organization identifier.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) Project identifier.
+                      Project identifier.
+                    type: string
+                  revision:
+                    description: |-
+                      (Number) Revision number of the probe template.
+                      Revision number of the probe template.
+                    type: number
+                  runProperties:
+                    description: |-
+                      (Block List, Max: 1) Run properties for the probe template execution. (see below for nested schema)
+                      Run properties for the probe template execution.
+                    items:
+                      properties:
+                        attempt:
+                          description: |-
+                            (Number) Number of attempts.
+                            Number of attempts.
+                          type: number
+                        initialDelay:
+                          description: |-
+                            (String) Initial delay before probe execution (e.g., '5s', '1m').
+                            Initial delay before probe execution (e.g., '5s', '1m').
+                          type: string
+                        interval:
+                          description: |-
+                            (String) Interval between probe executions (e.g., '10s', '30s').
+                            Interval between probe executions (e.g., '10s', '30s').
+                          type: string
+                        pollingInterval:
+                          description: |-
+                            (String) Polling interval for continuous probes (e.g., '2s', '5s').
+                            Polling interval for continuous probes (e.g., '2s', '5s').
+                          type: string
+                        retry:
+                          description: |-
+                            (Number) Number of retries.
+                            Number of retries.
+                          type: number
+                        stopOnFailure:
+                          description: |-
+                            (Boolean) Whether to stop on failure.
+                            Whether to stop on failure.
+                          type: boolean
+                        timeout:
+                          description: |-
+                            (String) Timeout for probe execution (e.g., '30s', '5m').
+                            Timeout for probe execution (e.g., '30s', '5m').
+                          type: string
+                        verbosity:
+                          description: |-
+                            (String) Verbosity level for logging.
+                            Verbosity level for logging.
+                          type: string
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags to associate with the probe template.
+                      Tags to associate with the probe template.
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                      Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables that can be used in the probe. (see below for nested schema)
+                      Template variables that can be used in the probe.
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the probe template.
+                            Variable description.
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the probe template.
+                            Variable name.
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required.
+                            Whether the variable is required.
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Type of the probe template. Valid values: httpProbe, cmdProbe, k8sProbe, promProbe, sloProbe, datadogProbe, dynatraceProbe, containerProbe, apmProbe.
+                            Variable type (e.g., 'string', 'number', 'boolean').
+                          type: string
+                        value:
+                          description: |-
+                            (String) Expected value.
+                            Variable value.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

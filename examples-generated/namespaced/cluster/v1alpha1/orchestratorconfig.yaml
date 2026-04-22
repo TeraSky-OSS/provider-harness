@@ -1,0 +1,60 @@
+apiVersion: cluster.harness.m.crossplane.io/v1alpha1
+kind: OrchestratorConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/orchestratorconfig
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    binpacking:
+    - disruption:
+      - budget:
+        - nodes: "20"
+          reasons:
+          - Drifted
+          - Underutilized
+          - Empty
+        - nodes: "1"
+          reasons:
+          - Drifted
+          - Empty
+          schedule:
+          - duration: 10m
+            frequency: '@monthly'
+        criteria: WhenEmpty
+        delay: 10m
+      podEviction:
+      - threshold:
+        - cpu: 60
+          memory: 80
+    commitmentIntegration:
+    - enabled: true
+      masterAccountId: dummyAccountId
+    disabled: false
+    distribution:
+    - baseOndemandCapacity: 2
+      ondemandReplicaPercentage: 50
+      selector: ALL
+      strategy: CostOptimized
+    nodePreferences:
+    - reverseFallbackInterval: 6h
+      ttl: Never
+    orchestratorId: orch-cvifpfl9rbg8neldj97g
+    replacementSchedule:
+    - appliesTo:
+      - consolidation: true
+        harnessPodEviction: true
+        reverseFallback: true
+      windowDetails:
+      - allDay: false
+        days:
+        - SUN
+        - WED
+        - SAT
+        endTime: "11:30"
+        startTime: "10:30"
+        timeZone: Asia/Calcutta
+      windowType: Custom

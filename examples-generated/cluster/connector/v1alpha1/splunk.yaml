@@ -1,0 +1,22 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Splunk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/splunk
+  labels:
+    testing.upbound.io/example-name: username_password
+  name: username-password
+spec:
+  forProvider:
+    accountId: splunk_account_id
+    delegateSelectors:
+    - harness-delegate
+    description: Splunk connector with username/password authentication
+    identifier: splunk_userpass
+    name: Splunk Username/Password
+    tags:
+    - env:production
+    url: https://splunk.company.com:8089
+    usernamePassword:
+    - passwordRef: account.splunk_password
+      username: splunk_user

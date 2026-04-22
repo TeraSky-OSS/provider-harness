@@ -1,0 +1,26 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: PipelineCentralNotificationRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/pipelinecentralnotificationrule
+  labels:
+    testing.upbound.io/example-name: projExample
+  name: projexample
+spec:
+  forProvider:
+    identifier: identifier
+    name: name
+    notificationChannelRefs:
+    - account.channel
+    notificationConditions:
+    - conditionName: pipelineRuleProjectConditionName
+      notificationEventConfigs:
+      - entityIdentifiers: []
+        notificationEntity: PIPELINE
+        notificationEvent: PIPELINE_START
+        notificationEventData:
+        - scopeIdentifiers: []
+          type: PIPELINE
+    org: default
+    project: proj0
+    status: ENABLED

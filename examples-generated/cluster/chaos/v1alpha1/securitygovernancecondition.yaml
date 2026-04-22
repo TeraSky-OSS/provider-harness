@@ -1,0 +1,49 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: SecurityGovernanceCondition
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/securitygovernancecondition
+  labels:
+    testing.upbound.io/example-name: k8s_condition
+  name: k8s-condition
+spec:
+  forProvider:
+    description: Security governance condition for Kubernetes workloads
+    faultSpec:
+    - faults:
+      - faultType: FAULT
+        name: pod-delete
+      - faultType: FAULT
+        name: pod-dns
+      operator: NOT_EQUAL_TO
+    infraType: KubernetesV2
+    k8sSpec:
+    - applicationSpec:
+      - operator: EQUAL_TO
+        workloads:
+        - applicationMapId: nginx-app
+          kind: deployment
+          label: app=nginx
+          namespace: default
+          services:
+          - nginx-service
+      chaosServiceAccountSpec:
+      - operator: EQUAL_TO
+        serviceAccounts:
+        - default
+        - chaos-service-account
+      infraSpec:
+      - infraIds:
+        - ${var.k8s_infra_id}
+        operator: EQUAL_TO
+    name: k8s-security-condition
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - env:prod
+    - team:security
+    - platform:k8s

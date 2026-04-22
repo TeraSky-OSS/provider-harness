@@ -1,0 +1,57 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: Overrides
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/overrides
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    envIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    gitDetails:
+    - branch_name: branchName
+      commitMessage: commitMessage
+      connectorRef: connectorRef
+      filePath: filePath
+      repoName: repoName
+      storeType: REMOTE
+    infraIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: INFRA_SERVICE_OVERRIDE
+    yaml: |
+      variables:
+        - name: var1
+          type: String
+          value: val1
+      configFiles:
+        - configFile:
+            identifier: sampleConfigFile
+            spec:
+              store:
+                type: Harness
+                spec:
+                  files:
+                    - account:/configFile1
+      manifests:
+        - manifest:
+            identifier: sampleManifestFile
+            type: Values
+            spec:
+              store:
+                type: Harness
+                spec:
+                  files:
+                    - account:/manifestFile1

@@ -1,0 +1,23 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: RoleAssignments
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/roleassignments
+  labels:
+    testing.upbound.io/example-name: example1
+  name: example1
+spec:
+  forProvider:
+    disabled: false
+    managed: false
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    principal:
+    - identifier: ${harness_platform_service_account.test.id}
+      type: SERVICE_ACCOUNT
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    resourceGroupIdentifier: _all_project_level_resources
+    roleIdentifier: _project_viewer

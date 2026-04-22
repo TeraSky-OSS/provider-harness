@@ -1,0 +1,42 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: ProbeTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/probetemplate
+  labels:
+    testing.upbound.io/example-name: k8s_probe
+  name: k8s-probe
+spec:
+  forProvider:
+    description: Kubernetes resource probe for deployment health
+    hubIdentity: account-chaos-hub
+    identity: k8s-probe-template
+    infrastructureType: KubernetesV2
+    k8sProbe:
+    - namespace: <+input>.default('default')
+      operation: present
+      resource: deployments
+      version: v1
+    name: K8s Probe Template
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    runProperties:
+    - interval: 5s
+      stopOnFailure: false
+      timeout: 15s
+      verbosity: INFO
+    tags:
+    - kubernetes
+    - probe
+    - health-check
+    type: k8sProbe
+    variables:
+    - description: Kubernetes namespace to probe
+      name: target_namespace
+      required: false
+      type: string
+      value: <+input>

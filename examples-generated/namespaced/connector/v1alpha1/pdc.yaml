@@ -1,0 +1,20 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Pdc
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/pdc
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    host:
+    - hostname: host1
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar

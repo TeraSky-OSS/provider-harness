@@ -1,0 +1,55 @@
+apiVersion: cloudprovider.harness.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    authentication:
+    - usernamePassword:
+      - masterUrl: https://localhost.com
+        passwordSecretName: example-secret
+        usernameSecretName: example-secret
+    name: example-cluster
+    skipValidation: true
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: password
+  name: password
+spec:
+  forProvider:
+    name: k8s_password
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: username
+  name: username
+spec:
+  forProvider:
+    name: k8s_username
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system

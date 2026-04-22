@@ -1,0 +1,32 @@
+apiVersion: cloudprovider.harness.crossplane.io/v1alpha1
+kind: Spot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/spot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    accountId: <SPOT_ACCOUNT_ID>
+    name: example
+    tokenSecretName: example-secret
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/spot
+  labels:
+    testing.upbound.io/example-name: spot_token
+  name: spot-token
+spec:
+  forProvider:
+    name: spot_token
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system

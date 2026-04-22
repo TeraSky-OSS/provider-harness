@@ -1,0 +1,2958 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: faulttemplates.chaos.harness.m.crossplane.io
+spec:
+  group: chaos.harness.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: FaultTemplate
+    listKind: FaultTemplateList
+    plural: faulttemplates
+    singular: faulttemplate
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: 'FaultTemplate is the Schema for the FaultTemplates API. Resource
+          for managing Harness Chaos Fault Templates. Phase 1: Core fields (identity,
+          name, description, tags, category, infrastructure, basic spec)'
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FaultTemplateSpec defines the desired state of FaultTemplate
+            properties:
+              forProvider:
+                properties:
+                  apiVersion:
+                    description: |-
+                      (String) API version
+                      API version
+                    type: string
+                  category:
+                    description: |-
+                      (List of String) Fault categories
+                      Fault categories
+                    items:
+                      type: string
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the fault template
+                      Description of the fault template
+                    type: string
+                  hubIdentity:
+                    description: |-
+                      (String) Hub identity reference
+                      Hub identity reference
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the fault template (immutable)
+                      Unique identifier for the fault template (immutable)
+                    type: string
+                  infrastructures:
+                    description: |-
+                      (List of String) List of supported infrastructures
+                      List of supported infrastructures
+                    items:
+                      type: string
+                    type: array
+                  keywords:
+                    description: |-
+                      (List of String) Search keywords
+                      Search keywords
+                    items:
+                      type: string
+                    type: array
+                  kind:
+                    description: |-
+                      (String) Resource kind
+                      Resource kind
+                    type: string
+                  links:
+                    description: |-
+                      (Block List) Related links (see below for nested schema)
+                      Related links
+                    items:
+                      properties:
+                        name:
+                          description: |-
+                            (String) Name of the fault template
+                            Link name
+                          type: string
+                        url:
+                          description: |-
+                            (String) Link URL
+                            Link URL
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Name of the fault template
+                      Name of the fault template
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier
+                      Organization identifier
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  permissionsRequired:
+                    description: |-
+                      (String) Required permissions for the fault
+                      Required permissions for the fault
+                    type: string
+                  platforms:
+                    description: |-
+                      (List of String) Supported platforms
+                      Supported platforms
+                    items:
+                      type: string
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) Project identifier
+                      Project identifier
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  revision:
+                    description: |-
+                      (String) Template revision (defaults to v1 if not specified)
+                      Template revision (defaults to v1 if not specified)
+                    type: string
+                  spec:
+                    description: |-
+                      (Block List, Max: 1) Fault specification (see below for nested schema)
+                      Fault specification
+                    items:
+                      properties:
+                        chaos:
+                          description: |-
+                            (Block List, Max: 1) Chaos configuration (see below for nested schema)
+                            Chaos configuration
+                          items:
+                            properties:
+                              auth:
+                                description: |-
+                                  (Block List, Max: 1) Authentication configuration (see below for nested schema)
+                                  Authentication configuration
+                                items:
+                                  properties:
+                                    aws:
+                                      description: |-
+                                        (Block List, Max: 1) AWS authentication (see below for nested schema)
+                                        AWS authentication
+                                      items:
+                                        properties:
+                                          accessKeyId:
+                                            description: |-
+                                              (String) AWS access key ID
+                                              AWS access key ID
+                                            type: string
+                                          region:
+                                            description: |-
+                                              (String) AWS region
+                                              AWS region
+                                            type: string
+                                          secretAccessKeySecretRef:
+                                            description: |-
+                                              (String, Sensitive) AWS secret access key
+                                              AWS secret access key
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                        type: object
+                                      type: array
+                                    azure:
+                                      description: |-
+                                        (Block List, Max: 1) Azure authentication (see below for nested schema)
+                                        Azure authentication
+                                      items:
+                                        properties:
+                                          clientId:
+                                            description: |-
+                                              (String) Azure client ID
+                                              Azure client ID
+                                            type: string
+                                          clientSecretSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Azure client secret
+                                              Azure client secret
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          subscriptionId:
+                                            description: |-
+                                              (String) Azure subscription ID
+                                              Azure subscription ID
+                                            type: string
+                                          tenantId:
+                                            description: |-
+                                              (String) Azure tenant ID
+                                              Azure tenant ID
+                                            type: string
+                                        type: object
+                                      type: array
+                                    gcp:
+                                      description: |-
+                                        (Block List, Max: 1) GCP authentication (see below for nested schema)
+                                        GCP authentication
+                                      items:
+                                        properties:
+                                          projectId:
+                                            description: |-
+                                              (String) Project identifier
+                                              GCP project ID
+                                            type: string
+                                          serviceAccountKeySecretRef:
+                                            description: |-
+                                              (String, Sensitive) GCP service account key (JSON)
+                                              GCP service account key (JSON)
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                        type: object
+                                      type: array
+                                    redis:
+                                      description: |-
+                                        (Block List, Max: 1) Redis authentication (see below for nested schema)
+                                        Redis authentication
+                                      items:
+                                        properties:
+                                          passwordSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Redis password
+                                              Redis password
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              Redis username
+                                            type: string
+                                        type: object
+                                      type: array
+                                    ssh:
+                                      description: |-
+                                        (Block List, Max: 1) SSH authentication (see below for nested schema)
+                                        SSH authentication
+                                      items:
+                                        properties:
+                                          passwordSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Redis password
+                                              SSH password
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          privateKeySecretRef:
+                                            description: |-
+                                              (String, Sensitive) SSH private key
+                                              SSH private key
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              SSH username
+                                            type: string
+                                        type: object
+                                      type: array
+                                    vmware:
+                                      description: |-
+                                        (Block List, Max: 1) VMware authentication (see below for nested schema)
+                                        VMware authentication
+                                      items:
+                                        properties:
+                                          passwordSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Redis password
+                                              VMware password
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              VMware username
+                                            type: string
+                                          vcenterServer:
+                                            description: |-
+                                              (String) vCenter server address
+                                              vCenter server address
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              faultName:
+                                description: |-
+                                  injector') instead of the configured value due to API limitations.
+                                  Name of the fault. Note: API may return a default value (e.g., 'byoc-injector') instead of the configured value due to API limitations.
+                                type: string
+                              kubernetes:
+                                description: |-
+                                  specific chaos configuration (see below for nested schema)
+                                  Kubernetes-specific chaos configuration
+                                items:
+                                  properties:
+                                    annotations:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod annotations
+                                        Pod annotations
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    args:
+                                      description: |-
+                                        (List of String) Container arguments
+                                        Container arguments
+                                      items:
+                                        type: string
+                                      type: array
+                                    command:
+                                      description: |-
+                                        (List of String) Container command
+                                        Container command
+                                      items:
+                                        type: string
+                                      type: array
+                                    configMaps:
+                                      description: |-
+                                        (Block List) ConfigMap volumes (see below for nested schema)
+                                        ConfigMap volumes
+                                      items:
+                                        properties:
+                                          mountMode:
+                                            description: |-
+                                              3)
+                                              Mount mode (0-3)
+                                            type: number
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              ConfigMap name
+                                            type: string
+                                        type: object
+                                      type: array
+                                    containerSecurityContext:
+                                      description: |-
+                                        (Block List, Max: 1) Container security context (see below for nested schema)
+                                        Container security context
+                                      items:
+                                        properties:
+                                          allowPrivilegeEscalation:
+                                            description: |-
+                                              (Boolean) Allow privilege escalation
+                                              Allow privilege escalation
+                                            type: boolean
+                                          capabilities:
+                                            description: |-
+                                              (Block List, Max: 1) Linux capabilities (see below for nested schema)
+                                              Linux capabilities
+                                            items:
+                                              properties:
+                                                add:
+                                                  description: |-
+                                                    (List of String) Capabilities to add
+                                                    Capabilities to add
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                drop:
+                                                  description: |-
+                                                    (List of String) Capabilities to drop
+                                                    Capabilities to drop
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          privileged:
+                                            description: |-
+                                              (Boolean) Run container in privileged mode
+                                              Run container in privileged mode
+                                            type: boolean
+                                          readOnlyRootFilesystem:
+                                            description: |-
+                                              only
+                                              Mount root filesystem as read-only
+                                            type: boolean
+                                          runAsGroup:
+                                            description: |-
+                                              (Number) Group ID to run as
+                                              Group ID to run as
+                                            type: number
+                                          runAsNonRoot:
+                                            description: |-
+                                              root user
+                                              Run as non-root user
+                                            type: boolean
+                                          runAsUser:
+                                            description: |-
+                                              (Number) User ID to run as
+                                              User ID to run as
+                                            type: number
+                                        type: object
+                                      type: array
+                                    env:
+                                      description: |-
+                                        (Block List) Environment variables (see below for nested schema)
+                                        Environment variables
+                                      items:
+                                        properties:
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              Environment variable name
+                                            type: string
+                                          value:
+                                            description: |-
+                                              (String) Environment variable value
+                                              Environment variable value
+                                            type: string
+                                        type: object
+                                      type: array
+                                    hostFileVolumes:
+                                      description: |-
+                                        (Block List) Host path volumes (see below for nested schema)
+                                        Host path volumes
+                                      items:
+                                        properties:
+                                          hostPath:
+                                            description: |-
+                                              (String) Host path on the node
+                                              Host path on the node
+                                            type: string
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              Volume name
+                                            type: string
+                                          type:
+                                            description: |-
+                                              (String) Fault type
+                                              Host path type (e.g., Directory, File, BlockDevice, CharDevice)
+                                            type: string
+                                        type: object
+                                      type: array
+                                    hostIpc:
+                                      description: |-
+                                        (Boolean) Use host IPC namespace
+                                        Use host IPC namespace
+                                      type: boolean
+                                    hostNetwork:
+                                      description: |-
+                                        (Boolean) Use host network namespace
+                                        Use host network namespace
+                                      type: boolean
+                                    hostPid:
+                                      description: |-
+                                        (Boolean) Use host PID namespace
+                                        Use host PID namespace
+                                      type: boolean
+                                    image:
+                                      description: |-
+                                        (String) Container image for chaos experiment
+                                        Container image for chaos experiment
+                                      type: string
+                                    imagePullPolicy:
+                                      description: |-
+                                        (String) Image pull policy
+                                        Image pull policy
+                                      type: string
+                                    imagePullSecrets:
+                                      description: |-
+                                        (List of String) Image pull secrets
+                                        Image pull secrets
+                                      items:
+                                        type: string
+                                      type: array
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod labels
+                                        Pod labels
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    nodeSelector:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Node selector for pod scheduling
+                                        Node selector for pod scheduling
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    podSecurityContext:
+                                      description: |-
+                                        (Block List, Max: 1) Pod security context (see below for nested schema)
+                                        Pod security context
+                                      items:
+                                        properties:
+                                          fsGroup:
+                                            description: |-
+                                              (Number) Filesystem group ID
+                                              Filesystem group ID
+                                            type: number
+                                          runAsGroup:
+                                            description: |-
+                                              (Number) Group ID to run as
+                                              Group ID to run as
+                                            type: number
+                                          runAsNonRoot:
+                                            description: |-
+                                              root user
+                                              Run as non-root user
+                                            type: boolean
+                                          runAsUser:
+                                            description: |-
+                                              (Number) User ID to run as
+                                              User ID to run as
+                                            type: number
+                                        type: object
+                                      type: array
+                                    resources:
+                                      description: |-
+                                        (Block List, Max: 1) Resource requirements (see below for nested schema)
+                                        Resource requirements
+                                      items:
+                                        properties:
+                                          limits:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              (Map of String) Resource limits
+                                              Resource limits
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                          requests:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              (Map of String) Resource requests
+                                              Resource requests
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                        type: object
+                                      type: array
+                                    secrets:
+                                      description: |-
+                                        (Block List) Secret volumes (see below for nested schema)
+                                        Secret volumes
+                                      items:
+                                        properties:
+                                          mountMode:
+                                            description: |-
+                                              3)
+                                              Mount mode (0-3)
+                                            type: number
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          secretName:
+                                            description: |-
+                                              (String) Secret name
+                                              Secret name
+                                            type: string
+                                        type: object
+                                      type: array
+                                    tolerations:
+                                      description: |-
+                                        (Block List) Pod tolerations (see below for nested schema)
+                                        Pod tolerations
+                                      items:
+                                        properties:
+                                          effect:
+                                            description: |-
+                                              (String) Toleration effect (NoSchedule, PreferNoSchedule, NoExecute)
+                                              Toleration effect (NoSchedule, PreferNoSchedule, NoExecute)
+                                            type: string
+                                          key:
+                                            description: |-
+                                              (String) Toleration key
+                                              Toleration key
+                                            type: string
+                                          operator:
+                                            description: |-
+                                              (String) Toleration operator (Equal, Exists)
+                                              Toleration operator (Equal, Exists)
+                                            type: string
+                                          tolerationSeconds:
+                                            description: |-
+                                              (Number) Toleration seconds
+                                              Toleration seconds
+                                            type: number
+                                          value:
+                                            description: |-
+                                              (String) Environment variable value
+                                              Toleration value
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              params:
+                                description: |-
+                                  (Block List) Fault parameters (see below for nested schema)
+                                  Fault parameters
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the fault template
+                                        Parameter name
+                                      type: string
+                                    value:
+                                      description: |-
+                                        (String) Environment variable value
+                                        Parameter value
+                                      type: string
+                                  type: object
+                                type: array
+                              statusCheckTimeouts:
+                                description: |-
+                                  (Block List, Max: 1) Status check timeout configuration (see below for nested schema)
+                                  Status check timeout configuration
+                                items:
+                                  properties:
+                                    delay:
+                                      description: |-
+                                        (Number) Delay before status check (seconds)
+                                        Delay before status check (seconds)
+                                      type: number
+                                    timeout:
+                                      description: |-
+                                        (Number) Timeout for status check (seconds)
+                                        Timeout for status check (seconds)
+                                      type: number
+                                  type: object
+                                type: array
+                              tls:
+                                description: |-
+                                  (Block List, Max: 1) TLS configuration (see below for nested schema)
+                                  TLS configuration
+                                items:
+                                  properties:
+                                    caCertificate:
+                                      description: |-
+                                        (String) CA certificate
+                                        CA certificate
+                                      type: string
+                                    clientCertificate:
+                                      description: |-
+                                        (String) Client certificate
+                                        Client certificate
+                                      type: string
+                                    clientKeySecretRef:
+                                      description: |-
+                                        (String, Sensitive) Client key
+                                        Client key
+                                      properties:
+                                        key:
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        target:
+                          description: |-
+                            (Block List, Max: 1) Target configuration (see below for nested schema)
+                            Target configuration
+                          items:
+                            properties:
+                              application:
+                                description: |-
+                                  (Block List, Max: 1) Application target configuration (see below for nested schema)
+                                  Application target configuration
+                                items:
+                                  properties:
+                                    appKind:
+                                      description: |-
+                                        (String) Application kind
+                                        Application kind
+                                      type: string
+                                    appLabel:
+                                      description: |-
+                                        (String) Application label
+                                        Application label
+                                      type: string
+                                    appNs:
+                                      description: |-
+                                        (String) Application namespace
+                                        Application namespace
+                                      type: string
+                                  type: object
+                                type: array
+                              kubernetes:
+                                description: |-
+                                  specific chaos configuration (see below for nested schema)
+                                  Kubernetes target configuration
+                                items:
+                                  properties:
+                                    annotationCheck:
+                                      description: |-
+                                        (String) Annotation check expression
+                                        Annotation check expression
+                                      type: string
+                                    annotations:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod annotations
+                                        Annotation selectors
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    kind:
+                                      description: |-
+                                        (String) Resource kind
+                                        Resource kind (e.g., deployment, pod)
+                                      type: string
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod labels
+                                        Label selectors
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    names:
+                                      description: |-
+                                        (List of String) Specific resource names
+                                        Specific resource names
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      description: |-
+                                        (String) Target namespace
+                                        Target namespace
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags for the fault template
+                      Tags for the fault template
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Fault type
+                      Fault type
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables (see below for nested schema)
+                      Template variables
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the fault template
+                            Variable description
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the fault template
+                            Variable name
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required
+                            Whether the variable is required
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Fault type
+                            Variable type
+                          type: string
+                        value:
+                          description: |-
+                            (String) Environment variable value
+                            Variable value
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  apiVersion:
+                    description: |-
+                      (String) API version
+                      API version
+                    type: string
+                  category:
+                    description: |-
+                      (List of String) Fault categories
+                      Fault categories
+                    items:
+                      type: string
+                    type: array
+                  description:
+                    description: |-
+                      (String) Description of the fault template
+                      Description of the fault template
+                    type: string
+                  hubIdentity:
+                    description: |-
+                      (String) Hub identity reference
+                      Hub identity reference
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the fault template (immutable)
+                      Unique identifier for the fault template (immutable)
+                    type: string
+                  infrastructures:
+                    description: |-
+                      (List of String) List of supported infrastructures
+                      List of supported infrastructures
+                    items:
+                      type: string
+                    type: array
+                  keywords:
+                    description: |-
+                      (List of String) Search keywords
+                      Search keywords
+                    items:
+                      type: string
+                    type: array
+                  kind:
+                    description: |-
+                      (String) Resource kind
+                      Resource kind
+                    type: string
+                  links:
+                    description: |-
+                      (Block List) Related links (see below for nested schema)
+                      Related links
+                    items:
+                      properties:
+                        name:
+                          description: |-
+                            (String) Name of the fault template
+                            Link name
+                          type: string
+                        url:
+                          description: |-
+                            (String) Link URL
+                            Link URL
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Name of the fault template
+                      Name of the fault template
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier
+                      Organization identifier
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  permissionsRequired:
+                    description: |-
+                      (String) Required permissions for the fault
+                      Required permissions for the fault
+                    type: string
+                  platforms:
+                    description: |-
+                      (List of String) Supported platforms
+                      Supported platforms
+                    items:
+                      type: string
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) Project identifier
+                      Project identifier
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  revision:
+                    description: |-
+                      (String) Template revision (defaults to v1 if not specified)
+                      Template revision (defaults to v1 if not specified)
+                    type: string
+                  spec:
+                    description: |-
+                      (Block List, Max: 1) Fault specification (see below for nested schema)
+                      Fault specification
+                    items:
+                      properties:
+                        chaos:
+                          description: |-
+                            (Block List, Max: 1) Chaos configuration (see below for nested schema)
+                            Chaos configuration
+                          items:
+                            properties:
+                              auth:
+                                description: |-
+                                  (Block List, Max: 1) Authentication configuration (see below for nested schema)
+                                  Authentication configuration
+                                items:
+                                  properties:
+                                    aws:
+                                      description: |-
+                                        (Block List, Max: 1) AWS authentication (see below for nested schema)
+                                        AWS authentication
+                                      items:
+                                        properties:
+                                          accessKeyId:
+                                            description: |-
+                                              (String) AWS access key ID
+                                              AWS access key ID
+                                            type: string
+                                          region:
+                                            description: |-
+                                              (String) AWS region
+                                              AWS region
+                                            type: string
+                                          secretAccessKeySecretRef:
+                                            description: |-
+                                              (String, Sensitive) AWS secret access key
+                                              AWS secret access key
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                        required:
+                                        - secretAccessKeySecretRef
+                                        type: object
+                                      type: array
+                                    azure:
+                                      description: |-
+                                        (Block List, Max: 1) Azure authentication (see below for nested schema)
+                                        Azure authentication
+                                      items:
+                                        properties:
+                                          clientId:
+                                            description: |-
+                                              (String) Azure client ID
+                                              Azure client ID
+                                            type: string
+                                          clientSecretSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Azure client secret
+                                              Azure client secret
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          subscriptionId:
+                                            description: |-
+                                              (String) Azure subscription ID
+                                              Azure subscription ID
+                                            type: string
+                                          tenantId:
+                                            description: |-
+                                              (String) Azure tenant ID
+                                              Azure tenant ID
+                                            type: string
+                                        required:
+                                        - clientSecretSecretRef
+                                        type: object
+                                      type: array
+                                    gcp:
+                                      description: |-
+                                        (Block List, Max: 1) GCP authentication (see below for nested schema)
+                                        GCP authentication
+                                      items:
+                                        properties:
+                                          projectId:
+                                            description: |-
+                                              (String) Project identifier
+                                              GCP project ID
+                                            type: string
+                                          serviceAccountKeySecretRef:
+                                            description: |-
+                                              (String, Sensitive) GCP service account key (JSON)
+                                              GCP service account key (JSON)
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                        required:
+                                        - serviceAccountKeySecretRef
+                                        type: object
+                                      type: array
+                                    redis:
+                                      description: |-
+                                        (Block List, Max: 1) Redis authentication (see below for nested schema)
+                                        Redis authentication
+                                      items:
+                                        properties:
+                                          passwordSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Redis password
+                                              Redis password
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              Redis username
+                                            type: string
+                                        required:
+                                        - passwordSecretRef
+                                        type: object
+                                      type: array
+                                    ssh:
+                                      description: |-
+                                        (Block List, Max: 1) SSH authentication (see below for nested schema)
+                                        SSH authentication
+                                      items:
+                                        properties:
+                                          passwordSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Redis password
+                                              SSH password
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          privateKeySecretRef:
+                                            description: |-
+                                              (String, Sensitive) SSH private key
+                                              SSH private key
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              SSH username
+                                            type: string
+                                        type: object
+                                      type: array
+                                    vmware:
+                                      description: |-
+                                        (Block List, Max: 1) VMware authentication (see below for nested schema)
+                                        VMware authentication
+                                      items:
+                                        properties:
+                                          passwordSecretRef:
+                                            description: |-
+                                              (String, Sensitive) Redis password
+                                              VMware password
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            type: object
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              VMware username
+                                            type: string
+                                          vcenterServer:
+                                            description: |-
+                                              (String) vCenter server address
+                                              vCenter server address
+                                            type: string
+                                        required:
+                                        - passwordSecretRef
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              faultName:
+                                description: |-
+                                  injector') instead of the configured value due to API limitations.
+                                  Name of the fault. Note: API may return a default value (e.g., 'byoc-injector') instead of the configured value due to API limitations.
+                                type: string
+                              kubernetes:
+                                description: |-
+                                  specific chaos configuration (see below for nested schema)
+                                  Kubernetes-specific chaos configuration
+                                items:
+                                  properties:
+                                    annotations:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod annotations
+                                        Pod annotations
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    args:
+                                      description: |-
+                                        (List of String) Container arguments
+                                        Container arguments
+                                      items:
+                                        type: string
+                                      type: array
+                                    command:
+                                      description: |-
+                                        (List of String) Container command
+                                        Container command
+                                      items:
+                                        type: string
+                                      type: array
+                                    configMaps:
+                                      description: |-
+                                        (Block List) ConfigMap volumes (see below for nested schema)
+                                        ConfigMap volumes
+                                      items:
+                                        properties:
+                                          mountMode:
+                                            description: |-
+                                              3)
+                                              Mount mode (0-3)
+                                            type: number
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              ConfigMap name
+                                            type: string
+                                        type: object
+                                      type: array
+                                    containerSecurityContext:
+                                      description: |-
+                                        (Block List, Max: 1) Container security context (see below for nested schema)
+                                        Container security context
+                                      items:
+                                        properties:
+                                          allowPrivilegeEscalation:
+                                            description: |-
+                                              (Boolean) Allow privilege escalation
+                                              Allow privilege escalation
+                                            type: boolean
+                                          capabilities:
+                                            description: |-
+                                              (Block List, Max: 1) Linux capabilities (see below for nested schema)
+                                              Linux capabilities
+                                            items:
+                                              properties:
+                                                add:
+                                                  description: |-
+                                                    (List of String) Capabilities to add
+                                                    Capabilities to add
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                drop:
+                                                  description: |-
+                                                    (List of String) Capabilities to drop
+                                                    Capabilities to drop
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          privileged:
+                                            description: |-
+                                              (Boolean) Run container in privileged mode
+                                              Run container in privileged mode
+                                            type: boolean
+                                          readOnlyRootFilesystem:
+                                            description: |-
+                                              only
+                                              Mount root filesystem as read-only
+                                            type: boolean
+                                          runAsGroup:
+                                            description: |-
+                                              (Number) Group ID to run as
+                                              Group ID to run as
+                                            type: number
+                                          runAsNonRoot:
+                                            description: |-
+                                              root user
+                                              Run as non-root user
+                                            type: boolean
+                                          runAsUser:
+                                            description: |-
+                                              (Number) User ID to run as
+                                              User ID to run as
+                                            type: number
+                                        type: object
+                                      type: array
+                                    env:
+                                      description: |-
+                                        (Block List) Environment variables (see below for nested schema)
+                                        Environment variables
+                                      items:
+                                        properties:
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              Environment variable name
+                                            type: string
+                                          value:
+                                            description: |-
+                                              (String) Environment variable value
+                                              Environment variable value
+                                            type: string
+                                        type: object
+                                      type: array
+                                    hostFileVolumes:
+                                      description: |-
+                                        (Block List) Host path volumes (see below for nested schema)
+                                        Host path volumes
+                                      items:
+                                        properties:
+                                          hostPath:
+                                            description: |-
+                                              (String) Host path on the node
+                                              Host path on the node
+                                            type: string
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              Volume name
+                                            type: string
+                                          type:
+                                            description: |-
+                                              (String) Fault type
+                                              Host path type (e.g., Directory, File, BlockDevice, CharDevice)
+                                            type: string
+                                        type: object
+                                      type: array
+                                    hostIpc:
+                                      description: |-
+                                        (Boolean) Use host IPC namespace
+                                        Use host IPC namespace
+                                      type: boolean
+                                    hostNetwork:
+                                      description: |-
+                                        (Boolean) Use host network namespace
+                                        Use host network namespace
+                                      type: boolean
+                                    hostPid:
+                                      description: |-
+                                        (Boolean) Use host PID namespace
+                                        Use host PID namespace
+                                      type: boolean
+                                    image:
+                                      description: |-
+                                        (String) Container image for chaos experiment
+                                        Container image for chaos experiment
+                                      type: string
+                                    imagePullPolicy:
+                                      description: |-
+                                        (String) Image pull policy
+                                        Image pull policy
+                                      type: string
+                                    imagePullSecrets:
+                                      description: |-
+                                        (List of String) Image pull secrets
+                                        Image pull secrets
+                                      items:
+                                        type: string
+                                      type: array
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod labels
+                                        Pod labels
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    nodeSelector:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Node selector for pod scheduling
+                                        Node selector for pod scheduling
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    podSecurityContext:
+                                      description: |-
+                                        (Block List, Max: 1) Pod security context (see below for nested schema)
+                                        Pod security context
+                                      items:
+                                        properties:
+                                          fsGroup:
+                                            description: |-
+                                              (Number) Filesystem group ID
+                                              Filesystem group ID
+                                            type: number
+                                          runAsGroup:
+                                            description: |-
+                                              (Number) Group ID to run as
+                                              Group ID to run as
+                                            type: number
+                                          runAsNonRoot:
+                                            description: |-
+                                              root user
+                                              Run as non-root user
+                                            type: boolean
+                                          runAsUser:
+                                            description: |-
+                                              (Number) User ID to run as
+                                              User ID to run as
+                                            type: number
+                                        type: object
+                                      type: array
+                                    resources:
+                                      description: |-
+                                        (Block List, Max: 1) Resource requirements (see below for nested schema)
+                                        Resource requirements
+                                      items:
+                                        properties:
+                                          limits:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              (Map of String) Resource limits
+                                              Resource limits
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                          requests:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              (Map of String) Resource requests
+                                              Resource requests
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                        type: object
+                                      type: array
+                                    secrets:
+                                      description: |-
+                                        (Block List) Secret volumes (see below for nested schema)
+                                        Secret volumes
+                                      items:
+                                        properties:
+                                          mountMode:
+                                            description: |-
+                                              3)
+                                              Mount mode (0-3)
+                                            type: number
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          secretName:
+                                            description: |-
+                                              (String) Secret name
+                                              Secret name
+                                            type: string
+                                        type: object
+                                      type: array
+                                    tolerations:
+                                      description: |-
+                                        (Block List) Pod tolerations (see below for nested schema)
+                                        Pod tolerations
+                                      items:
+                                        properties:
+                                          effect:
+                                            description: |-
+                                              (String) Toleration effect (NoSchedule, PreferNoSchedule, NoExecute)
+                                              Toleration effect (NoSchedule, PreferNoSchedule, NoExecute)
+                                            type: string
+                                          key:
+                                            description: |-
+                                              (String) Toleration key
+                                              Toleration key
+                                            type: string
+                                          operator:
+                                            description: |-
+                                              (String) Toleration operator (Equal, Exists)
+                                              Toleration operator (Equal, Exists)
+                                            type: string
+                                          tolerationSeconds:
+                                            description: |-
+                                              (Number) Toleration seconds
+                                              Toleration seconds
+                                            type: number
+                                          value:
+                                            description: |-
+                                              (String) Environment variable value
+                                              Toleration value
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              params:
+                                description: |-
+                                  (Block List) Fault parameters (see below for nested schema)
+                                  Fault parameters
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the fault template
+                                        Parameter name
+                                      type: string
+                                    value:
+                                      description: |-
+                                        (String) Environment variable value
+                                        Parameter value
+                                      type: string
+                                  type: object
+                                type: array
+                              statusCheckTimeouts:
+                                description: |-
+                                  (Block List, Max: 1) Status check timeout configuration (see below for nested schema)
+                                  Status check timeout configuration
+                                items:
+                                  properties:
+                                    delay:
+                                      description: |-
+                                        (Number) Delay before status check (seconds)
+                                        Delay before status check (seconds)
+                                      type: number
+                                    timeout:
+                                      description: |-
+                                        (Number) Timeout for status check (seconds)
+                                        Timeout for status check (seconds)
+                                      type: number
+                                  type: object
+                                type: array
+                              tls:
+                                description: |-
+                                  (Block List, Max: 1) TLS configuration (see below for nested schema)
+                                  TLS configuration
+                                items:
+                                  properties:
+                                    caCertificate:
+                                      description: |-
+                                        (String) CA certificate
+                                        CA certificate
+                                      type: string
+                                    clientCertificate:
+                                      description: |-
+                                        (String) Client certificate
+                                        Client certificate
+                                      type: string
+                                    clientKeySecretRef:
+                                      description: |-
+                                        (String, Sensitive) Client key
+                                        Client key
+                                      properties:
+                                        key:
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        target:
+                          description: |-
+                            (Block List, Max: 1) Target configuration (see below for nested schema)
+                            Target configuration
+                          items:
+                            properties:
+                              application:
+                                description: |-
+                                  (Block List, Max: 1) Application target configuration (see below for nested schema)
+                                  Application target configuration
+                                items:
+                                  properties:
+                                    appKind:
+                                      description: |-
+                                        (String) Application kind
+                                        Application kind
+                                      type: string
+                                    appLabel:
+                                      description: |-
+                                        (String) Application label
+                                        Application label
+                                      type: string
+                                    appNs:
+                                      description: |-
+                                        (String) Application namespace
+                                        Application namespace
+                                      type: string
+                                  type: object
+                                type: array
+                              kubernetes:
+                                description: |-
+                                  specific chaos configuration (see below for nested schema)
+                                  Kubernetes target configuration
+                                items:
+                                  properties:
+                                    annotationCheck:
+                                      description: |-
+                                        (String) Annotation check expression
+                                        Annotation check expression
+                                      type: string
+                                    annotations:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod annotations
+                                        Annotation selectors
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    kind:
+                                      description: |-
+                                        (String) Resource kind
+                                        Resource kind (e.g., deployment, pod)
+                                      type: string
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod labels
+                                        Label selectors
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    names:
+                                      description: |-
+                                        (List of String) Specific resource names
+                                        Specific resource names
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      description: |-
+                                        (String) Target namespace
+                                        Target namespace
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags for the fault template
+                      Tags for the fault template
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Fault type
+                      Fault type
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables (see below for nested schema)
+                      Template variables
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the fault template
+                            Variable description
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the fault template
+                            Variable name
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required
+                            Whether the variable is required
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Fault type
+                            Variable type
+                          type: string
+                        value:
+                          description: |-
+                            (String) Environment variable value
+                            Variable value
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.hubIdentity is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.hubIdentity)
+                || (has(self.initProvider) && has(self.initProvider.hubIdentity))'
+            - message: spec.forProvider.identity is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.identity)
+                || (has(self.initProvider) && has(self.initProvider.identity))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+          status:
+            description: FaultTemplateStatus defines the observed state of FaultTemplate.
+            properties:
+              atProvider:
+                properties:
+                  accountId:
+                    description: |-
+                      (String) Account identifier
+                      Account identifier
+                    type: string
+                  apiVersion:
+                    description: |-
+                      (String) API version
+                      API version
+                    type: string
+                  category:
+                    description: |-
+                      (List of String) Fault categories
+                      Fault categories
+                    items:
+                      type: string
+                    type: array
+                  createdAt:
+                    description: |-
+                      (Number) Creation timestamp
+                      Creation timestamp
+                    type: number
+                  createdBy:
+                    description: |-
+                      (String) Creator user ID
+                      Creator user ID
+                    type: string
+                  description:
+                    description: |-
+                      (String) Description of the fault template
+                      Description of the fault template
+                    type: string
+                  hubIdentity:
+                    description: |-
+                      (String) Hub identity reference
+                      Hub identity reference
+                    type: string
+                  hubRef:
+                    description: |-
+                      (String) Hub reference (computed)
+                      Hub reference (computed)
+                    type: string
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  identity:
+                    description: |-
+                      (String) Unique identifier for the fault template (immutable)
+                      Unique identifier for the fault template (immutable)
+                    type: string
+                  infrastructures:
+                    description: |-
+                      (List of String) List of supported infrastructures
+                      List of supported infrastructures
+                    items:
+                      type: string
+                    type: array
+                  isEnterprise:
+                    description: |-
+                      only template
+                      Whether this is an enterprise-only template
+                    type: boolean
+                  isRemoved:
+                    description: |-
+                      (Boolean) Soft delete flag
+                      Soft delete flag
+                    type: boolean
+                  keywords:
+                    description: |-
+                      (List of String) Search keywords
+                      Search keywords
+                    items:
+                      type: string
+                    type: array
+                  kind:
+                    description: |-
+                      (String) Resource kind
+                      Resource kind
+                    type: string
+                  links:
+                    description: |-
+                      (Block List) Related links (see below for nested schema)
+                      Related links
+                    items:
+                      properties:
+                        name:
+                          description: |-
+                            (String) Name of the fault template
+                            Link name
+                          type: string
+                        url:
+                          description: |-
+                            (String) Link URL
+                            Link URL
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Name of the fault template
+                      Name of the fault template
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Organization identifier
+                      Organization identifier
+                    type: string
+                  permissionsRequired:
+                    description: |-
+                      (String) Required permissions for the fault
+                      Required permissions for the fault
+                    type: string
+                  platforms:
+                    description: |-
+                      (List of String) Supported platforms
+                      Supported platforms
+                    items:
+                      type: string
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) Project identifier
+                      Project identifier
+                    type: string
+                  revision:
+                    description: |-
+                      (String) Template revision (defaults to v1 if not specified)
+                      Template revision (defaults to v1 if not specified)
+                    type: string
+                  spec:
+                    description: |-
+                      (Block List, Max: 1) Fault specification (see below for nested schema)
+                      Fault specification
+                    items:
+                      properties:
+                        chaos:
+                          description: |-
+                            (Block List, Max: 1) Chaos configuration (see below for nested schema)
+                            Chaos configuration
+                          items:
+                            properties:
+                              auth:
+                                description: |-
+                                  (Block List, Max: 1) Authentication configuration (see below for nested schema)
+                                  Authentication configuration
+                                items:
+                                  properties:
+                                    aws:
+                                      description: |-
+                                        (Block List, Max: 1) AWS authentication (see below for nested schema)
+                                        AWS authentication
+                                      items:
+                                        properties:
+                                          accessKeyId:
+                                            description: |-
+                                              (String) AWS access key ID
+                                              AWS access key ID
+                                            type: string
+                                          region:
+                                            description: |-
+                                              (String) AWS region
+                                              AWS region
+                                            type: string
+                                        type: object
+                                      type: array
+                                    azure:
+                                      description: |-
+                                        (Block List, Max: 1) Azure authentication (see below for nested schema)
+                                        Azure authentication
+                                      items:
+                                        properties:
+                                          clientId:
+                                            description: |-
+                                              (String) Azure client ID
+                                              Azure client ID
+                                            type: string
+                                          subscriptionId:
+                                            description: |-
+                                              (String) Azure subscription ID
+                                              Azure subscription ID
+                                            type: string
+                                          tenantId:
+                                            description: |-
+                                              (String) Azure tenant ID
+                                              Azure tenant ID
+                                            type: string
+                                        type: object
+                                      type: array
+                                    gcp:
+                                      description: |-
+                                        (Block List, Max: 1) GCP authentication (see below for nested schema)
+                                        GCP authentication
+                                      items:
+                                        properties:
+                                          projectId:
+                                            description: |-
+                                              (String) Project identifier
+                                              GCP project ID
+                                            type: string
+                                        type: object
+                                      type: array
+                                    redis:
+                                      description: |-
+                                        (Block List, Max: 1) Redis authentication (see below for nested schema)
+                                        Redis authentication
+                                      items:
+                                        properties:
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              Redis username
+                                            type: string
+                                        type: object
+                                      type: array
+                                    ssh:
+                                      description: |-
+                                        (Block List, Max: 1) SSH authentication (see below for nested schema)
+                                        SSH authentication
+                                      items:
+                                        properties:
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              SSH username
+                                            type: string
+                                        type: object
+                                      type: array
+                                    vmware:
+                                      description: |-
+                                        (Block List, Max: 1) VMware authentication (see below for nested schema)
+                                        VMware authentication
+                                      items:
+                                        properties:
+                                          username:
+                                            description: |-
+                                              (String) Redis username
+                                              VMware username
+                                            type: string
+                                          vcenterServer:
+                                            description: |-
+                                              (String) vCenter server address
+                                              vCenter server address
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              faultName:
+                                description: |-
+                                  injector') instead of the configured value due to API limitations.
+                                  Name of the fault. Note: API may return a default value (e.g., 'byoc-injector') instead of the configured value due to API limitations.
+                                type: string
+                              kubernetes:
+                                description: |-
+                                  specific chaos configuration (see below for nested schema)
+                                  Kubernetes-specific chaos configuration
+                                items:
+                                  properties:
+                                    annotations:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod annotations
+                                        Pod annotations
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    args:
+                                      description: |-
+                                        (List of String) Container arguments
+                                        Container arguments
+                                      items:
+                                        type: string
+                                      type: array
+                                    command:
+                                      description: |-
+                                        (List of String) Container command
+                                        Container command
+                                      items:
+                                        type: string
+                                      type: array
+                                    configMaps:
+                                      description: |-
+                                        (Block List) ConfigMap volumes (see below for nested schema)
+                                        ConfigMap volumes
+                                      items:
+                                        properties:
+                                          mountMode:
+                                            description: |-
+                                              3)
+                                              Mount mode (0-3)
+                                            type: number
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              ConfigMap name
+                                            type: string
+                                        type: object
+                                      type: array
+                                    containerSecurityContext:
+                                      description: |-
+                                        (Block List, Max: 1) Container security context (see below for nested schema)
+                                        Container security context
+                                      items:
+                                        properties:
+                                          allowPrivilegeEscalation:
+                                            description: |-
+                                              (Boolean) Allow privilege escalation
+                                              Allow privilege escalation
+                                            type: boolean
+                                          capabilities:
+                                            description: |-
+                                              (Block List, Max: 1) Linux capabilities (see below for nested schema)
+                                              Linux capabilities
+                                            items:
+                                              properties:
+                                                add:
+                                                  description: |-
+                                                    (List of String) Capabilities to add
+                                                    Capabilities to add
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                drop:
+                                                  description: |-
+                                                    (List of String) Capabilities to drop
+                                                    Capabilities to drop
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          privileged:
+                                            description: |-
+                                              (Boolean) Run container in privileged mode
+                                              Run container in privileged mode
+                                            type: boolean
+                                          readOnlyRootFilesystem:
+                                            description: |-
+                                              only
+                                              Mount root filesystem as read-only
+                                            type: boolean
+                                          runAsGroup:
+                                            description: |-
+                                              (Number) Group ID to run as
+                                              Group ID to run as
+                                            type: number
+                                          runAsNonRoot:
+                                            description: |-
+                                              root user
+                                              Run as non-root user
+                                            type: boolean
+                                          runAsUser:
+                                            description: |-
+                                              (Number) User ID to run as
+                                              User ID to run as
+                                            type: number
+                                        type: object
+                                      type: array
+                                    env:
+                                      description: |-
+                                        (Block List) Environment variables (see below for nested schema)
+                                        Environment variables
+                                      items:
+                                        properties:
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              Environment variable name
+                                            type: string
+                                          value:
+                                            description: |-
+                                              (String) Environment variable value
+                                              Environment variable value
+                                            type: string
+                                        type: object
+                                      type: array
+                                    hostFileVolumes:
+                                      description: |-
+                                        (Block List) Host path volumes (see below for nested schema)
+                                        Host path volumes
+                                      items:
+                                        properties:
+                                          hostPath:
+                                            description: |-
+                                              (String) Host path on the node
+                                              Host path on the node
+                                            type: string
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the fault template
+                                              Volume name
+                                            type: string
+                                          type:
+                                            description: |-
+                                              (String) Fault type
+                                              Host path type (e.g., Directory, File, BlockDevice, CharDevice)
+                                            type: string
+                                        type: object
+                                      type: array
+                                    hostIpc:
+                                      description: |-
+                                        (Boolean) Use host IPC namespace
+                                        Use host IPC namespace
+                                      type: boolean
+                                    hostNetwork:
+                                      description: |-
+                                        (Boolean) Use host network namespace
+                                        Use host network namespace
+                                      type: boolean
+                                    hostPid:
+                                      description: |-
+                                        (Boolean) Use host PID namespace
+                                        Use host PID namespace
+                                      type: boolean
+                                    image:
+                                      description: |-
+                                        (String) Container image for chaos experiment
+                                        Container image for chaos experiment
+                                      type: string
+                                    imagePullPolicy:
+                                      description: |-
+                                        (String) Image pull policy
+                                        Image pull policy
+                                      type: string
+                                    imagePullSecrets:
+                                      description: |-
+                                        (List of String) Image pull secrets
+                                        Image pull secrets
+                                      items:
+                                        type: string
+                                      type: array
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod labels
+                                        Pod labels
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    nodeSelector:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Node selector for pod scheduling
+                                        Node selector for pod scheduling
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    podSecurityContext:
+                                      description: |-
+                                        (Block List, Max: 1) Pod security context (see below for nested schema)
+                                        Pod security context
+                                      items:
+                                        properties:
+                                          fsGroup:
+                                            description: |-
+                                              (Number) Filesystem group ID
+                                              Filesystem group ID
+                                            type: number
+                                          runAsGroup:
+                                            description: |-
+                                              (Number) Group ID to run as
+                                              Group ID to run as
+                                            type: number
+                                          runAsNonRoot:
+                                            description: |-
+                                              root user
+                                              Run as non-root user
+                                            type: boolean
+                                          runAsUser:
+                                            description: |-
+                                              (Number) User ID to run as
+                                              User ID to run as
+                                            type: number
+                                        type: object
+                                      type: array
+                                    resources:
+                                      description: |-
+                                        (Block List, Max: 1) Resource requirements (see below for nested schema)
+                                        Resource requirements
+                                      items:
+                                        properties:
+                                          limits:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              (Map of String) Resource limits
+                                              Resource limits
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                          requests:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              (Map of String) Resource requests
+                                              Resource requests
+                                            type: object
+                                            x-kubernetes-map-type: granular
+                                        type: object
+                                      type: array
+                                    secrets:
+                                      description: |-
+                                        (Block List) Secret volumes (see below for nested schema)
+                                        Secret volumes
+                                      items:
+                                        properties:
+                                          mountMode:
+                                            description: |-
+                                              3)
+                                              Mount mode (0-3)
+                                            type: number
+                                          mountPath:
+                                            description: |-
+                                              (String) Mount path
+                                              Mount path
+                                            type: string
+                                          secretName:
+                                            description: |-
+                                              (String) Secret name
+                                              Secret name
+                                            type: string
+                                        type: object
+                                      type: array
+                                    tolerations:
+                                      description: |-
+                                        (Block List) Pod tolerations (see below for nested schema)
+                                        Pod tolerations
+                                      items:
+                                        properties:
+                                          effect:
+                                            description: |-
+                                              (String) Toleration effect (NoSchedule, PreferNoSchedule, NoExecute)
+                                              Toleration effect (NoSchedule, PreferNoSchedule, NoExecute)
+                                            type: string
+                                          key:
+                                            description: |-
+                                              (String) Toleration key
+                                              Toleration key
+                                            type: string
+                                          operator:
+                                            description: |-
+                                              (String) Toleration operator (Equal, Exists)
+                                              Toleration operator (Equal, Exists)
+                                            type: string
+                                          tolerationSeconds:
+                                            description: |-
+                                              (Number) Toleration seconds
+                                              Toleration seconds
+                                            type: number
+                                          value:
+                                            description: |-
+                                              (String) Environment variable value
+                                              Toleration value
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              params:
+                                description: |-
+                                  (Block List) Fault parameters (see below for nested schema)
+                                  Fault parameters
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the fault template
+                                        Parameter name
+                                      type: string
+                                    value:
+                                      description: |-
+                                        (String) Environment variable value
+                                        Parameter value
+                                      type: string
+                                  type: object
+                                type: array
+                              statusCheckTimeouts:
+                                description: |-
+                                  (Block List, Max: 1) Status check timeout configuration (see below for nested schema)
+                                  Status check timeout configuration
+                                items:
+                                  properties:
+                                    delay:
+                                      description: |-
+                                        (Number) Delay before status check (seconds)
+                                        Delay before status check (seconds)
+                                      type: number
+                                    timeout:
+                                      description: |-
+                                        (Number) Timeout for status check (seconds)
+                                        Timeout for status check (seconds)
+                                      type: number
+                                  type: object
+                                type: array
+                              tls:
+                                description: |-
+                                  (Block List, Max: 1) TLS configuration (see below for nested schema)
+                                  TLS configuration
+                                items:
+                                  properties:
+                                    caCertificate:
+                                      description: |-
+                                        (String) CA certificate
+                                        CA certificate
+                                      type: string
+                                    clientCertificate:
+                                      description: |-
+                                        (String) Client certificate
+                                        Client certificate
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        target:
+                          description: |-
+                            (Block List, Max: 1) Target configuration (see below for nested schema)
+                            Target configuration
+                          items:
+                            properties:
+                              application:
+                                description: |-
+                                  (Block List, Max: 1) Application target configuration (see below for nested schema)
+                                  Application target configuration
+                                items:
+                                  properties:
+                                    appKind:
+                                      description: |-
+                                        (String) Application kind
+                                        Application kind
+                                      type: string
+                                    appLabel:
+                                      description: |-
+                                        (String) Application label
+                                        Application label
+                                      type: string
+                                    appNs:
+                                      description: |-
+                                        (String) Application namespace
+                                        Application namespace
+                                      type: string
+                                  type: object
+                                type: array
+                              kubernetes:
+                                description: |-
+                                  specific chaos configuration (see below for nested schema)
+                                  Kubernetes target configuration
+                                items:
+                                  properties:
+                                    annotationCheck:
+                                      description: |-
+                                        (String) Annotation check expression
+                                        Annotation check expression
+                                      type: string
+                                    annotations:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod annotations
+                                        Annotation selectors
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    kind:
+                                      description: |-
+                                        (String) Resource kind
+                                        Resource kind (e.g., deployment, pod)
+                                      type: string
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Pod labels
+                                        Label selectors
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    names:
+                                      description: |-
+                                        (List of String) Specific resource names
+                                        Specific resource names
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      description: |-
+                                        (String) Target namespace
+                                        Target namespace
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  tags:
+                    description: |-
+                      (List of String) Tags for the fault template
+                      Tags for the fault template
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: |-
+                      (String) Fault type
+                      Fault type
+                    type: string
+                  updatedAt:
+                    description: |-
+                      (Number) Update timestamp
+                      Update timestamp
+                    type: number
+                  updatedBy:
+                    description: |-
+                      (String) Updater user ID
+                      Updater user ID
+                    type: string
+                  variables:
+                    description: |-
+                      (Block List) Template variables (see below for nested schema)
+                      Template variables
+                    items:
+                      properties:
+                        description:
+                          description: |-
+                            (String) Description of the fault template
+                            Variable description
+                          type: string
+                        name:
+                          description: |-
+                            (String) Name of the fault template
+                            Variable name
+                          type: string
+                        required:
+                          description: |-
+                            (Boolean) Whether the variable is required
+                            Whether the variable is required
+                          type: boolean
+                        type:
+                          description: |-
+                            (String) Fault type
+                            Variable type
+                          type: string
+                        value:
+                          description: |-
+                            (String) Environment variable value
+                            Variable value
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

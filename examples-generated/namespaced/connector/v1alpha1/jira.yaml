@@ -1,0 +1,24 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Jira
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/jira
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    auth:
+    - authType: UsernamePassword
+      usernamePassword:
+      - passwordRef: account.secret_id
+        username: admin
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://jira.com

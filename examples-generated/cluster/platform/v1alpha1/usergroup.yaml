@@ -1,0 +1,37 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: UserGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/usergroup
+  labels:
+    testing.upbound.io/example-name: sso_type_saml
+  name: sso-type-saml
+spec:
+  forProvider:
+    externallyManaged: false
+    identifier: identifier
+    linkedSsoDisplayName: linked_sso_display_name
+    linkedSsoId: linked_sso_id
+    linkedSsoType: SAML
+    name: name
+    notificationConfigs:
+    - slackWebhookUrl: https://google.com
+      type: SLACK
+    - groupEmail: email@email.com
+      sendEmailToAllUsers: true
+      type: EMAIL
+    - microsoftTeamsWebhookUrl: https://google.com
+      type: MSTEAMS
+    - pagerDutyKey: pagerDutyKey
+      type: PAGERDUTY
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    ssoGroupId: sso_group_name
+    ssoGroupName: sso_group_name
+    ssoLinked: true
+    users:
+    - user_id

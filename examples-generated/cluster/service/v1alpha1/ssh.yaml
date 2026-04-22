@@ -1,0 +1,28 @@
+apiVersion: service.harness.crossplane.io/v1alpha1
+kind: Ssh
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/ssh
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    artifactType: TAR
+    description: Service for deploying applications with SSH.
+    name: ssh-example
+
+---
+
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/ssh
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example

@@ -1,0 +1,50 @@
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersionFile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionfile
+  labels:
+    testing.upbound.io/example-name: aws_linux_amd64
+  name: aws-linux-amd64
+  namespace: crossplane-system
+spec:
+  forProvider:
+    filePath: ./terraform-provider-aws_5.0.0_linux_amd64.zip
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: Provider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionfile
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: AWS provider for IaCM
+    type: aws
+
+---
+
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: ProviderVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/providerversionfile
+  labels:
+    testing.upbound.io/example-name: aws_v5
+  name: aws-v5
+  namespace: crossplane-system
+spec:
+  forProvider:
+    gpgKeyId: your-gpg-key-id
+    protocols:
+    - "5.0"
+    - "6.0"
+    providerId: ${harness_platform_infra_provider.aws.id}
+    version: 5.0.0

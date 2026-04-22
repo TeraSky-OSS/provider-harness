@@ -1,0 +1,21 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Artifactory
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/artifactory
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    credentials:
+    - passwordRef: account.secret_id
+      username: admin
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://artifactory.example.com

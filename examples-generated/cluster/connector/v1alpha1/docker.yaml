@@ -1,0 +1,19 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Docker
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/docker
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifer
+    name: name
+    tags:
+    - foo:bar
+    type: DockerHub
+    url: https://hub.docker.com

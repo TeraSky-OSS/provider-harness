@@ -1,0 +1,19 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: KubernetesCloudCost
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/kubernetescloudcost
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    connectorRef: connector_ref
+    description: example
+    featuresEnabled:
+    - VISIBILITY
+    - OPTIMIZATION
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar

@@ -1,0 +1,91 @@
+apiVersion: harness.harness.crossplane.io/v1alpha1
+kind: UserGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/usergroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: This group demonstrates account level and resource level permissions.
+    name: example-group
+    permissions:
+    - accountPermissions:
+      - ADMINISTER_OTHER_ACCOUNT_FUNCTIONS
+      - MANAGE_API_KEYS
+      appPermissions:
+      - all:
+        - actions:
+          - CREATE
+          - READ
+          - UPDATE
+          - DELETE
+        deployment:
+        - actions:
+          - READ
+          - ROLLBACK_WORKFLOW
+          - EXECUTE_PIPELINE
+          - EXECUTE_WORKFLOW
+          filters:
+          - NON_PRODUCTION_ENVIRONMENTS
+        - actions:
+          - READ
+          filters:
+          - PRODUCTION_ENVIRONMENTS
+        environment:
+        - actions:
+          - CREATE
+          - READ
+          - UPDATE
+          - DELETE
+          filters:
+          - NON_PRODUCTION_ENVIRONMENTS
+        - actions:
+          - READ
+          filters:
+          - PRODUCTION_ENVIRONMENTS
+        pipeline:
+        - actions:
+          - CREATE
+          - READ
+          - UPDATE
+          - DELETE
+          filters:
+          - NON_PRODUCTION_PIPELINES
+        - actions:
+          - READ
+          filters:
+          - PRODUCTION_PIPELINES
+        provisioner:
+        - actions:
+          - UPDATE
+          - DELETE
+        - actions:
+          - CREATE
+          - READ
+        service:
+        - actions:
+          - UPDATE
+          - DELETE
+        - actions:
+          - UPDATE
+          - DELETE
+        template:
+        - actions:
+          - CREATE
+          - READ
+          - UPDATE
+          - DELETE
+        workflow:
+        - actions:
+          - UPDATE
+          - DELETE
+          filters:
+          - NON_PRODUCTION_WORKFLOWS
+        - actions:
+          - CREATE
+          - READ
+          filters:
+          - PRODUCTION_WORKFLOWS
+          - WORKFLOW_TEMPLATES

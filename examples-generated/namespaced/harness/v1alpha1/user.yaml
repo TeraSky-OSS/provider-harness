@@ -1,0 +1,13 @@
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: john_doe
+  name: john-doe
+  namespace: crossplane-system
+spec:
+  forProvider:
+    email: john.doe@example.com
+    name: John Doe

@@ -1,0 +1,25 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: FeatureFlagTarget
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/featureflagtarget
+  labels:
+    testing.upbound.io/example-name: target
+  name: target
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: MY_ACCOUNT_ID
+    attributes:
+      foo: bar
+    environmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    identifier: MY_FEATURE
+    name: MY_FEATURE
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

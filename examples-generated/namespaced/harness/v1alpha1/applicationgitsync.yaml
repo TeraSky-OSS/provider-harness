@@ -1,0 +1,70 @@
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: ApplicationGitsync
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/applicationgitsync
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    branch: main
+    connectorId: ${harness_git_connector.myrepo.id}
+    enabled: false
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/applicationgitsync
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-app
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/applicationgitsync
+  labels:
+    testing.upbound.io/example-name: github_token
+  name: github-token
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: github_token
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: GitConnector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/applicationgitsync
+  labels:
+    testing.upbound.io/example-name: myrepo
+  name: myrepo
+  namespace: crossplane-system
+spec:
+  forProvider:
+    branch: main
+    generateWebhookUrl: true
+    name: myrepo
+    passwordSecretId: ${harness_encrypted_text.github_token.id}
+    url: https://github.com/someorg/myrepo
+    urlType: REPO
+    username: someuser

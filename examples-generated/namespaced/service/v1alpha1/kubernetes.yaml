@@ -1,0 +1,37 @@
+apiVersion: service.harness.m.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    description: Service for deploying Kubernetes manifests
+    helmVersion: V3
+    name: k8s-svc
+    variable:
+    - name: test
+      type: TEXT
+      value: test_value
+    - name: test2
+      type: TEXT
+      value: test_value2
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example

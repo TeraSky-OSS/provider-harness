@@ -1,0 +1,52 @@
+apiVersion: cloudprovider.harness.m.crossplane.io/v1alpha1
+kind: Aws
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/aws
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accessKeyIdSecretName: example-secret
+    name: Example aws cloud provider
+    secretAccessKeySecretName: example-secret
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/aws
+  labels:
+    testing.upbound.io/example-name: aws_access_key
+  name: aws-access-key
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: aws_access_key
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/aws
+  labels:
+    testing.upbound.io/example-name: aws_secret_key
+  name: aws-secret-key
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: aws_secret_key
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret

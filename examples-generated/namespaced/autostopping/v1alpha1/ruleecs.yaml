@@ -1,0 +1,27 @@
+apiVersion: autostopping.harness.m.crossplane.io/v1alpha1
+kind: RuleEcs
+metadata:
+  annotations:
+    meta.upbound.io/example-id: autostopping/v1alpha1/ruleecs
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cloudConnectorId: cloud_connector_id
+    container:
+    - cluster: cluster
+      region: us-east-1
+      service: service
+      taskCount: 1
+    depends:
+    - delayInSec: 5
+      ruleId: 24576
+    dryRun: true
+    idleTimeMins: 10
+    name: name
+    tcp:
+    - forward_rule:
+      - port: 2233
+      proxy_id: proxy_id

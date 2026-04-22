@@ -1,0 +1,19 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: Pagerduty
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/pagerduty
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    apiTokenRef: account.secret_id
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar

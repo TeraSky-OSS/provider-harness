@@ -1,0 +1,19 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: IacmDefaultPipeline
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/iacmdefaultpipeline
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    operation: plan
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    pipeline: pipeline1
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    provisionerType: terraform

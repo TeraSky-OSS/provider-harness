@@ -1,0 +1,19 @@
+apiVersion: connector.harness.crossplane.io/v1alpha1
+kind: Dynatrace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/dynatrace
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    apiTokenRef: account.secret_id
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    tags:
+    - foo:bar
+    url: https://dynatrace.com/

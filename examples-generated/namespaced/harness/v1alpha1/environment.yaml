@@ -1,0 +1,63 @@
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/environment
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.test.id}
+    name: '%[1]s'
+    type: '%[2]s'
+    variableOverride:
+    - name: test
+      serviceName: k8s-svc
+      type: TEXT
+      value: override
+    - name: test2
+      serviceName: k8s-svc
+      type: TEXT
+      value: override2
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/environment
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: '%[1]s'
+
+---
+
+apiVersion: service.harness.m.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harness/v1alpha1/environment
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.test.id}
+    description: description
+    helmVersion: V2
+    name: '%[1]s'
+    variable:
+    - name: test
+      type: TEXT
+      value: test_value
+    - name: test2
+      type: TEXT
+      value: test_value2

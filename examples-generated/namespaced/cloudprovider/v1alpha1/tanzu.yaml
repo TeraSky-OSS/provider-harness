@@ -1,0 +1,35 @@
+apiVersion: cloudprovider.harness.m.crossplane.io/v1alpha1
+kind: Tanzu
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/tanzu
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    endpoint: https://endpoint.com
+    name: example
+    passwordSecretName: example-secret
+    skipValidation: true
+    username: <USERNAME>
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: EncryptedText
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/tanzu
+  labels:
+    testing.upbound.io/example-name: tanzu_password
+  name: tanzu-password
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: tanzu_password
+    secretManagerId: ${data.harness_secret_manager.default.id}
+    valueSecretRef:
+      key: example-key
+      name: example-secret

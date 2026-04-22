@@ -1,0 +1,23 @@
+apiVersion: gitops.harness.m.crossplane.io/v1alpha1
+kind: AppProjectMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/appprojectmapping
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    argoProjectName: argoProjectName
+    autoCreateServiceEnv: true
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

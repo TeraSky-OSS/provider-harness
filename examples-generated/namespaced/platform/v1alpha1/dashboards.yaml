@@ -1,0 +1,15 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Dashboards
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/dashboards
+  labels:
+    testing.upbound.io/example-name: dashboard
+  name: dashboard
+  namespace: crossplane-system
+spec:
+  forProvider:
+    dashboardId: "111"
+    description: dashboard_tag
+    resourceIdentifier: "999"
+    title: Dashboard Title

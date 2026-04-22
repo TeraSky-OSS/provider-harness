@@ -1,0 +1,28 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: ImageRegistry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/imageregistry
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    customImages:
+    - ddcr: <ddcr_image>
+      ddcrFault: <ddcr_fault_image>
+      ddcrLib: <ddcr_lib_image>
+      logWatcher: <log_watcher_image>
+    isDefault: false
+    isOverrideAllowed: true
+    isPrivate: true
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    registryAccount: <registry_account>
+    registryServer: <registry_server>
+    secretName: <secret_name>
+    useCustomImages: true

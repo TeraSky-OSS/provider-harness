@@ -1,0 +1,24 @@
+apiVersion: chaos.harness.m.crossplane.io/v1alpha1
+kind: Infrastructure
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/infrastructure
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    environmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    identifier: identifier
+    name: name
+    namespace: namespace
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serviceAccount: service_acc_name

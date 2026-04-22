@@ -1,0 +1,48 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Infrastructure
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/infrastructure
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    deploymentType: Kubernetes
+    envIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    gitDetails:
+    - branch_name: branchName
+      commitMessage: commitMessage
+      connectorRef: connectorRef
+      filePath: filePath
+      repoName: repoName
+      storeType: REMOTE
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: KubernetesDirect
+    yaml: |
+      infrastructureDefinition:
+       name: name
+       identifier: identifier
+       description: ""
+       tags:
+         asda: ""
+       orgIdentifier: orgIdentifer
+       projectIdentifier: projectIdentifier
+       environmentRef: environmentIdentifier
+       deploymentType: Kubernetes
+       type: KubernetesDirect
+       spec:
+        connectorRef: account.gfgf
+        namespace: asdasdsa
+        releaseName: release-<+INFRA_KEY>
+        allowSimultaneousDeployments: false

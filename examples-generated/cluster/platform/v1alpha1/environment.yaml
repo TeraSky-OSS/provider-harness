@@ -1,0 +1,73 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/environment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    gitDetails:
+    - branch_name: branchName
+      commitMessage: commitMessage
+      connectorRef: connectorRef
+      filePath: filePath
+      repoName: repoName
+      storeType: REMOTE
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tags:
+    - foo:bar
+    - bar:foo
+    type: PreProduction
+    yaml: |
+      environment:
+         name: name
+         identifier: identifier
+         orgIdentifier: org_id
+         projectIdentifier: project_id
+         type: PreProduction
+         tags:
+           foo: bar
+           bar: foo
+         variables:
+           - name: envVar1
+             type: String
+             value: v1
+             description: ""
+           - name: envVar2
+             type: String
+             value: v2
+             description: ""
+         overrides:
+           manifests:
+             - manifest:
+                 identifier: manifestEnv
+                 type: Values
+                 spec:
+                   store:
+                     type: Git
+                     spec:
+                       connectorRef: <+input>
+                       gitFetchType: Branch
+                       paths:
+                         - file1
+                       repoName: <+input>
+                       branch: master
+           configFiles:
+             - configFile:
+                 identifier: configFileEnv
+                 spec:
+                   store:
+                     type: Harness
+                     spec:
+                       files:
+                         - account:/Add-ons/svcOverrideTest
+                       secretFiles: []

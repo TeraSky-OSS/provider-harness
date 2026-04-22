@@ -1,0 +1,122 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: MonitoredService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/monitoredservice
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    request:
+    - changeSources:
+      - category: Alert
+        enabled: true
+        identifier: BAC
+        name: BAC
+        spec: |-
+          ${jsonencode({
+                  connectorRef       = "account.pd"
+                  pagerDutyServiceId = "P0N21OB"
+                })}
+        type: PagerDuty
+      - category: Alert
+        enabled: true
+        identifier: FH
+        name: FH
+        spec: |-
+          ${jsonencode({
+                  name       = "FH",
+                  webhookUrl = "https://harness.io/cv/api/account/sampleAcc/org/sampleOrg/project/sampleProj/webhook/custom-change?monitoredServiceIdentifier=checkout_prod&changeSourceIdentifier=FH",
+                  "webhookCurlCommand" : "curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: sample_api_key' --url 'https://harness.io/cv/api/account/sampleAcc/org/sampleOrg/project/sampleProj/webhook/custom-change?monitoredServiceIdentifier=checkout_prod&changeSourceIdentifier=FH' -d '{ \"eventIdentifier\": \"<string>\" (optional), \"user\": \"user@harness.io\", \"startTime\": timeInMs, \"endTime\": timeInMs, \"eventDetail\": { \"description\": \"<String>\", \"changeEventDetailsLink\": \"urlString\" (optional), \"externalLinkToEntity\": \"urlString\" (optional), \"name\": \"changeEventName\" } }'",
+                  "type" : "Alert"
+                })}
+        type: CustomIncident
+      - category: FeatureFlag
+        enabled: true
+        identifier: customff
+        name: customff
+        spec: |-
+          ${jsonencode({
+                  type = "FeatureFlag"
+                })}
+        type: CustomFF
+      - category: Deployment
+        enabled: true
+        identifier: customdeploy
+        name: customdeploy
+        spec: |-
+          ${jsonencode({
+                  type = "Deployment"
+                })}
+        type: CustomDeploy
+      - category: Alert
+        enabled: true
+        identifier: customincident
+        name: customincident
+        spec: |-
+          ${jsonencode({
+                  type               = "Alert"
+                  authorizationToken = "abc"
+                })}
+        type: CustomIncident
+      description: description
+      environmentRef: environment_ref
+      healthSources:
+      - identifier: identifier
+        name: name
+        spec: |-
+          ${jsonencode({
+                  connectorRef = "connectorRef"
+                  queryDefinitions = [
+                    {
+                      name       = "name"
+                      identifier = "infraquery"
+                      query      = "query"
+                      index      = "index"
+                      groupName  = "Logs_Group"
+                      queryParams = {
+                        index                = "index"
+                        serviceInstanceField = "serviceInstanceIdentifier"
+                        timeStampIdentifier  = "timeStampIdentifier"
+                        timeStampFormat      = "timeStampFormat"
+                        messageIdentifier    = "messageIdentifier"
+                      }
+                    },
+                    {
+                      name       = "name2"
+                      identifier = "errorquery"
+                      query      = "query2"
+                      index      = "index2"
+                      groupName  = "Logs_Group"
+                      queryParams = {
+                        index                = "index"
+                        serviceInstanceField = "serviceInstanceIdentifier"
+                        timeStampIdentifier  = "timeStampIdentifier"
+                        timeStampFormat      = "timeStampFormat"
+                        messageIdentifier    = "messageIdentifier"
+                      }
+                    }
+                  ]
+                })}
+        type: ElasticSearch
+        version: v2
+      name: name
+      notificationRuleRefs:
+      - enabled: true
+        notificationRuleRef: notification_rule_ref
+      - enabled: false
+        notificationRuleRef: notification_rule_ref1
+      serviceRef: service_ref
+      tags:
+      - foo:bar
+      - bar:foo
+      type: Application

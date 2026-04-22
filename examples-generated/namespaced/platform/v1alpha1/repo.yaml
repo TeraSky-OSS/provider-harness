@@ -1,0 +1,23 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Repo
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/repo
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    defaultBranch: main
+    description: test_description_123
+    identifier: test_repo_123
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    source:
+    - repo: octocat/hello-worId
+      type: github

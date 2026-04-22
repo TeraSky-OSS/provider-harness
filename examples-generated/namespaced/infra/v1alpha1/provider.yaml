@@ -1,0 +1,13 @@
+apiVersion: infra.harness.m.crossplane.io/v1alpha1
+kind: Provider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: infra/v1alpha1/provider
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: AWS provider for IaCM
+    type: aws

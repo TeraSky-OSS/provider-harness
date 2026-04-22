@@ -1,0 +1,24 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: ServiceNow
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/servicenow
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    auth:
+    - authType: UsernamePassword
+      usernamePassword:
+      - passwordRef: account.password_ref
+        username: admin
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifier
+    name: name
+    serviceNowUrl: https://servicenow.com
+    tags:
+    - foo:bar

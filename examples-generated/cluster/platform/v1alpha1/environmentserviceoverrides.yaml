@@ -1,0 +1,54 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: EnvironmentServiceOverrides
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/environmentserviceoverrides
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    envIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    yaml: |
+      serviceOverrides:
+        environmentRef: environmentIdentifier
+        serviceRef: serviceIdentifier
+        variables:
+         - name: asda
+           type: String
+           value: asddad
+        manifests:
+           - manifest:
+               identifier: manifestEnv
+               type: Values
+               spec:
+                 store:
+                   type: Git
+                   spec:
+                     connectorRef: <+input>
+                     gitFetchType: Branch
+                     paths:
+                       - file1
+                     repoName: <+input>
+                     branch: master
+        configFiles:
+           - configFile:
+               identifier: configFileEnv
+               spec:
+                 store:
+                   type: Harness
+                   spec:
+                     files:
+                       - account:/Add-ons/svcOverrideTest
+                     secretFiles: []

@@ -1,0 +1,17 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/organization
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: An example organization
+    identifier: MyOrg
+    name: My Organization
+    tags:
+    - foo:bar
+    - baz:qux

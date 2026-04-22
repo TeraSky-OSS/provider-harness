@@ -1,0 +1,19 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: PolicySet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/policyset
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    action: onrun
+    enabled: true
+    identifier: harness_platform_policyset.test.identifier
+    name: harness_platform_policyset.test.name
+    policyReferences:
+    - identifier: policy_identifier
+      severity: warning
+    type: pipeline

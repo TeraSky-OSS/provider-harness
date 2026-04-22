@@ -1,0 +1,18 @@
+apiVersion: governance.harness.crossplane.io/v1alpha1
+kind: Rule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: governance/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cloudProvider: AWS/AZURE/GCP
+    description: description
+    identifier: identifier
+    name: name
+    rulesYaml: |-
+      policies:
+        - name: aws-list-ec2
+          resource: aws.ec2

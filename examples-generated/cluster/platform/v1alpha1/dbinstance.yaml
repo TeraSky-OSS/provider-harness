@@ -1,0 +1,30 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: DbInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/dbinstance
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    branch: main
+    connector: jdbcConnector
+    context: ctx
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    schemaSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    substituteProperties:
+      key1: value1
+      key2: value2
+    tags:
+    - foo:bar
+    - bar:foo

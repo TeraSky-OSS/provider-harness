@@ -1,0 +1,22 @@
+apiVersion: platform.harness.crossplane.io/v1alpha1
+kind: Variables
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/variables
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    identifier: identifier
+    name: name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    spec:
+    - fixedValue: fixedValue
+      valueType: FIXED
+    type: String

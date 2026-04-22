@@ -1,0 +1,69 @@
+apiVersion: chaos.harness.m.crossplane.io/v1alpha1
+kind: ActionTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/actiontemplate
+  labels:
+    testing.upbound.io/example-name: container_with_runtime_inputs
+  name: container-with-runtime-inputs
+  namespace: crossplane-system
+spec:
+  forProvider:
+    containerAction:
+    - annotations:
+        description: Chaos container action
+        owner: chaos-team
+      args: echo 'Running container action'; sleep 15
+      command:
+      - <+input>.default('sh')
+      env:
+      - name: TEST_VAR
+        value: <+input>.default('test_value')
+      - name: ANOTHER_VAR
+        value: <+input>.default('another_value')
+      image: <+input>.default('busybox:latest')
+      labels:
+        app: chaos-action
+        environment: production
+        managed-by: terraform
+      namespace: <+input>.default('default')
+      nodeSelector:
+        disktype: ssd
+        zone: us-west-1a
+      resources:
+      - limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+    description: Container action with runtime inputs and defaults
+    hubIdentity: account-chaos-hub
+    identity: container-action-template
+    infrastructureType: <+input>.default('Kubernetes')
+    name: Container Action Template
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    runProperties:
+    - interval: <+input>.default('15s')
+      timeout: <+input>.default('60s')
+    tags:
+    - container
+    - kubernetes
+    - runtime-inputs
+    type: container
+    variables:
+    - description: Container image to use (runtime input)
+      name: container_image
+      required: true
+      type: string
+      value: <+input>
+    - description: Kubernetes namespace (runtime input)
+      name: namespace
+      required: false
+      type: string
+      value: <+input>

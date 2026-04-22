@@ -1,0 +1,25 @@
+apiVersion: connector.harness.m.crossplane.io/v1alpha1
+kind: AwsKms
+metadata:
+  annotations:
+    meta.upbound.io/example-id: connector/v1alpha1/awskms
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    arnRef: account.secret_id
+    credentials:
+    - assumeRole:
+      - duration: 900
+        externalId: externalid
+        roleArn: somerolearn
+    delegateSelectors:
+    - harness-delegate
+    description: test
+    identifier: identifer
+    name: name
+    region: us-east-1
+    tags:
+    - foo:bar

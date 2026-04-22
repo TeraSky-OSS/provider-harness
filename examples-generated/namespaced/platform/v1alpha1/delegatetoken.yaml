@@ -1,0 +1,13 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: DelegateToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/delegatetoken
+  labels:
+    testing.upbound.io/example-name: account_level
+  name: account-level
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accountId: account_id
+    name: account-delegate-token

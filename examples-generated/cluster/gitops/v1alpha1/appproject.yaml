@@ -1,0 +1,80 @@
+apiVersion: gitops.harness.crossplane.io/v1alpha1
+kind: AppProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gitops/v1alpha1/appproject
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    accountId: account_id
+    agentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    project:
+    - metadata:
+      - annotations:
+          v1: k1
+        finalizers:
+        - resources-finalizer.argocd.argoproj.io
+        labels:
+          v1: k1
+        name: name
+        namespace: rollouts
+      spec:
+      - clusterResourceWhitelist:
+        - group: '*'
+          kind: Namespace
+        destinations:
+        - name: in-cluster
+          namespace: guestbook
+          server: https://kubernetes.default.svc
+        namespaceResourceBlacklist:
+        - group: group
+          kind: ResourceQuota
+        - group: group2
+          kind: LimitRange
+        - group: group3
+          kind: NetworkPolicy
+        namespaceResourceWhitelist:
+        - group: apps
+          kind: Deployment
+        - group: apps
+          kind: StatefulSet
+        orphanedResources:
+        - warn: "false"
+        roles:
+        - description: Read-only privileges to my-project
+          groups:
+          - my-oidc-group
+          name: read-only
+          policies:
+          - p, proj:%[3]s:read-only, applications, get, %[3]s/*, allow
+        - description: Sync privileges for guestbook-dev
+          jwtTokens:
+          - iat: "1535390316"
+          name: ci-role
+          policies:
+          - p, proj:%[3]s:ci-role, applications, sync, %[3]s/guestbook-dev, allow
+        sourceRepos:
+        - '*'
+        syncWindows:
+        - applications:
+          - '*-prod'
+          duration: 1h
+          kind: allow
+          manualSync: "true"
+          schedule: 10 1 * * *
+        - duration: 1h
+          kind: deny
+          namespaces:
+          - default
+          schedule: 0 22 * * *
+        - clusters:
+          - in-cluster
+          - cluster1
+          duration: 1h
+          kind: allow
+          schedule: 0 23 * * *
+    upsert: true

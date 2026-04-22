@@ -1,0 +1,29 @@
+apiVersion: service.harness.m.crossplane.io/v1alpha1
+kind: Tanzu
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/tanzu
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: ${harness_application.example.id}
+    description: A service for deploying Tanzu applications.
+    name: tanzu-svc
+
+---
+
+apiVersion: harness.harness.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: service/v1alpha1/tanzu
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example

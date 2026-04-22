@@ -1,0 +1,12 @@
+apiVersion: cloudprovider.harness.m.crossplane.io/v1alpha1
+kind: Datacenter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudprovider/v1alpha1/datacenter
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example

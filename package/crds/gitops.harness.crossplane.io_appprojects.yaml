@@ -1,0 +1,1967 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: appprojects.gitops.harness.crossplane.io
+spec:
+  group: gitops.harness.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - harness
+    kind: AppProject
+    listKind: AppProjectList
+    plural: appprojects
+    singular: appproject
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: AppProject is the Schema for the AppProjects API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AppProjectSpec defines the desired state of AppProject
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  accountId:
+                    description: |-
+                      (String, Deprecated) Account identifier of the GitOps Agent where argo project will exist.
+                      Account identifier of the GitOps Agent where argo project will exist.
+                    type: string
+                  agentId:
+                    description: |-
+                      (String) Agent identifier of the agent where argo project will exist (include scope prefix)
+                      Agent identifier of the agent where argo project will exist (include scope prefix)
+                    type: string
+                  agentIdRef:
+                    description: Reference to a Agent in gitops to populate agentId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  agentIdSelector:
+                    description: Selector for a Agent in gitops to populate agentId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  orgId:
+                    description: |-
+                      (String) Org identifier of the GitOps Agent where argo project is to be created.
+                      Org identifier of the GitOps Agent where argo project is to be created.
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      (Block List, Min: 1, Max: 1) GitOps project configuration. (see below for nested schema)
+                      GitOps project configuration.
+                    items:
+                      properties:
+                        metadata:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) K8s object metadata for the Argo project. (see below for nested schema)
+                            K8s object metadata for the Argo project.
+                          items:
+                            properties:
+                              annotations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Annotations associated with the GitOps project.
+                                  Annotations associated with the GitOps project.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              clusterName:
+                                description: |-
+                                  (String) Name of the cluster associated with the GitOps project.
+                                  Name of the cluster associated with the GitOps project.
+                                type: string
+                              finalizers:
+                                description: |-
+                                  (List of String) Finalizers associated with the GitOps project.
+                                  Finalizers associated with the GitOps project.
+                                items:
+                                  type: string
+                                type: array
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Labels associated with the GitOps project.
+                                  Labels associated with the GitOps project.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              managedFields:
+                                description: |-
+                                  (Block List) Managed fields associated with the GitOps project. (see below for nested schema)
+                                  Managed fields associated with the GitOps project.
+                                items:
+                                  properties:
+                                    apiVersion:
+                                      description: |-
+                                        (String) API version of the operation performed.
+                                        API version of the operation performed.
+                                      type: string
+                                    fieldsType:
+                                      description: |-
+                                        (String) Type of the fields in the GitOps project.
+                                        Type of the fields in the GitOps project.
+                                      type: string
+                                    fieldsV1:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Raw fields associated with the GitOps project.
+                                        Raw fields associated with the GitOps project.
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    manager:
+                                      description: |-
+                                        (String) Manager responsible for the operation.
+                                        Manager responsible for the operation.
+                                      type: string
+                                    operation:
+                                      description: |-
+                                        (String) Operation type performed on the GitOps project.
+                                        Operation type performed on the GitOps project.
+                                      type: string
+                                    subresource:
+                                      description: |-
+                                        (String) Subresource associated with the GitOps project.
+                                        Subresource associated with the GitOps project.
+                                      type: string
+                                    time:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Timestamp of the operation.
+                                        Timestamp of the operation.
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                  type: object
+                                type: array
+                              name:
+                                description: |-
+                                  (String) Name of the GitOps project.
+                                  Name of the GitOps project.
+                                type: string
+                              namespace:
+                                description: |-
+                                  (String) Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                  Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                type: string
+                              resourceVersion:
+                                description: |-
+                                  (String) Resource Version for the GitOps project
+                                  Resource Version for the GitOps project
+                                type: string
+                            type: object
+                          type: array
+                        spec:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) Specification details for the Argo project. (see below for nested schema)
+                            Specification details for the Argo project.
+                          items:
+                            properties:
+                              clusterResourceBlacklist:
+                                description: |-
+                                  (Block List) Cluster resource blacklist for the GitOps project. (see below for nested schema)
+                                  Cluster resource blacklist for the GitOps project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the cluster resource blacklist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the cluster resource blacklist.
+                                      type: string
+                                  type: object
+                                type: array
+                              clusterResourceWhitelist:
+                                description: |-
+                                  (Block List) Cluster resource whitelist for the Argo project. (see below for nested schema)
+                                  Cluster resource whitelist for the Argo project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the cluster resource whitelist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the cluster resource whitelist.
+                                      type: string
+                                  type: object
+                                type: array
+                              description:
+                                description: |-
+                                  (String) Description of the Argo project.
+                                  Description of the Argo project.
+                                type: string
+                              destinations:
+                                description: |-
+                                  (Block List) Allowed destinations for applications in this Argo project. (see below for nested schema)
+                                  Allowed destinations for applications in this Argo project.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the GitOps project.
+                                        Name of the destination cluster.
+                                      type: string
+                                    namespace:
+                                      description: |-
+                                        (String) Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                        Permitted Namespaces for deployment in the destination cluster.
+                                      type: string
+                                    server:
+                                      description: |-
+                                        (String) Server URL of the destination cluster.
+                                        Server URL of the destination cluster.
+                                      type: string
+                                  type: object
+                                type: array
+                              namespaceResourceBlacklist:
+                                description: |-
+                                  (Block List) Namespace resource blacklist for the Argo project. (see below for nested schema)
+                                  Namespace resource blacklist for the Argo project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the namespace resource blacklist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the namespace resource blacklist.
+                                      type: string
+                                  type: object
+                                type: array
+                              namespaceResourceWhitelist:
+                                description: |-
+                                  (Block List) Namespace resource whitelist for the GitOps project. (see below for nested schema)
+                                  Namespace resource whitelist for the GitOps project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the namespace resource whitelist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the namespace resource whitelist.
+                                      type: string
+                                  type: object
+                                type: array
+                              orphanedResources:
+                                description: |-
+                                  (Block List) OrphanedResources specifies if agent should monitor orphaned resources of apps in this project (see below for nested schema)
+                                  OrphanedResources specifies if agent should monitor orphaned resources of apps in this project
+                                items:
+                                  properties:
+                                    ignore:
+                                      description: |-
+                                        (Block List) List of ignored orphaned resources. (see below for nested schema)
+                                        List of ignored orphaned resources.
+                                      items:
+                                        properties:
+                                          group:
+                                            description: |-
+                                              (String) Group of the cluster resource blacklist.
+                                              Group of the ignored orphaned resource.
+                                            type: string
+                                          kind:
+                                            description: |-
+                                              (String) Kind of the cluster resource blacklist.
+                                              Kind of the ignored orphaned resource.
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the GitOps project.
+                                              Name of the ignored orphaned resource.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    warn:
+                                      description: |-
+                                        (Boolean) Whether to warn about orphaned resources.
+                                        Whether to warn about orphaned resources.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              permitOnlyProjectScopedClusters:
+                                description: |-
+                                  scoped
+                                  This option determines whether destinations can only reference clusters which are argo project-scoped
+                                type: boolean
+                              roles:
+                                description: |-
+                                  (Block List) Roles associated with the Argo project. (see below for nested schema)
+                                  Roles associated with the Argo project.
+                                items:
+                                  properties:
+                                    description:
+                                      description: |-
+                                        (String) Description of the Argo project.
+                                        Description of the role.
+                                      type: string
+                                    groups:
+                                      description: |-
+                                        (List of String) Groups associated with the role.
+                                        Groups associated with the role.
+                                      items:
+                                        type: string
+                                      type: array
+                                    jwtTokens:
+                                      description: |-
+                                        (Block List) JWT tokens associated with the role. (see below for nested schema)
+                                        JWT tokens associated with the role.
+                                      items:
+                                        properties:
+                                          exp:
+                                            description: |-
+                                              (String) Expiration time of the JWT token.
+                                              Expiration time of the JWT token.
+                                            type: string
+                                          iat:
+                                            description: |-
+                                              (String) Issued At time of the JWT token.
+                                              Issued At time of the JWT token.
+                                            type: string
+                                          id:
+                                            description: |-
+                                              (String) The ID of this resource.
+                                              ID of the JWT token.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    name:
+                                      description: |-
+                                        (String) Name of the GitOps project.
+                                        Name of the role.
+                                      type: string
+                                    policies:
+                                      description: |-
+                                        (List of String) Policies associated with the role. These are argo RBAC policies and may not necessarily reflect in harness.
+                                        Policies associated with the role. These are argo RBAC policies and may not necessarily reflect in harness.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              signatureKeys:
+                                description: |-
+                                  (Block List) Signature keys for the GitOps project. (see below for nested schema)
+                                  Signature keys for the GitOps project.
+                                items:
+                                  properties:
+                                    keyId:
+                                      description: |-
+                                        (String) ID of the signature key.
+                                        ID of the signature key.
+                                      type: string
+                                  type: object
+                                type: array
+                              sourceNamespaces:
+                                description: |-
+                                  (List of String) Source namespaces defines the namespaces application resources are allowed to be created in.
+                                  Source namespaces defines the namespaces application resources are allowed to be created in.
+                                items:
+                                  type: string
+                                type: array
+                              sourceRepos:
+                                description: |-
+                                  (List of String) Allowed Source repositories for the Argo project.
+                                  Allowed Source repositories for the Argo project.
+                                items:
+                                  type: string
+                                type: array
+                              syncWindows:
+                                description: |-
+                                  (Block List) Synchronization windows for the GitOps project. (see below for nested schema)
+                                  Synchronization windows for the GitOps project.
+                                items:
+                                  properties:
+                                    applications:
+                                      description: |-
+                                        (List of String) Applications associated with synchronization window.
+                                        Applications associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    clusters:
+                                      description: |-
+                                        (List of String) Clusters associated with synchronization window.
+                                        Clusters associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    duration:
+                                      description: |-
+                                        (String) Duration of synchronization window.
+                                        Duration of synchronization window.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of synchronization window.
+                                      type: string
+                                    manualSync:
+                                      description: |-
+                                        (Boolean) Whether manual synchronization is enabled.
+                                        Whether manual synchronization is enabled.
+                                      type: boolean
+                                    namespaces:
+                                      description: |-
+                                        (List of String) Namespaces associated with synchronization window.
+                                        Namespaces associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    schedule:
+                                      description: |-
+                                        (String) Schedule of synchronization window.
+                                        Schedule of synchronization window.
+                                      type: string
+                                    timeZone:
+                                      description: |-
+                                        (String) Time zone of synchronization window.
+                                        Time zone of synchronization window.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) Project identifier of the Gitops Agent where argo project is to be created.
+                      Project identifier of the Gitops Agent where argo project is to be created.
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  queryName:
+                    description: |-
+                      (String) Identifier for the GitOps Argo project.
+                      Identifier for the GitOps Argo project.
+                    type: string
+                  upsert:
+                    description: |-
+                      (Boolean) Indicates if the argo project should be updated if existing and inserted if not.
+                      Indicates if the argo project should be updated if existing and inserted if not.
+                    type: boolean
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  accountId:
+                    description: |-
+                      (String, Deprecated) Account identifier of the GitOps Agent where argo project will exist.
+                      Account identifier of the GitOps Agent where argo project will exist.
+                    type: string
+                  agentId:
+                    description: |-
+                      (String) Agent identifier of the agent where argo project will exist (include scope prefix)
+                      Agent identifier of the agent where argo project will exist (include scope prefix)
+                    type: string
+                  agentIdRef:
+                    description: Reference to a Agent in gitops to populate agentId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  agentIdSelector:
+                    description: Selector for a Agent in gitops to populate agentId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  orgId:
+                    description: |-
+                      (String) Org identifier of the GitOps Agent where argo project is to be created.
+                      Org identifier of the GitOps Agent where argo project is to be created.
+                    type: string
+                  orgIdRef:
+                    description: Reference to a Organization in platform to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in platform to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      (Block List, Min: 1, Max: 1) GitOps project configuration. (see below for nested schema)
+                      GitOps project configuration.
+                    items:
+                      properties:
+                        metadata:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) K8s object metadata for the Argo project. (see below for nested schema)
+                            K8s object metadata for the Argo project.
+                          items:
+                            properties:
+                              annotations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Annotations associated with the GitOps project.
+                                  Annotations associated with the GitOps project.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              clusterName:
+                                description: |-
+                                  (String) Name of the cluster associated with the GitOps project.
+                                  Name of the cluster associated with the GitOps project.
+                                type: string
+                              finalizers:
+                                description: |-
+                                  (List of String) Finalizers associated with the GitOps project.
+                                  Finalizers associated with the GitOps project.
+                                items:
+                                  type: string
+                                type: array
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Labels associated with the GitOps project.
+                                  Labels associated with the GitOps project.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              managedFields:
+                                description: |-
+                                  (Block List) Managed fields associated with the GitOps project. (see below for nested schema)
+                                  Managed fields associated with the GitOps project.
+                                items:
+                                  properties:
+                                    apiVersion:
+                                      description: |-
+                                        (String) API version of the operation performed.
+                                        API version of the operation performed.
+                                      type: string
+                                    fieldsType:
+                                      description: |-
+                                        (String) Type of the fields in the GitOps project.
+                                        Type of the fields in the GitOps project.
+                                      type: string
+                                    fieldsV1:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Raw fields associated with the GitOps project.
+                                        Raw fields associated with the GitOps project.
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    manager:
+                                      description: |-
+                                        (String) Manager responsible for the operation.
+                                        Manager responsible for the operation.
+                                      type: string
+                                    operation:
+                                      description: |-
+                                        (String) Operation type performed on the GitOps project.
+                                        Operation type performed on the GitOps project.
+                                      type: string
+                                    subresource:
+                                      description: |-
+                                        (String) Subresource associated with the GitOps project.
+                                        Subresource associated with the GitOps project.
+                                      type: string
+                                    time:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Timestamp of the operation.
+                                        Timestamp of the operation.
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                  type: object
+                                type: array
+                              name:
+                                description: |-
+                                  (String) Name of the GitOps project.
+                                  Name of the GitOps project.
+                                type: string
+                              namespace:
+                                description: |-
+                                  (String) Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                  Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                type: string
+                              resourceVersion:
+                                description: |-
+                                  (String) Resource Version for the GitOps project
+                                  Resource Version for the GitOps project
+                                type: string
+                            type: object
+                          type: array
+                        spec:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) Specification details for the Argo project. (see below for nested schema)
+                            Specification details for the Argo project.
+                          items:
+                            properties:
+                              clusterResourceBlacklist:
+                                description: |-
+                                  (Block List) Cluster resource blacklist for the GitOps project. (see below for nested schema)
+                                  Cluster resource blacklist for the GitOps project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the cluster resource blacklist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the cluster resource blacklist.
+                                      type: string
+                                  type: object
+                                type: array
+                              clusterResourceWhitelist:
+                                description: |-
+                                  (Block List) Cluster resource whitelist for the Argo project. (see below for nested schema)
+                                  Cluster resource whitelist for the Argo project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the cluster resource whitelist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the cluster resource whitelist.
+                                      type: string
+                                  type: object
+                                type: array
+                              description:
+                                description: |-
+                                  (String) Description of the Argo project.
+                                  Description of the Argo project.
+                                type: string
+                              destinations:
+                                description: |-
+                                  (Block List) Allowed destinations for applications in this Argo project. (see below for nested schema)
+                                  Allowed destinations for applications in this Argo project.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the GitOps project.
+                                        Name of the destination cluster.
+                                      type: string
+                                    namespace:
+                                      description: |-
+                                        (String) Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                        Permitted Namespaces for deployment in the destination cluster.
+                                      type: string
+                                    server:
+                                      description: |-
+                                        (String) Server URL of the destination cluster.
+                                        Server URL of the destination cluster.
+                                      type: string
+                                  type: object
+                                type: array
+                              namespaceResourceBlacklist:
+                                description: |-
+                                  (Block List) Namespace resource blacklist for the Argo project. (see below for nested schema)
+                                  Namespace resource blacklist for the Argo project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the namespace resource blacklist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the namespace resource blacklist.
+                                      type: string
+                                  type: object
+                                type: array
+                              namespaceResourceWhitelist:
+                                description: |-
+                                  (Block List) Namespace resource whitelist for the GitOps project. (see below for nested schema)
+                                  Namespace resource whitelist for the GitOps project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the namespace resource whitelist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the namespace resource whitelist.
+                                      type: string
+                                  type: object
+                                type: array
+                              orphanedResources:
+                                description: |-
+                                  (Block List) OrphanedResources specifies if agent should monitor orphaned resources of apps in this project (see below for nested schema)
+                                  OrphanedResources specifies if agent should monitor orphaned resources of apps in this project
+                                items:
+                                  properties:
+                                    ignore:
+                                      description: |-
+                                        (Block List) List of ignored orphaned resources. (see below for nested schema)
+                                        List of ignored orphaned resources.
+                                      items:
+                                        properties:
+                                          group:
+                                            description: |-
+                                              (String) Group of the cluster resource blacklist.
+                                              Group of the ignored orphaned resource.
+                                            type: string
+                                          kind:
+                                            description: |-
+                                              (String) Kind of the cluster resource blacklist.
+                                              Kind of the ignored orphaned resource.
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the GitOps project.
+                                              Name of the ignored orphaned resource.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    warn:
+                                      description: |-
+                                        (Boolean) Whether to warn about orphaned resources.
+                                        Whether to warn about orphaned resources.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              permitOnlyProjectScopedClusters:
+                                description: |-
+                                  scoped
+                                  This option determines whether destinations can only reference clusters which are argo project-scoped
+                                type: boolean
+                              roles:
+                                description: |-
+                                  (Block List) Roles associated with the Argo project. (see below for nested schema)
+                                  Roles associated with the Argo project.
+                                items:
+                                  properties:
+                                    description:
+                                      description: |-
+                                        (String) Description of the Argo project.
+                                        Description of the role.
+                                      type: string
+                                    groups:
+                                      description: |-
+                                        (List of String) Groups associated with the role.
+                                        Groups associated with the role.
+                                      items:
+                                        type: string
+                                      type: array
+                                    jwtTokens:
+                                      description: |-
+                                        (Block List) JWT tokens associated with the role. (see below for nested schema)
+                                        JWT tokens associated with the role.
+                                      items:
+                                        properties:
+                                          exp:
+                                            description: |-
+                                              (String) Expiration time of the JWT token.
+                                              Expiration time of the JWT token.
+                                            type: string
+                                          iat:
+                                            description: |-
+                                              (String) Issued At time of the JWT token.
+                                              Issued At time of the JWT token.
+                                            type: string
+                                          id:
+                                            description: |-
+                                              (String) The ID of this resource.
+                                              ID of the JWT token.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    name:
+                                      description: |-
+                                        (String) Name of the GitOps project.
+                                        Name of the role.
+                                      type: string
+                                    policies:
+                                      description: |-
+                                        (List of String) Policies associated with the role. These are argo RBAC policies and may not necessarily reflect in harness.
+                                        Policies associated with the role. These are argo RBAC policies and may not necessarily reflect in harness.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              signatureKeys:
+                                description: |-
+                                  (Block List) Signature keys for the GitOps project. (see below for nested schema)
+                                  Signature keys for the GitOps project.
+                                items:
+                                  properties:
+                                    keyId:
+                                      description: |-
+                                        (String) ID of the signature key.
+                                        ID of the signature key.
+                                      type: string
+                                  type: object
+                                type: array
+                              sourceNamespaces:
+                                description: |-
+                                  (List of String) Source namespaces defines the namespaces application resources are allowed to be created in.
+                                  Source namespaces defines the namespaces application resources are allowed to be created in.
+                                items:
+                                  type: string
+                                type: array
+                              sourceRepos:
+                                description: |-
+                                  (List of String) Allowed Source repositories for the Argo project.
+                                  Allowed Source repositories for the Argo project.
+                                items:
+                                  type: string
+                                type: array
+                              syncWindows:
+                                description: |-
+                                  (Block List) Synchronization windows for the GitOps project. (see below for nested schema)
+                                  Synchronization windows for the GitOps project.
+                                items:
+                                  properties:
+                                    applications:
+                                      description: |-
+                                        (List of String) Applications associated with synchronization window.
+                                        Applications associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    clusters:
+                                      description: |-
+                                        (List of String) Clusters associated with synchronization window.
+                                        Clusters associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    duration:
+                                      description: |-
+                                        (String) Duration of synchronization window.
+                                        Duration of synchronization window.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of synchronization window.
+                                      type: string
+                                    manualSync:
+                                      description: |-
+                                        (Boolean) Whether manual synchronization is enabled.
+                                        Whether manual synchronization is enabled.
+                                      type: boolean
+                                    namespaces:
+                                      description: |-
+                                        (List of String) Namespaces associated with synchronization window.
+                                        Namespaces associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    schedule:
+                                      description: |-
+                                        (String) Schedule of synchronization window.
+                                        Schedule of synchronization window.
+                                      type: string
+                                    timeZone:
+                                      description: |-
+                                        (String) Time zone of synchronization window.
+                                        Time zone of synchronization window.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) Project identifier of the Gitops Agent where argo project is to be created.
+                      Project identifier of the Gitops Agent where argo project is to be created.
+                    type: string
+                  projectIdRef:
+                    description: Reference to a Project in platform to populate projectId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: Selector for a Project in platform to populate projectId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  queryName:
+                    description: |-
+                      (String) Identifier for the GitOps Argo project.
+                      Identifier for the GitOps Argo project.
+                    type: string
+                  upsert:
+                    description: |-
+                      (Boolean) Indicates if the argo project should be updated if existing and inserted if not.
+                      Indicates if the argo project should be updated if existing and inserted if not.
+                    type: boolean
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.project is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.project)
+                || (has(self.initProvider) && has(self.initProvider.project))'
+          status:
+            description: AppProjectStatus defines the observed state of AppProject.
+            properties:
+              atProvider:
+                properties:
+                  accountId:
+                    description: |-
+                      (String, Deprecated) Account identifier of the GitOps Agent where argo project will exist.
+                      Account identifier of the GitOps Agent where argo project will exist.
+                    type: string
+                  agentId:
+                    description: |-
+                      (String) Agent identifier of the agent where argo project will exist (include scope prefix)
+                      Agent identifier of the agent where argo project will exist (include scope prefix)
+                    type: string
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  orgId:
+                    description: |-
+                      (String) Org identifier of the GitOps Agent where argo project is to be created.
+                      Org identifier of the GitOps Agent where argo project is to be created.
+                    type: string
+                  project:
+                    description: |-
+                      (Block List, Min: 1, Max: 1) GitOps project configuration. (see below for nested schema)
+                      GitOps project configuration.
+                    items:
+                      properties:
+                        metadata:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) K8s object metadata for the Argo project. (see below for nested schema)
+                            K8s object metadata for the Argo project.
+                          items:
+                            properties:
+                              annotations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Annotations associated with the GitOps project.
+                                  Annotations associated with the GitOps project.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              clusterName:
+                                description: |-
+                                  (String) Name of the cluster associated with the GitOps project.
+                                  Name of the cluster associated with the GitOps project.
+                                type: string
+                              finalizers:
+                                description: |-
+                                  (List of String) Finalizers associated with the GitOps project.
+                                  Finalizers associated with the GitOps project.
+                                items:
+                                  type: string
+                                type: array
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Map of String) Labels associated with the GitOps project.
+                                  Labels associated with the GitOps project.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              managedFields:
+                                description: |-
+                                  (Block List) Managed fields associated with the GitOps project. (see below for nested schema)
+                                  Managed fields associated with the GitOps project.
+                                items:
+                                  properties:
+                                    apiVersion:
+                                      description: |-
+                                        (String) API version of the operation performed.
+                                        API version of the operation performed.
+                                      type: string
+                                    fieldsType:
+                                      description: |-
+                                        (String) Type of the fields in the GitOps project.
+                                        Type of the fields in the GitOps project.
+                                      type: string
+                                    fieldsV1:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Raw fields associated with the GitOps project.
+                                        Raw fields associated with the GitOps project.
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                    manager:
+                                      description: |-
+                                        (String) Manager responsible for the operation.
+                                        Manager responsible for the operation.
+                                      type: string
+                                    operation:
+                                      description: |-
+                                        (String) Operation type performed on the GitOps project.
+                                        Operation type performed on the GitOps project.
+                                      type: string
+                                    subresource:
+                                      description: |-
+                                        (String) Subresource associated with the GitOps project.
+                                        Subresource associated with the GitOps project.
+                                      type: string
+                                    time:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        (Map of String) Timestamp of the operation.
+                                        Timestamp of the operation.
+                                      type: object
+                                      x-kubernetes-map-type: granular
+                                  type: object
+                                type: array
+                              name:
+                                description: |-
+                                  (String) Name of the GitOps project.
+                                  Name of the GitOps project.
+                                type: string
+                              namespace:
+                                description: |-
+                                  (String) Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                  Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                type: string
+                              resourceVersion:
+                                description: |-
+                                  (String) Resource Version for the GitOps project
+                                  Resource Version for the GitOps project
+                                type: string
+                            type: object
+                          type: array
+                        spec:
+                          description: |-
+                            (Block List, Min: 1, Max: 1) Specification details for the Argo project. (see below for nested schema)
+                            Specification details for the Argo project.
+                          items:
+                            properties:
+                              clusterResourceBlacklist:
+                                description: |-
+                                  (Block List) Cluster resource blacklist for the GitOps project. (see below for nested schema)
+                                  Cluster resource blacklist for the GitOps project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the cluster resource blacklist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the cluster resource blacklist.
+                                      type: string
+                                  type: object
+                                type: array
+                              clusterResourceWhitelist:
+                                description: |-
+                                  (Block List) Cluster resource whitelist for the Argo project. (see below for nested schema)
+                                  Cluster resource whitelist for the Argo project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the cluster resource whitelist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the cluster resource whitelist.
+                                      type: string
+                                  type: object
+                                type: array
+                              description:
+                                description: |-
+                                  (String) Description of the Argo project.
+                                  Description of the Argo project.
+                                type: string
+                              destinations:
+                                description: |-
+                                  (Block List) Allowed destinations for applications in this Argo project. (see below for nested schema)
+                                  Allowed destinations for applications in this Argo project.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        (String) Name of the GitOps project.
+                                        Name of the destination cluster.
+                                      type: string
+                                    namespace:
+                                      description: |-
+                                        (String) Namespace of the GitOps project. This must be the same as the namespace where the agent is installed
+                                        Permitted Namespaces for deployment in the destination cluster.
+                                      type: string
+                                    server:
+                                      description: |-
+                                        (String) Server URL of the destination cluster.
+                                        Server URL of the destination cluster.
+                                      type: string
+                                  type: object
+                                type: array
+                              namespaceResourceBlacklist:
+                                description: |-
+                                  (Block List) Namespace resource blacklist for the Argo project. (see below for nested schema)
+                                  Namespace resource blacklist for the Argo project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the namespace resource blacklist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the namespace resource blacklist.
+                                      type: string
+                                  type: object
+                                type: array
+                              namespaceResourceWhitelist:
+                                description: |-
+                                  (Block List) Namespace resource whitelist for the GitOps project. (see below for nested schema)
+                                  Namespace resource whitelist for the GitOps project.
+                                items:
+                                  properties:
+                                    group:
+                                      description: |-
+                                        (String) Group of the cluster resource blacklist.
+                                        Group of the namespace resource whitelist.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of the namespace resource whitelist.
+                                      type: string
+                                  type: object
+                                type: array
+                              orphanedResources:
+                                description: |-
+                                  (Block List) OrphanedResources specifies if agent should monitor orphaned resources of apps in this project (see below for nested schema)
+                                  OrphanedResources specifies if agent should monitor orphaned resources of apps in this project
+                                items:
+                                  properties:
+                                    ignore:
+                                      description: |-
+                                        (Block List) List of ignored orphaned resources. (see below for nested schema)
+                                        List of ignored orphaned resources.
+                                      items:
+                                        properties:
+                                          group:
+                                            description: |-
+                                              (String) Group of the cluster resource blacklist.
+                                              Group of the ignored orphaned resource.
+                                            type: string
+                                          kind:
+                                            description: |-
+                                              (String) Kind of the cluster resource blacklist.
+                                              Kind of the ignored orphaned resource.
+                                            type: string
+                                          name:
+                                            description: |-
+                                              (String) Name of the GitOps project.
+                                              Name of the ignored orphaned resource.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    warn:
+                                      description: |-
+                                        (Boolean) Whether to warn about orphaned resources.
+                                        Whether to warn about orphaned resources.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              permitOnlyProjectScopedClusters:
+                                description: |-
+                                  scoped
+                                  This option determines whether destinations can only reference clusters which are argo project-scoped
+                                type: boolean
+                              roles:
+                                description: |-
+                                  (Block List) Roles associated with the Argo project. (see below for nested schema)
+                                  Roles associated with the Argo project.
+                                items:
+                                  properties:
+                                    description:
+                                      description: |-
+                                        (String) Description of the Argo project.
+                                        Description of the role.
+                                      type: string
+                                    groups:
+                                      description: |-
+                                        (List of String) Groups associated with the role.
+                                        Groups associated with the role.
+                                      items:
+                                        type: string
+                                      type: array
+                                    jwtTokens:
+                                      description: |-
+                                        (Block List) JWT tokens associated with the role. (see below for nested schema)
+                                        JWT tokens associated with the role.
+                                      items:
+                                        properties:
+                                          exp:
+                                            description: |-
+                                              (String) Expiration time of the JWT token.
+                                              Expiration time of the JWT token.
+                                            type: string
+                                          iat:
+                                            description: |-
+                                              (String) Issued At time of the JWT token.
+                                              Issued At time of the JWT token.
+                                            type: string
+                                          id:
+                                            description: |-
+                                              (String) The ID of this resource.
+                                              ID of the JWT token.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    name:
+                                      description: |-
+                                        (String) Name of the GitOps project.
+                                        Name of the role.
+                                      type: string
+                                    policies:
+                                      description: |-
+                                        (List of String) Policies associated with the role. These are argo RBAC policies and may not necessarily reflect in harness.
+                                        Policies associated with the role. These are argo RBAC policies and may not necessarily reflect in harness.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              signatureKeys:
+                                description: |-
+                                  (Block List) Signature keys for the GitOps project. (see below for nested schema)
+                                  Signature keys for the GitOps project.
+                                items:
+                                  properties:
+                                    keyId:
+                                      description: |-
+                                        (String) ID of the signature key.
+                                        ID of the signature key.
+                                      type: string
+                                  type: object
+                                type: array
+                              sourceNamespaces:
+                                description: |-
+                                  (List of String) Source namespaces defines the namespaces application resources are allowed to be created in.
+                                  Source namespaces defines the namespaces application resources are allowed to be created in.
+                                items:
+                                  type: string
+                                type: array
+                              sourceRepos:
+                                description: |-
+                                  (List of String) Allowed Source repositories for the Argo project.
+                                  Allowed Source repositories for the Argo project.
+                                items:
+                                  type: string
+                                type: array
+                              syncWindows:
+                                description: |-
+                                  (Block List) Synchronization windows for the GitOps project. (see below for nested schema)
+                                  Synchronization windows for the GitOps project.
+                                items:
+                                  properties:
+                                    applications:
+                                      description: |-
+                                        (List of String) Applications associated with synchronization window.
+                                        Applications associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    clusters:
+                                      description: |-
+                                        (List of String) Clusters associated with synchronization window.
+                                        Clusters associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    duration:
+                                      description: |-
+                                        (String) Duration of synchronization window.
+                                        Duration of synchronization window.
+                                      type: string
+                                    kind:
+                                      description: |-
+                                        (String) Kind of the cluster resource blacklist.
+                                        Kind of synchronization window.
+                                      type: string
+                                    manualSync:
+                                      description: |-
+                                        (Boolean) Whether manual synchronization is enabled.
+                                        Whether manual synchronization is enabled.
+                                      type: boolean
+                                    namespaces:
+                                      description: |-
+                                        (List of String) Namespaces associated with synchronization window.
+                                        Namespaces associated with synchronization window.
+                                      items:
+                                        type: string
+                                      type: array
+                                    schedule:
+                                      description: |-
+                                        (String) Schedule of synchronization window.
+                                        Schedule of synchronization window.
+                                      type: string
+                                    timeZone:
+                                      description: |-
+                                        (String) Time zone of synchronization window.
+                                        Time zone of synchronization window.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) Project identifier of the Gitops Agent where argo project is to be created.
+                      Project identifier of the Gitops Agent where argo project is to be created.
+                    type: string
+                  queryName:
+                    description: |-
+                      (String) Identifier for the GitOps Argo project.
+                      Identifier for the GitOps Argo project.
+                    type: string
+                  upsert:
+                    description: |-
+                      (Boolean) Indicates if the argo project should be updated if existing and inserted if not.
+                      Indicates if the argo project should be updated if existing and inserted if not.
+                    type: boolean
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

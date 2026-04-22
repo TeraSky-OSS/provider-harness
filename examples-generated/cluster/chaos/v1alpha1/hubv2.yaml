@@ -1,0 +1,17 @@
+apiVersion: chaos.harness.crossplane.io/v1alpha1
+kind: HubV2
+metadata:
+  annotations:
+    meta.upbound.io/example-id: chaos/v1alpha1/hubv2
+  labels:
+    testing.upbound.io/example-name: account_level
+  name: account-level
+spec:
+  forProvider:
+    description: Account-level chaos hub for enterprise-wide templates
+    identity: account-chaos-hub
+    name: Account Chaos Hub
+    tags:
+    - account
+    - enterprise
+    - chaos

@@ -1,0 +1,62 @@
+apiVersion: platform.harness.m.crossplane.io/v1alpha1
+kind: Slo
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/slo
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    identifier: identifier
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    request:
+    - description: description
+      name: name
+      notificationRuleRefs:
+      - enabled: true
+        notificationRuleRef: notification_rule_ref
+      sloTarget:
+      - sloTargetPercentage: 10
+        spec: |-
+          ${jsonencode({
+                  type = "Monthly"
+                  spec = {
+                    dayOfMonth = 5
+                  }
+                })}
+        type: Calender
+      spec: |-
+        ${jsonencode({
+              monitoredServiceRef       = "monitoredServiceRef"
+              serviceLevelIndicatorType = "Availability"
+              serviceLevelIndicators = [
+                {
+                  name       = "name"
+                  identifier = "identifier"
+                  type       = "Window"
+                  spec = {
+                    type = "Threshold"
+                    spec = {
+                      metric1        = "metric1"
+                      thresholdValue = 10
+                      thresholdType  = ">"
+                    }
+                    sliMissingDataType = "Good"
+                  }
+                }
+              ]
+            })}
+      tags:
+      - foo:bar
+      - bar:foo
+      type: Simple
+      userJourneyRefs:
+      - one
+      - two
