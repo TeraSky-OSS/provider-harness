@@ -10,6 +10,8 @@ metadata:
 spec:
   forProvider:
     color: '#0063F7'
-    identifier: shemerlovesbibi
-    name: Shemer Loves Bibi
-    orgId: default
+    identifier: testproject
+    name: Test Project
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
