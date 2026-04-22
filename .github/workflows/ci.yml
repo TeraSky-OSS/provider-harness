@@ -260,3 +260,6 @@ jobs:
         with:
           name: output
           path: _output/**
+
+      - name: Publish Artifacts
+        run: make publish BRANCH_NAME=${GITHUB_REF##*/}
