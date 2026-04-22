@@ -17,11 +17,11 @@ import (
 
 const (
 	// error messages
-	errNoProviderConfig     = "no providerConfigRef provided"
-	errGetProviderConfig    = "cannot get referenced ProviderConfig"
-	errTrackUsage           = "cannot track ProviderConfig usage"
-	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal harness credentials as JSON"
+	errNoProviderConfig      = "no providerConfigRef provided"
+	errGetProviderConfig     = "cannot get referenced ProviderConfig"
+	errTrackUsage            = "cannot track ProviderConfig usage"
+	errExtractCredentials    = "cannot extract credentials"
+	errUnmarshalCredentials  = "cannot unmarshal harness credentials as JSON"
 	keyHarnessAccountId      = "account_id"
 	keyHarnessPlatformApiKey = "platform_api_key"
 	keyHarnessEndpoint       = "endpoint"
@@ -56,18 +56,18 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		// Set credentials in Terraform provider configuration.
 		ps.Configuration = map[string]any{}
-        if v, ok := creds[keyHarnessAccountId]; ok {
-          ps.Configuration[keyHarnessAccountId] = v
-        }
-	    if v, ok := creds[keyHarnessPlatformApiKey]; ok {
-          ps.Configuration[keyHarnessPlatformApiKey] = v
-        }
-        if v, ok := creds[keyHarnessEndpoint]; ok {
-          ps.Configuration[keyHarnessEndpoint] = v
-        }
-        if v, ok := creds[keyHarnessApiKey]; ok {
-          ps.Configuration[keyHarnessApiKey] = v
-        }
+		if v, ok := creds[keyHarnessAccountId]; ok {
+			ps.Configuration[keyHarnessAccountId] = v
+		}
+		if v, ok := creds[keyHarnessPlatformApiKey]; ok {
+			ps.Configuration[keyHarnessPlatformApiKey] = v
+		}
+		if v, ok := creds[keyHarnessEndpoint]; ok {
+			ps.Configuration[keyHarnessEndpoint] = v
+		}
+		if v, ok := creds[keyHarnessApiKey]; ok {
+			ps.Configuration[keyHarnessApiKey] = v
+		}
 		return ps, nil
 	}
 }

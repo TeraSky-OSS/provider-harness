@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-harness
 spec:
-  package: ghcr.io/terasky-oss/provider-harness:v0.1.0
+  package: ghcr.io/terasky-oss/provider-harness:v0.1.1

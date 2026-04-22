@@ -201,6 +201,13 @@ uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW) $(CROSSPLANE_CLI)
 
 local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)
 	@$(INFO) running locally built provider
+	@# Re-apply the DeploymentRuntimeConfig with the env vars that the provider
+	@# binary requires (--terraform-version, --terraform-provider-source,
+	@# --terraform-provider-version are Required() flags sourced from env vars).
+	@# The local.xpkg.deploy.provider target creates a minimal DRC without them,
+	@# which causes the pod to crash immediately. Crossplane creates the actual
+	@# Deployment only after installing all CRDs, so this always wins the race.
+	@echo '{"apiVersion":"pkg.crossplane.io/v1beta1","kind":"DeploymentRuntimeConfig","metadata":{"name":"runtimeconfig-$(PROJECT_NAME)"},"spec":{"deploymentTemplate":{"spec":{"selector":{},"strategy":{},"template":{"spec":{"containers":[{"args":["--debug"],"image":"$(BUILD_REGISTRY)/$(PROJECT_NAME)-$(ARCH)","name":"package-runtime","env":[{"name":"TERRAFORM_VERSION","value":"$(TERRAFORM_VERSION)"},{"name":"TERRAFORM_PROVIDER_SOURCE","value":"$(TERRAFORM_PROVIDER_SOURCE)"},{"name":"TERRAFORM_PROVIDER_VERSION","value":"$(TERRAFORM_PROVIDER_VERSION)"}]}]}}}}}}' | $(KUBECTL) apply -f -
 	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME) --for condition=Healthy --timeout 5m
 	@$(KUBECTL) -n crossplane-system wait --for=condition=Available deployment --all --timeout=5m
 	@$(OK) running locally built provider
