@@ -201,7 +201,10 @@ jobs:
       - check-diff
       - unit-tests
     if: needs.detect-noop.outputs.noop != 'true'
-
+    permissions:
+      contents: write
+      id-token: write
+      packages: write
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
