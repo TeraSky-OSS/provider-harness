@@ -17,6 +17,7 @@ jobs:
     uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
     with:
       repository: provider-harness
+      registry_org: terasky-oss
       version: ${{ github.event.inputs.version }}
       go-version: ${{ github.event.inputs.go-version }}
       cleanup-disk: true
